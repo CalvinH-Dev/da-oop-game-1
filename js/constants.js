@@ -1,0 +1,1 @@
+const ANIMATION_TIME_NORMAL = 250;
