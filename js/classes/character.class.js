@@ -1,5 +1,4 @@
 class Character extends MoveableObject {
-	state = 2;
 	constructor(position, size, speed) {
 		const imgSrc = "/assets/sharkie/1.Sharkie/1.IDLE/1.png";
 		if (!size) {
@@ -13,15 +12,42 @@ class Character extends MoveableObject {
 	}
 
 	defaultAnimation() {
-		this.idle();
+		return this.idle();
+	}
+
+	swim() {
+		return setInterval(() => {
+			this.imgRef.src = `/assets/sharkie/1.Sharkie/3.Swim/${this.state++}.png`;
+			if (this.state > 6) {
+				this.state = 1;
+			}
+		}, ANIMATION_TIME_NORMAL);
 	}
 
 	idle() {
-		setInterval(() => {
+		return setInterval(() => {
 			this.imgRef.src = `/assets/sharkie/1.Sharkie/1.IDLE/${this.state++}.png`;
 			if (this.state > 18) {
 				this.state = 1;
 			}
 		}, ANIMATION_TIME_NORMAL);
+	}
+
+	moveRight() {
+		super.moveRight();
+		this.animate("swim");
+	}
+
+	animate(name) {
+		switch (name) {
+			case "idle":
+				super.animate("idle", this.idle.bind(this));
+
+				break;
+			case "swim":
+				super.animate("swim", this.swim.bind(this));
+
+				break;
+		}
 	}
 }

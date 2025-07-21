@@ -14,18 +14,24 @@ class World {
 	}
 
 	draw() {
-		this.canvasCtx.clearRect(0, 0, this.canvasRef.width, this.canvasRef.height);
-		for (const asset of this.assets) {
-			this.drawObject(asset);
-		}
+		this.canvasCtx.clearRect(0, 0, 1920, this.canvasRef.height);
+		this.drawObjects(this.assets);
 		this.drawObject(this.characterRef);
-		for (const enemy of this.enemies) {
-			this.drawObject(enemy);
-		}
+		this.drawObjects(this.enemies);
 		requestAnimationFrame(this.draw.bind(this));
+	}
+
+	drawObjects(objects) {
+		for (const obj of objects) {
+			this.drawObject(obj);
+		}
 	}
 
 	drawObject(obj) {
 		this.canvasCtx.drawImage(obj.imgRef, obj.x, obj.y, obj.width, obj.height);
+	}
+
+	scroll() {
+		this.canvasCtx.translate(-20, 0);
 	}
 }

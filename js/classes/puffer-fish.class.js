@@ -1,5 +1,4 @@
 class PufferFish extends MoveableObject {
-	state = 2;
 	constructor(position, size, speed) {
 		const imgSrc = "/assets/sharkie/2.Enemy/1.PufferFish/1.Swim/1.swim1.png";
 		if (!size) {
