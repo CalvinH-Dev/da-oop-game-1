@@ -5,7 +5,8 @@ class Object {
 	y;
 	imgRef;
 
-	constructor(x, y, width, height) {
+	constructor(x, y, width, height, imgSrc) {
+		this.loadImage(imgSrc);
 		this.width = width;
 		this.height = height;
 

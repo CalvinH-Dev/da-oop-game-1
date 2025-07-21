@@ -2,27 +2,22 @@ class World {
 	canvasRef;
 	canvasCtx;
 	characterRef;
-	enemies = [
-		new PufferFish({ x: Math.random() * 1920, y: Math.random() * 1080 }),
-		new PufferFish({ x: Math.random() * 1920, y: Math.random() * 1080 }),
-		new PufferFish({ x: Math.random() * 1920, y: Math.random() * 1080 }),
-		new PufferFish({ x: Math.random() * 1920, y: Math.random() * 1080 }),
-		new PufferFish({ x: Math.random() * 1920, y: Math.random() * 1080 }),
-		new PufferFish({ x: Math.random() * 1920, y: Math.random() * 1080 }),
-		new PufferFish({ x: Math.random() * 1920, y: Math.random() * 1080 }),
-	];
-	background = new Background();
+	enemies = [];
+	assets = [];
 
-	constructor(canvasRef, characterRef) {
+	constructor(canvasRef, characterRef, enemies, assets) {
 		this.canvasRef = canvasRef;
 		this.canvasCtx = this.canvasRef.getContext("2d");
-
 		this.characterRef = characterRef;
+		this.enemies = enemies;
+		this.assets = assets;
 	}
 
 	draw() {
 		this.canvasCtx.clearRect(0, 0, this.canvasRef.width, this.canvasRef.height);
-		this.drawObject(this.background);
+		for (const asset of this.assets) {
+			this.drawObject(asset);
+		}
 		this.drawObject(this.characterRef);
 		for (const enemy of this.enemies) {
 			this.drawObject(enemy);

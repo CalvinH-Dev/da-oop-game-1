@@ -3,8 +3,7 @@ class MoveableObject extends Object {
 	verticalSpeed = 20;
 
 	constructor(position, size, speed, imgSrc) {
-		super(position.x, position.y, size.width, size.height);
-		this.loadImage(imgSrc);
+		super(position.x, position.y, size.width, size.height, imgSrc);
 		this.horizontalSpeed = speed.horizontal;
 		this.verticalSpeed = speed.vertical;
 		this.defaultAnimation();
