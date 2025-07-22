@@ -1,4 +1,5 @@
 class Character extends MoveableObject {
+	defaultDirection = "R";
 	constructor(position, size, speed) {
 		const imgSrc = "/assets/used/character/idle/1.png";
 		if (!size) {
@@ -9,6 +10,7 @@ class Character extends MoveableObject {
 			speed = { horizontal: 20, vertical: 20 };
 		}
 		super(position, size, speed, imgSrc);
+		this.direction = "R";
 	}
 
 	defaultAnimation() {
@@ -38,6 +40,21 @@ class Character extends MoveableObject {
 		this.animate("swim");
 	}
 
+	moveLeft() {
+		super.moveLeft();
+		this.animate("swim");
+	}
+
+	moveDown() {
+		super.moveDown();
+		this.animate("swim");
+	}
+
+	moveUp() {
+		super.moveUp();
+		this.animate("swim");
+	}
+
 	animate(name) {
 		switch (name) {
 			case "idle":
@@ -48,6 +65,18 @@ class Character extends MoveableObject {
 				super.animate("swim", this.swim.bind(this));
 
 				break;
+		}
+	}
+
+	drawObject(ctx) {
+		if (this.direction === this.defaultDirection) {
+			super.drawObject(ctx);
+		} else if (this.direction === "U") {
+			super.drawRotatedObject(ctx, -90);
+		} else if (this.direction === "D") {
+			super.drawRotatedObject(ctx, 90);
+		} else {
+			super.drawFlippedObject(ctx);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-const character = new Character({ x: 20, y: 30 });
+const character = new Character({ x: 1000, y: 200 });
 
 const canvas = document.getElementById("mainCanvas");
 canvas.width = BOARD_WIDTH;

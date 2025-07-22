@@ -9,6 +9,9 @@ window.addEventListener("keydown", (event) => {
 			break;
 		case "ArrowLeft":
 			world.characterRef.moveLeft();
+			if (world.characterRef.x <= getMiddleOfBoardX()) {
+				world.scrollLeft();
+			}
 
 			break;
 		case "ArrowDown":
@@ -17,7 +20,9 @@ window.addEventListener("keydown", (event) => {
 			break;
 		case "ArrowRight":
 			world.characterRef.moveRight();
-			world.scroll();
+			if (world.characterRef.x >= getMiddleOfBoardX()) {
+				world.scrollRight();
+			}
 
 			break;
 	}

@@ -5,6 +5,7 @@ class MoveableObject extends Object {
 	currentAnimation;
 	lastInterval;
 	world;
+	direction;
 
 	constructor(position, size, speed, imgSrc) {
 		super(position.x, position.y, size.width, size.height, imgSrc);
@@ -14,19 +15,35 @@ class MoveableObject extends Object {
 	}
 
 	moveRight() {
-		this.x += this.horizontalSpeed;
+		this.direction = "R";
+		const newX = this.x + this.horizontalSpeed;
+		if (newX <= BOARD_WIDTH + this.world.maxScrollRight - this.width) {
+			this.x = newX;
+		}
 	}
 
 	moveLeft() {
-		this.x -= this.horizontalSpeed;
+		this.direction = "L";
+		const newX = this.x - this.horizontalSpeed;
+		if (newX >= this.world.maxScrollLeft) {
+			this.x = newX;
+		}
 	}
 
 	moveDown() {
-		this.y += this.verticalSpeed;
+		this.direction = "D";
+		const newY = this.y + this.verticalSpeed;
+		if (newY <= BOARD_HEIGHT - this.height) {
+			this.y = newY;
+		}
 	}
 
 	moveUp() {
-		this.y -= this.verticalSpeed;
+		this.direction = "U";
+		const newY = this.y - this.verticalSpeed;
+		if (newY >= 0) {
+			this.y = newY;
+		}
 	}
 
 	defaultAnimation() {}
