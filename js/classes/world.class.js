@@ -13,12 +13,16 @@ class World {
 		this.assets = assets;
 	}
 
+	update() {
+		this.draw();
+		requestAnimationFrame(this.update.bind(this));
+	}
+
 	draw() {
-		this.canvasCtx.clearRect(0, 0, 1920, this.canvasRef.height);
+		this.canvasCtx.clearRect(0, 0, this.canvasRef.width, this.canvasRef.height);
 		this.drawObjects(this.assets);
 		this.drawObject(this.characterRef);
 		this.drawObjects(this.enemies);
-		requestAnimationFrame(this.draw.bind(this));
 	}
 
 	drawObjects(objects) {

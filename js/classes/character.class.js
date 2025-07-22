@@ -1,6 +1,6 @@
 class Character extends MoveableObject {
 	constructor(position, size, speed) {
-		const imgSrc = "/assets/sharkie/1.Sharkie/1.IDLE/1.png";
+		const imgSrc = "/assets/used/character/idle/1.png";
 		if (!size) {
 			size = { width: 100, height: 100 };
 		}
@@ -17,18 +17,18 @@ class Character extends MoveableObject {
 
 	swim() {
 		return setInterval(() => {
-			this.imgRef.src = `/assets/sharkie/1.Sharkie/3.Swim/${this.state++}.png`;
-			if (this.state > 6) {
-				this.state = 1;
+			this.imgRef.src = `/assets/used/character/swim/${this.animationState++}.png`;
+			if (this.animationState > 6) {
+				this.animationState = 1;
 			}
 		}, ANIMATION_TIME_NORMAL);
 	}
 
 	idle() {
 		return setInterval(() => {
-			this.imgRef.src = `/assets/sharkie/1.Sharkie/1.IDLE/${this.state++}.png`;
-			if (this.state > 18) {
-				this.state = 1;
+			this.imgRef.src = `/assets/used/character/idle/${this.animationState++}.png`;
+			if (this.animationState > 18) {
+				this.animationState = 1;
 			}
 		}, ANIMATION_TIME_NORMAL);
 	}

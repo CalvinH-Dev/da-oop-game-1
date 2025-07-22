@@ -1,9 +1,10 @@
 class MoveableObject extends Object {
 	horizontalSpeed = 20;
 	verticalSpeed = 20;
-	state = 1;
+	animationState = 1;
 	currentAnimation;
 	lastInterval;
+	world;
 
 	constructor(position, size, speed, imgSrc) {
 		super(position.x, position.y, size.width, size.height, imgSrc);
@@ -32,7 +33,7 @@ class MoveableObject extends Object {
 
 	animate(name, callback) {
 		if (this.currentAnimation === name) return;
-		this.state = 1;
+		this.animationState = 1;
 		clearInterval(this.lastInterval);
 		this.currentAnimation = name;
 		this.lastInterval = callback();
