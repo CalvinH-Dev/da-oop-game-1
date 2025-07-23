@@ -1,9 +1,10 @@
 class Character extends MoveableObject {
 	defaultDirection = "R";
+
 	constructor(position, size, speed) {
 		const imgSrc = "/assets/used/character/idle/1.png";
 		if (!size) {
-			size = { width: 100, height: 100 };
+			size = { width: 200, height: 200 };
 		}
 
 		if (!speed) {
@@ -14,25 +15,15 @@ class Character extends MoveableObject {
 	}
 
 	defaultAnimation() {
-		return this.idle();
+		this.animate("idle");
 	}
 
 	swim() {
-		return setInterval(() => {
-			this.imgRef.src = `/assets/used/character/swim/${this.animationState++}.png`;
-			if (this.animationState > 6) {
-				this.animationState = 1;
-			}
-		}, ANIMATION_TIME_NORMAL);
+		return this.buildAnimation(this.swimImages);
 	}
 
 	idle() {
-		return setInterval(() => {
-			this.imgRef.src = `/assets/used/character/idle/${this.animationState++}.png`;
-			if (this.animationState > 18) {
-				this.animationState = 1;
-			}
-		}, ANIMATION_TIME_NORMAL);
+		return this.buildAnimation(this.idleImages);
 	}
 
 	moveRight() {
@@ -69,14 +60,49 @@ class Character extends MoveableObject {
 	}
 
 	drawObject(ctx) {
-		if (this.direction === this.defaultDirection) {
+		if (
+			this.direction === this.defaultDirection ||
+			this.direction === "U" ||
+			this.direction === "D"
+		) {
 			super.drawObject(ctx);
-		} else if (this.direction === "U") {
-			super.drawRotatedObject(ctx, -90);
-		} else if (this.direction === "D") {
-			super.drawRotatedObject(ctx, 90);
 		} else {
 			super.drawFlippedObject(ctx);
 		}
+	}
+
+	cacheImages() {
+		this.swimImages = [
+			"/assets/used/character/swim/1.png",
+			"/assets/used/character/swim/2.png",
+			"/assets/used/character/swim/3.png",
+			"/assets/used/character/swim/4.png",
+			"/assets/used/character/swim/5.png",
+			"/assets/used/character/swim/6.png",
+		];
+
+		this.idleImages = [
+			"/assets/used/character/idle/1.png",
+			"/assets/used/character/idle/2.png",
+			"/assets/used/character/idle/3.png",
+			"/assets/used/character/idle/4.png",
+			"/assets/used/character/idle/5.png",
+			"/assets/used/character/idle/6.png",
+			"/assets/used/character/idle/7.png",
+			"/assets/used/character/idle/8.png",
+			"/assets/used/character/idle/9.png",
+			"/assets/used/character/idle/10.png",
+			"/assets/used/character/idle/11.png",
+			"/assets/used/character/idle/12.png",
+			"/assets/used/character/idle/13.png",
+			"/assets/used/character/idle/14.png",
+			"/assets/used/character/idle/15.png",
+			"/assets/used/character/idle/16.png",
+			"/assets/used/character/idle/17.png",
+			"/assets/used/character/idle/18.png",
+		];
+
+		super.cacheImages(this.swimImages);
+		super.cacheImages(this.idleImages);
 	}
 }

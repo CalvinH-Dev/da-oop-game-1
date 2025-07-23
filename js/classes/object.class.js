@@ -4,6 +4,7 @@ class Object {
 	x;
 	y;
 	imgRef;
+	cachedImages = {};
 
 	constructor(x, y, width, height, imgSrc) {
 		this.loadImage(imgSrc);

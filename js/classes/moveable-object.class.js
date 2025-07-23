@@ -3,7 +3,7 @@ class MoveableObject extends Object {
 	verticalSpeed = 20;
 	animationState = 1;
 	currentAnimation;
-	lastInterval;
+	lastAnimationInterval;
 	world;
 	direction;
 
@@ -11,7 +11,8 @@ class MoveableObject extends Object {
 		super(position.x, position.y, size.width, size.height, imgSrc);
 		this.horizontalSpeed = speed.horizontal;
 		this.verticalSpeed = speed.vertical;
-		this.lastInterval = this.defaultAnimation();
+		this.cacheImages();
+		this.defaultAnimation();
 	}
 
 	moveRight() {
@@ -50,9 +51,36 @@ class MoveableObject extends Object {
 
 	animate(name, callback) {
 		if (this.currentAnimation === name) return;
-		this.animationState = 1;
-		clearInterval(this.lastInterval);
+		this.stopAnimation();
 		this.currentAnimation = name;
-		this.lastInterval = callback();
+		this.lastAnimationInterval = callback();
+	}
+
+	stopAnimation() {
+		this.currentAnimation = undefined;
+		clearInterval(this.lastAnimationInterval);
+		this.resetAnimationState();
+	}
+
+	cacheImages(images) {
+		images.forEach((imagePath) => {
+			const img = new Image();
+			img.src = imagePath;
+			this.cachedImages[imagePath] = img;
+		});
+	}
+
+	resetAnimationState() {
+		this.animationState = 0;
+	}
+
+	buildAnimation(imgArr, additionalMovement = () => {}) {
+		return setInterval(() => {
+			additionalMovement();
+			this.imgRef = this.cachedImages[imgArr[this.animationState++]];
+			if (this.animationState >= imgArr.length) {
+				this.resetAnimationState();
+			}
+		}, ANIMATION_TIME_NORMAL);
 	}
 }

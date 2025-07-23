@@ -1,13 +1,15 @@
 let state;
 
 window.addEventListener("keydown", (event) => {
-	console.log(event.key);
 	switch (event.key) {
 		case "ArrowUp":
+			keyboard.UP = true;
 			world.characterRef.moveUp();
 
 			break;
 		case "ArrowLeft":
+			keyboard.LEFT = true;
+
 			world.characterRef.moveLeft();
 			if (world.characterRef.x <= getMiddleOfBoardX()) {
 				world.scrollLeft();
@@ -15,15 +17,44 @@ window.addEventListener("keydown", (event) => {
 
 			break;
 		case "ArrowDown":
+			keyboard.DOWN = true;
+
 			world.characterRef.moveDown();
 
 			break;
 		case "ArrowRight":
+			keyboard.RIGHT = true;
+
 			world.characterRef.moveRight();
 			if (world.characterRef.x >= getMiddleOfBoardX()) {
 				world.scrollRight();
 			}
 
+			break;
+	}
+});
+
+window.addEventListener("keyup", (event) => {
+	if (
+		event.key === "ArrowLeft" ||
+		event.key === "ArrowRight" ||
+		event.key === "ArrowUp" ||
+		event.key === "ArrowDown"
+	) {
+		character.animate("idle");
+	}
+	switch (event.key) {
+		case "ArrowLeft":
+			keyboard.LEFT = false;
+			break;
+		case "ArrowUp":
+			keyboard.UP = false;
+			break;
+		case "ArrowDown":
+			keyboard.DOWN = false;
+			break;
+		case "ArrowRight":
+			keyboard.RIGHT = false;
 			break;
 	}
 });

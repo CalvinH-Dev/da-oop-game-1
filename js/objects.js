@@ -4,25 +4,101 @@ const canvas = document.getElementById("mainCanvas");
 canvas.width = BOARD_WIDTH;
 canvas.height = BOARD_HEIGHT;
 
+const pfColors = ["green", "orange", "red"];
+
 const enemies = [
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
-	new PufferFish({ x: Math.random() * 3840, y: Math.random() * 1080 }),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		pfColors[Math.floor(Math.random() * 3)],
+	),
 ];
 
 const assets = [
@@ -30,7 +106,9 @@ const assets = [
 	new Object(3840, 0, 3840, 1080, "/assets/used/background/completo.png"),
 ];
 
-const world = new World(canvas, character, enemies, assets);
+const keyboard = new Keyboard();
+
+const world = new World(keyboard, canvas, character, enemies, assets);
 character.world = world;
 
 enemies.forEach((enemy) => {

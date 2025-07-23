@@ -7,13 +7,16 @@ class World {
 	scrollX = 0;
 	maxScrollLeft = 0;
 	maxScrollRight = BOARD_WIDTH * 1;
+	keyboard;
 
-	constructor(canvasRef, characterRef, enemies, assets) {
+	constructor(keyboard, canvasRef, characterRef, enemies, assets) {
 		this.canvasRef = canvasRef;
 		this.canvasCtx = this.canvasRef.getContext("2d");
 		this.characterRef = characterRef;
 		this.enemies = enemies;
 		this.assets = assets;
+		this.keyboard = keyboard;
+		console.log(this.keyboard);
 	}
 
 	update() {
