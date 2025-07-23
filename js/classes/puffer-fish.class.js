@@ -1,6 +1,12 @@
 class PufferFish extends MoveableObject {
 	defaultDirection = "L";
 	color = "green";
+	hitbox = {
+		offsetX: 0,
+		offsetY: 0,
+		width: 50,
+		height: 40,
+	};
 
 	constructor(position, color = "green", size, speed) {
 		const imgSrc = `/assets/used/enemies/puffer-fish/${color}/swim/1.png`;
@@ -15,7 +21,7 @@ class PufferFish extends MoveableObject {
 		this.direction = "L";
 		this.color = color;
 		this.applyColor();
-		this.getBigger();
+		// this.getBigger();
 		this.move();
 	}
 
@@ -82,15 +88,15 @@ class PufferFish extends MoveableObject {
 		}
 	}
 
-	drawObject(ctx) {
+	drawObject(ctx, showBox) {
 		if (
 			this.direction === this.defaultDirection ||
 			this.direction === "U" ||
 			this.direction === "D"
 		) {
-			super.drawObject(ctx);
+			super.drawObject(ctx, showBox);
 		} else {
-			super.drawFlippedObject(ctx);
+			super.drawFlippedObject(ctx, showBox);
 		}
 	}
 

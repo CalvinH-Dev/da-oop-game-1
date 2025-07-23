@@ -104,13 +104,82 @@ class MoveableObject extends Object {
 		this.animationState = 0;
 	}
 
-	buildAnimation(imgArr, additionalMovement = () => {}) {
+	buildAnimation(imgArr, additionalEffect = () => {}) {
 		return setInterval(() => {
-			additionalMovement();
+			additionalEffect();
 			this.imgRef = this.cachedImages[imgArr[this.animationState++]];
 			if (this.animationState >= imgArr.length) {
 				this.resetAnimationState();
 			}
 		}, ANIMATION_TIME_NORMAL);
+	}
+
+	isColliding(a, b) {
+		const aBox = {
+			x: a.x + (a.hitbox?.offsetX || 0),
+			y: a.y + (a.hitbox?.offsetY || 0),
+			width: a.hitbox?.width || a.width,
+			height: a.hitbox?.height || a.height,
+		};
+
+		const bBox = {
+			x: b.x + (b.hitbox?.offsetX || 0),
+			y: b.y + (b.hitbox?.offsetY || 0),
+			width: b.hitbox?.width || b.width,
+			height: b.hitbox?.height || b.height,
+		};
+
+		return (
+			aBox.x < bBox.x + bBox.width &&
+			aBox.x + aBox.width > bBox.x &&
+			aBox.y < bBox.y + bBox.height &&
+			aBox.y + aBox.height > bBox.y
+		);
+	}
+
+	checkWouldCollide(nextHitboxX, nextHitboxY, objects = this.world.enemies) {
+		const hitboxWidth = this.hitbox.width;
+		const hitboxHeight = this.hitbox.height;
+		let isColliding = false;
+
+		const aBox = {
+			x: nextHitboxX,
+			y: nextHitboxY,
+			width: hitboxWidth,
+			height: hitboxHeight,
+		};
+
+		objects.forEach((enemy) => {
+			if (isColliding) return;
+
+			const bBox = {
+				x: enemy.x + enemy.hitbox.offsetX,
+				y: enemy.y + enemy.hitbox.offsetY,
+				width: enemy.hitbox.width,
+				height: enemy.hitbox.height,
+			};
+
+			isColliding =
+				aBox.x < bBox.x + bBox.width &&
+				aBox.x + aBox.width > bBox.x &&
+				aBox.y < bBox.y + bBox.height &&
+				aBox.y + aBox.height > bBox.y;
+		});
+
+		return isColliding;
+	}
+
+	checkisCollidingEnemies() {
+		this.world.enemies.forEach((enemy) => {
+			if (this.isColliding(this, enemy)) {
+				console.log("Kollidiert mit Gegner!");
+			}
+		});
+	}
+
+	checkisCollidingPlayer() {
+		if (this.isColliding(this, this.world.characterRef)) {
+			console.log("Kollidiert mit Spieler!");
+		}
 	}
 }

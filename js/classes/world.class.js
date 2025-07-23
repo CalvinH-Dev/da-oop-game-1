@@ -9,6 +9,7 @@ class World {
 	maxScrollRight = BOARD_WIDTH * 1;
 	keyboard;
 	levelId;
+	showBoxes = false;
 
 	constructor(keyboard, canvasRef, levelId) {
 		this.levelId = levelId;
@@ -16,11 +17,10 @@ class World {
 		this.canvasRef = canvasRef;
 		this.canvasCtx = this.canvasRef.getContext("2d");
 		this.keyboard = keyboard;
-		console.log(this.keyboard);
+		this.showBoxes = true;
 	}
 
 	initLevel() {
-		console.log(levels);
 		this.characterRef = levels[this.levelId].character;
 		this.enemies = levels[this.levelId].enemies;
 		this.assets = levels[this.levelId].assets;
@@ -34,19 +34,17 @@ class World {
 	draw() {
 		this.canvasCtx.clearRect(0, 0, this.canvasRef.width, this.canvasRef.height);
 		this.drawObjects(this.assets);
-		this.characterRef.drawObject(this.canvasCtx);
+		this.characterRef.drawObject(this.canvasCtx, this.showBoxes);
+		this.characterRef.checkState();
 		this.drawObjects(this.enemies);
 	}
 
 	drawObjects(objects) {
 		for (const obj of objects) {
-			obj.drawObject(this.canvasCtx);
+			obj.drawObject(this.canvasCtx, this.showBoxes);
+			obj.checkState();
 		}
 	}
-
-	// drawObject(obj) {
-	// 	this.canvasCtx.drawImage(obj.imgRef, obj.x, obj.y, obj.width, obj.height);
-	// }
 
 	scrollRight() {
 		if (this.scrollX > -this.maxScrollRight) {

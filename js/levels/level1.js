@@ -4,95 +4,63 @@ const pfColors = ["green", "orange", "red"];
 
 const enemies = [
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
-		pfColors[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
-		pfColors[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
-		pfColors[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
-		pfColors[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
-		pfColors[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
-		pfColors[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
-		pfColors[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
-		pfColors[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * 3840, y: Math.random() * 1080 },
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
 		pfColors[Math.floor(Math.random() * 3)],
 	),
 ];
