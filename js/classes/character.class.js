@@ -12,6 +12,7 @@ class Character extends MoveableObject {
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "R";
+		// this.applyGravity();
 	}
 
 	defaultAnimation() {

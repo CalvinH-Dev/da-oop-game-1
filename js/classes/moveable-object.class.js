@@ -6,6 +6,10 @@ class MoveableObject extends Object {
 	lastAnimationInterval;
 	world;
 	direction;
+	speedY = 0;
+	speedX = 0;
+	accelerationY = 0;
+	accelerationX = 0;
 
 	constructor(position, size, speed, imgSrc) {
 		super(position.x, position.y, size.width, size.height, imgSrc);
@@ -15,10 +19,36 @@ class MoveableObject extends Object {
 		this.defaultAnimation();
 	}
 
+	applyGravity() {
+		this.speedY += 5;
+		setInterval(() => {
+			if (this.isWithinBoundaryBottom(this.y + this.accelerationY + this.height)) {
+				this.accelerationY += this.speedY;
+				this.y += this.accelerationY;
+			}
+		}, ANIMATION_TIME_NORMAL * 5);
+	}
+
+	isWithinBoundaryTop(yValue) {
+		return yValue >= 0;
+	}
+
+	isWithinBoundaryBottom(yValue) {
+		return yValue <= BOARD_HEIGHT;
+	}
+
+	isWithinBoundaryLeft(xValue) {
+		return xValue >= this.world.maxScrollLeft;
+	}
+
+	isWithinBoundaryRight(xValue) {
+		return xValue <= BOARD_WIDTH + this.world.maxScrollRight;
+	}
+
 	moveRight() {
 		this.direction = "R";
 		const newX = this.x + this.horizontalSpeed;
-		if (newX <= BOARD_WIDTH + this.world.maxScrollRight - this.width) {
+		if (this.isWithinBoundaryRight(newX + this.width)) {
 			this.x = newX;
 		}
 	}
@@ -26,7 +56,7 @@ class MoveableObject extends Object {
 	moveLeft() {
 		this.direction = "L";
 		const newX = this.x - this.horizontalSpeed;
-		if (newX >= this.world.maxScrollLeft) {
+		if (this.isWithinBoundaryLeft(newX)) {
 			this.x = newX;
 		}
 	}
@@ -34,7 +64,7 @@ class MoveableObject extends Object {
 	moveDown() {
 		this.direction = "D";
 		const newY = this.y + this.verticalSpeed;
-		if (newY <= BOARD_HEIGHT - this.height) {
+		if (this.isWithinBoundaryBottom(newY + this.height)) {
 			this.y = newY;
 		}
 	}
@@ -42,7 +72,7 @@ class MoveableObject extends Object {
 	moveUp() {
 		this.direction = "U";
 		const newY = this.y - this.verticalSpeed;
-		if (newY >= 0) {
+		if (this.isWithinBoundaryTop(newY)) {
 			this.y = newY;
 		}
 	}

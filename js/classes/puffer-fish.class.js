@@ -15,6 +15,8 @@ class PufferFish extends MoveableObject {
 		this.direction = "L";
 		this.color = color;
 		this.applyColor();
+		this.getBigger();
+		this.move();
 	}
 
 	defaultAnimation() {
@@ -26,13 +28,19 @@ class PufferFish extends MoveableObject {
 		this.animate("swim");
 	}
 
+	move() {
+		setInterval(() => {
+			this.moveRandom();
+		}, 500 + Math.floor(Math.random() * 10) * 20);
+	}
+
 	swim() {
 		if (this.color === "orange") {
-			return this.buildAnimation(this.swimImagesOrange, this.moveRandom.bind(this));
+			return this.buildAnimation(this.swimImagesOrange);
 		} else if (this.color === "red") {
-			return this.buildAnimation(this.swimImagesRed, this.moveRandom.bind(this));
+			return this.buildAnimation(this.swimImagesRed);
 		} else {
-			return this.buildAnimation(this.swimImagesGreen, this.moveRandom.bind(this));
+			return this.buildAnimation(this.swimImagesGreen);
 		}
 	}
 
