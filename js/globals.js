@@ -2,3 +2,5 @@ const DRAW_TIME_NORMAL = 1000 / 30;
 const ANIMATION_TIME_NORMAL = DRAW_TIME_NORMAL * 5;
 const BOARD_WIDTH = 1920;
 const BOARD_HEIGHT = 1080;
+
+let levels = {};

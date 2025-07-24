@@ -11,19 +11,22 @@ class World {
 	levelId;
 	showBoxes = false;
 
-	constructor(keyboard, canvasRef, levelId) {
-		this.levelId = levelId;
-		this.initLevel();
+	constructor(keyboard, canvasRef) {
 		this.canvasRef = canvasRef;
 		this.canvasCtx = this.canvasRef.getContext("2d");
 		this.keyboard = keyboard;
-		this.showBoxes = true;
+		this.showHitboxes();
 	}
 
-	initLevel() {
-		this.characterRef = levels[this.levelId].character;
-		this.enemies = levels[this.levelId].enemies;
-		this.assets = levels[this.levelId].assets;
+	setLevel(levelId, character, enemies, assets) {
+		this.levelId = levelId;
+		this.characterRef = character;
+		this.enemies = enemies;
+		this.assets = assets;
+	}
+
+	showHitboxes(bool = true) {
+		this.showBoxes = bool;
 	}
 
 	update() {

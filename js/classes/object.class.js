@@ -1,11 +1,16 @@
 class Object {
+	imgRef;
+	cachedImages = {};
+	animationState = 1;
+	currentAnimation;
+	lastAnimationInterval;
+
 	width;
 	height;
 	x;
 	y;
-	imgRef;
+
 	collision = false;
-	cachedImages = {};
 	hitbox = {
 		offsetX: 0,
 		offsetY: 0,
@@ -13,19 +18,38 @@ class Object {
 		height: 0,
 	};
 
+	world;
+
 	constructor(x, y, width, height, imgSrc) {
-		this.loadImage(imgSrc);
+		this.setImage(imgSrc);
+
 		this.width = width;
 		this.height = height;
 
 		this.x = x;
 		this.y = y;
+		this.cacheAllImages();
+		this.defaultAnimation();
 	}
 
-	loadImage(src) {
+	cacheAllImages() {}
+
+	checkState() {}
+
+	defaultAnimation() {}
+
+	setImage(src) {
 		const image = new Image();
 		image.src = src;
 		this.imgRef = image;
+	}
+
+	cacheImages(images) {
+		images.forEach((imagePath) => {
+			const img = new Image();
+			img.src = imagePath;
+			this.cachedImages[imagePath] = img;
+		});
 	}
 
 	drawObject(ctx, showBox = false) {
@@ -35,7 +59,7 @@ class Object {
 		}
 	}
 
-	drawFlippedObject(ctx, showBox = false, boxColor = "red") {
+	drawFlippedObject(ctx, showBox = false) {
 		ctx.save();
 		ctx.translate(this.x + this.width, this.y);
 		ctx.scale(-1, 1);
@@ -46,7 +70,7 @@ class Object {
 		}
 	}
 
-	drawRotatedObject(ctx, degree, showBox = false, boxColor = "red") {
+	drawRotatedObject(ctx, degree, showBox = false) {
 		ctx.save();
 		ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
 		ctx.rotate((degree * Math.PI) / 180);
@@ -57,7 +81,57 @@ class Object {
 		}
 	}
 
-	getBigger(options = {}, callbacks = {}) {
+	getHitbox() {
+		return {
+			x: this.x + this.hitbox.offsetX,
+			y: this.y + this.hitbox.offsetY,
+			width: this.hitbox.width,
+			height: this.hitbox.height,
+		};
+	}
+
+	showHitBox(ctx) {
+		ctx.strokeStyle = "red";
+		ctx.lineWidth = 2;
+		ctx.strokeRect(
+			this.x + this.hitbox.offsetX,
+			this.y + this.hitbox.offsetY,
+			this.hitbox.width,
+			this.hitbox.height,
+		);
+	}
+
+	animate(name, callback) {
+		if (this.currentAnimation === name) return;
+		this.stopAnimation();
+		this.currentAnimation = name;
+		this.lastAnimationInterval = callback();
+	}
+
+	stopAnimation() {
+		this.currentAnimation = undefined;
+		clearInterval(this.lastAnimationInterval);
+		this.resetAnimationState();
+	}
+
+	resetAnimationState() {
+		this.animationState = 1;
+	}
+
+	buildAnimation(imgArr, additionalEffect = () => {}, shouldReset = true) {
+		return setInterval(() => {
+			additionalEffect();
+			this.imgRef = this.cachedImages[imgArr[this.animationState]];
+			if (!shouldReset && this.animationState == imgArr.length - 1) {
+			} else if (this.animationState >= imgArr.length - 1) {
+				this.resetAnimationState();
+			} else {
+				this.animationState++;
+			}
+		}, ANIMATION_TIME_NORMAL);
+	}
+
+	changeSize(options = {}, callbacks = {}) {
 		const { callbackMin = () => {}, callbackMax = () => {} } = callbacks;
 		const { minSize = 1, maxSize = 2.5, changeRatio = 0.1, randomSign = 25 } = options;
 		let multiplier = 1 + changeRatio;
@@ -82,17 +156,4 @@ class Object {
 			}
 		}, ANIMATION_TIME_NORMAL * 2 + Math.random() * randomSign * 10);
 	}
-
-	showHitBox(ctx) {
-		ctx.strokeStyle = "red";
-		ctx.lineWidth = 2;
-		ctx.strokeRect(
-			this.x + this.hitbox.offsetX,
-			this.y + this.hitbox.offsetY,
-			this.hitbox.width,
-			this.hitbox.height,
-		);
-	}
-
-	checkState() {}
 }

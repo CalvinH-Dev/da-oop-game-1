@@ -11,7 +11,7 @@ window.addEventListener("keydown", (event) => {
 			keyboard.LEFT = true;
 
 			world.characterRef.moveLeft();
-			if (world.characterRef.x <= getMiddleOfBoardX()) {
+			if (world.characterRef.x <= CalcFunctions.getMiddleOfBoardX()) {
 				world.scrollLeft();
 			}
 
@@ -26,7 +26,7 @@ window.addEventListener("keydown", (event) => {
 			keyboard.RIGHT = true;
 
 			world.characterRef.moveRight();
-			if (world.characterRef.x >= getMiddleOfBoardX()) {
+			if (world.characterRef.x >= CalcFunctions.getMiddleOfBoardX(world)) {
 				world.scrollRight();
 			}
 
@@ -41,7 +41,7 @@ window.addEventListener("keyup", (event) => {
 		event.key === "ArrowUp" ||
 		event.key === "ArrowDown"
 	) {
-		character.animate("idle");
+		world.characterRef.animate("idle");
 	}
 	switch (event.key) {
 		case "ArrowLeft":

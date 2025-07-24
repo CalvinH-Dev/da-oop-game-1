@@ -21,9 +21,9 @@ class PufferFish extends MoveableObject {
 		this.direction = "L";
 		this.color = color;
 		this.applyColor();
-		// this.collision = true;
+		this.collision = true;
 
-		// this.getBigger();
+		// this.changeSize();
 		this.move();
 	}
 
@@ -65,22 +65,6 @@ class PufferFish extends MoveableObject {
 		}
 	}
 
-	floatHorizontal() {
-		this.x = Math.min(
-			this.world.canvasRef.width + this.world.maxScrollRight - this.width,
-			this.x + (0.5 - Math.random()) * 15,
-		);
-		this.x = Math.max(0, this.x);
-	}
-
-	floatVertical() {
-		this.y = Math.min(
-			this.world.canvasRef.height - this.height,
-			this.y + (0.5 - Math.random()) * 15,
-		);
-		this.y = Math.max(0, this.y);
-	}
-
 	animate(name) {
 		switch (name) {
 			case "swim":
@@ -113,7 +97,7 @@ class PufferFish extends MoveableObject {
 		this.cacheImages(this.swimImages);
 	}
 
-	cacheImages() {
+	cacheAllImages() {
 		this.swimImagesOrange = [
 			"/assets/used/enemies/puffer-fish/orange/swim/1.png",
 			"/assets/used/enemies/puffer-fish/orange/swim/2.png",

@@ -1,74 +1,99 @@
-const character = new Character({ x: 1000, y: 200 });
+const characterLv1 = new Character({ x: 1000, y: 200 });
+characterLv1.world = world;
 
-const pfColors = ["green", "orange", "red"];
+const pfColorsLv1 = ["green", "orange", "red"];
 
-const enemies = [
+const enemiesLv1 = [
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColors[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		pfColorsLv1[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		pfColorsLv1[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		pfColorsLv1[Math.floor(Math.random() * 3)],
+	),
+	new PufferFish(
+		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 ];
 
-const assets = [
+const assetsLv1 = [
 	new Object(0, 0, 3840, 1080, "/assets/used/background/completo.png"),
 	new Object(3840, 0, 3840, 1080, "/assets/used/background/completo.png"),
 ];
 
-const level1 = new Level(1, character, enemies, assets);
+for (const enemy of enemiesLv1) {
+	enemy.world = world;
+}
+
+for (const asset of assetsLv1) {
+	asset.world = world;
+}
+
+const level1 = new Level(1, characterLv1, enemiesLv1, assetsLv1);
 levels[1] = level1;

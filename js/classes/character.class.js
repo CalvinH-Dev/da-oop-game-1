@@ -97,7 +97,7 @@ class Character extends MoveableObject {
 		}
 	}
 
-	cacheImages() {
+	cacheAllImages() {
 		this.swimImages = [
 			"/assets/used/character/swim/1.png",
 			"/assets/used/character/swim/2.png",
@@ -150,7 +150,5 @@ class Character extends MoveableObject {
 		super.cacheImages(this.longIdleImages);
 	}
 
-	checkState() {
-		// this.checkisCollidingEnemies();
-	}
+	checkState() {}
 }
