@@ -4,6 +4,7 @@ class Object {
 	x;
 	y;
 	imgRef;
+	collision = false;
 	cachedImages = {};
 	hitbox = {
 		offsetX: 0,

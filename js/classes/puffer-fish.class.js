@@ -21,6 +21,8 @@ class PufferFish extends MoveableObject {
 		this.direction = "L";
 		this.color = color;
 		this.applyColor();
+		// this.collision = true;
+
 		// this.getBigger();
 		this.move();
 	}
@@ -53,13 +55,13 @@ class PufferFish extends MoveableObject {
 	moveRandom() {
 		const number = Math.floor(Math.random() * 4);
 		if (number === 0) {
-			this.moveRight();
+			this.moveRight([this.world.characterRef]);
 		} else if (number === 1) {
-			this.moveLeft();
+			this.moveLeft([this.world.characterRef]);
 		} else if (number === 2) {
-			this.moveUp();
+			this.moveUp([this.world.characterRef]);
 		} else {
-			this.moveDown();
+			this.moveDown([this.world.characterRef]);
 		}
 	}
 

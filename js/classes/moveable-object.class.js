@@ -45,34 +45,49 @@ class MoveableObject extends Object {
 		return xValue <= BOARD_WIDTH + this.world.maxScrollRight;
 	}
 
-	moveRight() {
+	moveRight(checkFor = this.world.enemies) {
 		this.direction = "R";
 		const newX = this.x + this.horizontalSpeed;
-		if (this.isWithinBoundaryRight(newX + this.width)) {
+		if (
+			this.isWithinBoundaryRight(newX + this.hitbox.width + this.hitbox.offsetX) &&
+			!this.checkWouldCollide(this.hitbox.offsetX + newX, this.y + this.hitbox.offsetY, checkFor)
+		) {
 			this.x = newX;
 		}
 	}
 
-	moveLeft() {
+	moveLeft(checkFor = this.world.enemies) {
 		this.direction = "L";
 		const newX = this.x - this.horizontalSpeed;
-		if (this.isWithinBoundaryLeft(newX)) {
+		if (
+			this.isWithinBoundaryLeft(newX + this.hitbox.offsetX) &&
+			!this.checkWouldCollide(this.hitbox.offsetX + newX, this.y + this.hitbox.offsetY, checkFor)
+		) {
 			this.x = newX;
 		}
 	}
 
-	moveDown() {
+	moveDown(checkFor = this.world.enemies) {
 		this.direction = "D";
 		const newY = this.y + this.verticalSpeed;
-		if (this.isWithinBoundaryBottom(newY + this.height)) {
+		if (
+			this.isWithinBoundaryBottom(newY + this.hitbox.height + this.hitbox.offsetY) &&
+			!this.checkWouldCollide(this.x + this.hitbox.offsetX, this.hitbox.offsetY + newY, checkFor)
+		) {
 			this.y = newY;
 		}
 	}
 
-	moveUp() {
+	moveUp(checkFor = this.world.enemies) {
 		this.direction = "U";
 		const newY = this.y - this.verticalSpeed;
-		if (this.isWithinBoundaryTop(newY)) {
+		console.log(newY);
+		console.log(this.hitbox.offsetY);
+
+		if (
+			this.isWithinBoundaryTop(newY + this.hitbox.offsetY) &&
+			!this.checkWouldCollide(this.x + this.hitbox.offsetX, this.hitbox.offsetY + newY, checkFor)
+		) {
 			this.y = newY;
 		}
 	}
@@ -101,15 +116,18 @@ class MoveableObject extends Object {
 	}
 
 	resetAnimationState() {
-		this.animationState = 0;
+		this.animationState = 1;
 	}
 
-	buildAnimation(imgArr, additionalEffect = () => {}) {
+	buildAnimation(imgArr, additionalEffect = () => {}, shouldReset = true) {
 		return setInterval(() => {
 			additionalEffect();
-			this.imgRef = this.cachedImages[imgArr[this.animationState++]];
-			if (this.animationState >= imgArr.length) {
+			this.imgRef = this.cachedImages[imgArr[this.animationState]];
+			if (!shouldReset && this.animationState == imgArr.length - 1) {
+			} else if (this.animationState >= imgArr.length - 1) {
 				this.resetAnimationState();
+			} else {
+				this.animationState++;
 			}
 		}, ANIMATION_TIME_NORMAL);
 	}
@@ -150,7 +168,7 @@ class MoveableObject extends Object {
 		};
 
 		objects.forEach((enemy) => {
-			if (isColliding) return;
+			if (!this.collision || !enemy.collision || isColliding) return;
 
 			const bBox = {
 				x: enemy.x + enemy.hitbox.offsetX,

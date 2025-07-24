@@ -20,6 +20,7 @@ class Character extends MoveableObject {
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "R";
+		this.collision = true;
 		// this.applyGravity();
 	}
 
@@ -37,7 +38,7 @@ class Character extends MoveableObject {
 	}
 
 	longIdle() {
-		return this.buildAnimation(this.longIdleImages);
+		return this.buildAnimation(this.longIdleImages, () => {}, false);
 	}
 
 	trackIdleTime() {
@@ -48,50 +49,22 @@ class Character extends MoveableObject {
 	}
 
 	moveRight() {
-		this.direction = "R";
-		const newX = this.x + this.horizontalSpeed;
-		if (
-			this.isWithinBoundaryRight(newX + this.width) &&
-			!this.checkWouldCollide(this.hitbox.offsetX + newX, this.y + this.hitbox.offsetY)
-		) {
-			this.x = newX;
-		}
+		super.moveRight();
 		this.animate("swim");
 	}
 
 	moveLeft() {
-		this.direction = "L";
-		const newX = this.x - this.horizontalSpeed;
-		if (
-			this.isWithinBoundaryLeft(newX) &&
-			!this.checkWouldCollide(this.hitbox.offsetX + newX, this.y + this.hitbox.offsetY)
-		) {
-			this.x = newX;
-		}
+		super.moveLeft();
 		this.animate("swim");
 	}
 
 	moveDown() {
-		this.direction = "D";
-		const newY = this.y + this.verticalSpeed;
-		if (
-			this.isWithinBoundaryBottom(newY + this.height) &&
-			!this.checkWouldCollide(this.x + this.hitbox.offsetX, this.hitbox.offsetY + newY)
-		) {
-			this.y = newY;
-		}
+		super.moveDown();
 		this.animate("swim");
 	}
 
 	moveUp() {
-		this.direction = "U";
-		const newY = this.y - this.verticalSpeed;
-		if (
-			this.isWithinBoundaryTop(newY) &&
-			!this.checkWouldCollide(this.x + this.hitbox.offsetX, this.hitbox.offsetY + newY)
-		) {
-			this.y = newY;
-		}
+		super.moveUp();
 		this.animate("swim");
 	}
 
@@ -178,6 +151,6 @@ class Character extends MoveableObject {
 	}
 
 	checkState() {
-		this.checkisCollidingEnemies();
+		// this.checkisCollidingEnemies();
 	}
 }
