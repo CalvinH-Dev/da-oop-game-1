@@ -21,18 +21,17 @@ class PufferFish extends MoveableObject {
 		this.direction = "L";
 		this.color = color;
 		this.applyColor();
-		this.collision = true;
+		// this.collision = true;
 
-		// this.changeSize();
+		this.changeSize();
 		this.move();
 	}
 
-	defaultAnimation() {
-		this.animate("swim");
-	}
+	defaultAnimation() {}
 
 	applyColor() {
 		this.stopAnimation();
+		this.getColorImages();
 		this.animate("swim");
 	}
 
@@ -43,13 +42,7 @@ class PufferFish extends MoveableObject {
 	}
 
 	swim() {
-		if (this.color === "orange") {
-			return this.buildAnimation(this.swimImagesOrange);
-		} else if (this.color === "red") {
-			return this.buildAnimation(this.swimImagesRed);
-		} else {
-			return this.buildAnimation(this.swimImagesGreen);
-		}
+		return this.buildBasicAnimation(this.swimImages);
 	}
 
 	moveRandom() {
@@ -87,43 +80,23 @@ class PufferFish extends MoveableObject {
 	}
 
 	getColorImages() {
-		this.swimImages = [
-			`/assets/used/enemies/puffer-fish/${this.color}/swim/1.png`,
-			`/assets/used/enemies/puffer-fish/${this.color}/swim/2.png`,
-			`/assets/used/enemies/puffer-fish/${this.color}/swim/3.png`,
-			`/assets/used/enemies/puffer-fish/${this.color}/swim/4.png`,
-			`/assets/used/enemies/puffer-fish/${this.color}/swim/5.png`,
-		];
-		this.cacheImages(this.swimImages);
+		const keys = Object.keys(this.cachedImages);
+		let images = [];
+
+		for (const key of keys) {
+			if (key.includes(`${this.color}/swim`)) {
+				images.push(key);
+			}
+		}
+		this.swimImages = images;
 	}
 
 	cacheAllImages() {
-		this.swimImagesOrange = [
-			"/assets/used/enemies/puffer-fish/orange/swim/1.png",
-			"/assets/used/enemies/puffer-fish/orange/swim/2.png",
-			"/assets/used/enemies/puffer-fish/orange/swim/3.png",
-			"/assets/used/enemies/puffer-fish/orange/swim/4.png",
-			"/assets/used/enemies/puffer-fish/orange/swim/5.png",
-		];
-
-		this.swimImagesGreen = [
-			"/assets/used/enemies/puffer-fish/green/swim/1.png",
-			"/assets/used/enemies/puffer-fish/green/swim/2.png",
-			"/assets/used/enemies/puffer-fish/green/swim/3.png",
-			"/assets/used/enemies/puffer-fish/green/swim/4.png",
-			"/assets/used/enemies/puffer-fish/green/swim/5.png",
-		];
-
-		this.swimImagesRed = [
-			"/assets/used/enemies/puffer-fish/red/swim/1.png",
-			"/assets/used/enemies/puffer-fish/red/swim/2.png",
-			"/assets/used/enemies/puffer-fish/red/swim/3.png",
-			"/assets/used/enemies/puffer-fish/red/swim/4.png",
-			"/assets/used/enemies/puffer-fish/red/swim/5.png",
-		];
-
-		super.cacheImages(this.swimImagesOrange);
-		super.cacheImages(this.swimImagesRed);
-		super.cacheImages(this.swimImagesGreen);
+		const colors = ["red", "orange", "green"];
+		for (const color of colors) {
+			const images = ImageHub.getPufferFishSwimImages(color);
+			this.swimImages = images;
+			this.cacheImages(images);
+		}
 	}
 }

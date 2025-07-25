@@ -1,6 +1,5 @@
 class Character extends MoveableObject {
 	defaultDirection = "R";
-	idleTime = 0;
 	hitbox = {
 		offsetX: 30,
 		offsetY: 90,
@@ -25,26 +24,81 @@ class Character extends MoveableObject {
 	}
 
 	defaultAnimation() {
-		this.animate("idle");
+		this.idle();
+	}
+
+	animateSwim() {
+		return this.buildBasicAnimation(this.swimImages);
+	}
+
+	animateIdle() {
+		return this.buildBasicAnimation(this.idleImages, this.trackIdleTime.bind(this));
+	}
+
+	animateLongIdle() {
+		const imgArr = this.longIdleImages;
+		this.animationCount = 0;
+		return setInterval(() => {
+			this.imgRef = this.cachedImages[imgArr[this.animationState]];
+			if (this.animationState >= imgArr.length - 1) {
+				this.animate("repeatLongIdle");
+				this.animationCount++;
+				this.resetAnimationState();
+			} else {
+				this.animationState++;
+			}
+		}, ANIMATION_TIME_NORMAL);
+	}
+
+	animateRepeatLongIdle() {
+		const imgArr = this.longIdleRepeatImages;
+		this.animationCount = 0;
+		return setInterval(() => {
+			this.imgRef = this.cachedImages[imgArr[this.animationState]];
+			if (this.animationState >= imgArr.length - 1) {
+				this.animationCount++;
+				this.resetAnimationState();
+			} else {
+				this.animationState++;
+			}
+		}, ANIMATION_TIME_NORMAL * 3);
+	}
+
+	animateBubble() {
+		return this.buildBasicAnimation(this.bubbleImages, this.idleAfterAnimation.bind(this));
 	}
 
 	swim() {
-		return this.buildAnimation(this.swimImages);
+		this.animate("swim");
 	}
 
 	idle() {
-		this.idleTime = 0;
-		return this.buildAnimation(this.idleImages, this.trackIdleTime.bind(this));
+		this.animate("idle");
 	}
 
 	longIdle() {
-		return this.buildAnimation(this.longIdleImages, () => {}, false);
+		this.animate("longIdle");
+	}
+
+	bubble() {
+		this.world.keyboard.enabled = false;
+		this.animate("bubble");
+	}
+
+	repeatLongIdle() {
+		if (this.animationCount >= 1) {
+			this.animate("repeatLongIdle");
+		}
+	}
+
+	idleAfterAnimation() {
+		this.world.keyboard.enabled = true;
+		this.idle();
 	}
 
 	trackIdleTime() {
-		this.idleTime += 1;
-		if (this.idleTime > 50) {
-			this.animate("longIdle");
+		if (this.animationCount > 2) {
+			this.longIdle();
 		}
 	}
 
@@ -71,16 +125,23 @@ class Character extends MoveableObject {
 	animate(name) {
 		switch (name) {
 			case "idle":
-				super.animate("idle", this.idle.bind(this));
+				super.animate("idle", this.animateIdle.bind(this));
 
 				break;
 			case "swim":
-				super.animate("swim", this.swim.bind(this));
+				super.animate("swim", this.animateSwim.bind(this));
 
 				break;
 			case "longIdle":
-				super.animate("longIdle", this.longIdle.bind(this));
+				super.animate("longIdle", this.animateLongIdle.bind(this));
 
+				break;
+			case "repeatLongIdle":
+				super.animate("repeatLongIdle", this.animateRepeatLongIdle.bind(this));
+
+				break;
+			case "bubble":
+				super.animate("bubble", this.animateBubble.bind(this));
 				break;
 		}
 	}
@@ -98,56 +159,17 @@ class Character extends MoveableObject {
 	}
 
 	cacheAllImages() {
-		this.swimImages = [
-			"/assets/used/character/swim/1.png",
-			"/assets/used/character/swim/2.png",
-			"/assets/used/character/swim/3.png",
-			"/assets/used/character/swim/4.png",
-			"/assets/used/character/swim/5.png",
-			"/assets/used/character/swim/6.png",
-		];
-
-		this.idleImages = [
-			"/assets/used/character/idle/1.png",
-			"/assets/used/character/idle/2.png",
-			"/assets/used/character/idle/3.png",
-			"/assets/used/character/idle/4.png",
-			"/assets/used/character/idle/5.png",
-			"/assets/used/character/idle/6.png",
-			"/assets/used/character/idle/7.png",
-			"/assets/used/character/idle/8.png",
-			"/assets/used/character/idle/9.png",
-			"/assets/used/character/idle/10.png",
-			"/assets/used/character/idle/11.png",
-			"/assets/used/character/idle/12.png",
-			"/assets/used/character/idle/13.png",
-			"/assets/used/character/idle/14.png",
-			"/assets/used/character/idle/15.png",
-			"/assets/used/character/idle/16.png",
-			"/assets/used/character/idle/17.png",
-			"/assets/used/character/idle/18.png",
-		];
-
-		this.longIdleImages = [
-			"/assets/used/character/long-idle/1.png",
-			"/assets/used/character/long-idle/2.png",
-			"/assets/used/character/long-idle/3.png",
-			"/assets/used/character/long-idle/4.png",
-			"/assets/used/character/long-idle/5.png",
-			"/assets/used/character/long-idle/6.png",
-			"/assets/used/character/long-idle/7.png",
-			"/assets/used/character/long-idle/8.png",
-			"/assets/used/character/long-idle/9.png",
-			"/assets/used/character/long-idle/10.png",
-			"/assets/used/character/long-idle/11.png",
-			"/assets/used/character/long-idle/12.png",
-			"/assets/used/character/long-idle/13.png",
-			"/assets/used/character/long-idle/14.png",
-		];
+		this.swimImages = ImageHub.getCharacterSwimImages();
+		this.idleImages = ImageHub.getCharacterIdleImages();
+		this.longIdleImages = ImageHub.getCharacterLongIdleImages();
+		this.longIdleRepeatImages = ImageHub.getCharacterLongIdleRepeatImages();
+		this.bubbleImages = ImageHub.getCharacterBubbleImages();
 
 		super.cacheImages(this.swimImages);
 		super.cacheImages(this.idleImages);
 		super.cacheImages(this.longIdleImages);
+		super.cacheImages(this.longIdleRepeatImages);
+		super.cacheImages(this.bubbleImages);
 	}
 
 	checkState() {}

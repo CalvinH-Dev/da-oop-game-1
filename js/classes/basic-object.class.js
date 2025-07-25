@@ -1,9 +1,10 @@
-class Object {
+class BasicObject {
 	imgRef;
 	cachedImages = {};
 	animationState = 1;
 	currentAnimation;
 	lastAnimationInterval;
+	animationCount;
 
 	width;
 	height;
@@ -115,16 +116,17 @@ class Object {
 	}
 
 	resetAnimationState() {
-		this.animationState = 1;
+		this.animationState = 0;
 	}
 
-	buildAnimation(imgArr, additionalEffect = () => {}, shouldReset = true) {
+	buildBasicAnimation(imgArr, callbackEndEffect = () => {}) {
+		this.animationCount = 0;
 		return setInterval(() => {
-			additionalEffect();
 			this.imgRef = this.cachedImages[imgArr[this.animationState]];
-			if (!shouldReset && this.animationState == imgArr.length - 1) {
-			} else if (this.animationState >= imgArr.length - 1) {
+			if (this.animationState >= imgArr.length - 1) {
 				this.resetAnimationState();
+				callbackEndEffect();
+				this.animationCount++;
 			} else {
 				this.animationState++;
 			}

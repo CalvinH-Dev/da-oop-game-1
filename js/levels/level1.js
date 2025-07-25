@@ -83,8 +83,8 @@ const enemiesLv1 = [
 ];
 
 const assetsLv1 = [
-	new Object(0, 0, 3840, 1080, "/assets/used/background/completo.png"),
-	new Object(3840, 0, 3840, 1080, "/assets/used/background/completo.png"),
+	new BasicObject(0, 0, 3840, 1080, "/assets/used/background/completo.png"),
+	new BasicObject(3840, 0, 3840, 1080, "/assets/used/background/completo.png"),
 ];
 
 for (const enemy of enemiesLv1) {

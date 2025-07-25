@@ -1,6 +1,7 @@
 let state;
 
 window.addEventListener("keydown", (event) => {
+	if (!keyboard.enabled) return;
 	switch (event.key) {
 		case "ArrowUp":
 			keyboard.UP = true;
@@ -11,7 +12,7 @@ window.addEventListener("keydown", (event) => {
 			keyboard.LEFT = true;
 
 			world.characterRef.moveLeft();
-			if (world.characterRef.x <= CalcFunctions.getMiddleOfBoardX()) {
+			if (world.characterRef.x <= CalcFunctions.getMiddleOfBoardX(world)) {
 				world.scrollLeft();
 			}
 
@@ -31,10 +32,17 @@ window.addEventListener("keydown", (event) => {
 			}
 
 			break;
+
+		case "d":
+			keyboard.D = true;
+			world.characterRef.bubble();
+
+			break;
 	}
 });
 
 window.addEventListener("keyup", (event) => {
+	if (!keyboard.enabled) return;
 	if (
 		event.key === "ArrowLeft" ||
 		event.key === "ArrowRight" ||

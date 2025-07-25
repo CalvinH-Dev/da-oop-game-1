@@ -1,4 +1,4 @@
-class MoveableObject extends Object {
+class MoveableObject extends BasicObject {
 	horizontalSpeed = 20;
 	verticalSpeed = 20;
 	direction;

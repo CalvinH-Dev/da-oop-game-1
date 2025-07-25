@@ -5,6 +5,7 @@ function startLevel(levelId) {
 
 	world.setLevel(levelId, character, enemies, assets);
 	world.update();
+	world.keyboard.start(world);
 }
 
 startLevel(1);
