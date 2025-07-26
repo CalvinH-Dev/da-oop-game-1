@@ -1,16 +1,14 @@
 class MoveableObject extends BasicObject {
-	horizontalSpeed = 20;
-	verticalSpeed = 20;
 	direction;
-	speedY = 0;
-	speedX = 0;
+	speedY = 20;
+	speedX = 20;
 	accelerationY = 0;
 	accelerationX = 0;
 
 	constructor(position, size, speed, imgSrc) {
 		super(position.x, position.y, size.width, size.height, imgSrc);
-		this.horizontalSpeed = speed.horizontal;
-		this.verticalSpeed = speed.vertical;
+		this.speedX = speed.x;
+		this.speedY = speed.y;
 	}
 
 	applyGravity() {
@@ -25,7 +23,7 @@ class MoveableObject extends BasicObject {
 
 	moveRight(checkFor = this.world.enemies) {
 		this.direction = "R";
-		const newX = this.x + this.horizontalSpeed;
+		const newX = this.x + this.speedX;
 		const rightX = newX + this.hitbox.width + this.hitbox.offsetX;
 		if (
 			CalcFunctions.isWithinBoundaryRight(this.world, rightX) &&
@@ -37,7 +35,7 @@ class MoveableObject extends BasicObject {
 
 	moveLeft(checkFor = this.world.enemies) {
 		this.direction = "L";
-		const newX = this.x - this.horizontalSpeed;
+		const newX = this.x - this.speedX;
 		const leftX = newX + this.hitbox.offsetX;
 
 		if (
@@ -50,7 +48,7 @@ class MoveableObject extends BasicObject {
 
 	moveDown(checkFor = this.world.enemies) {
 		this.direction = "D";
-		const newY = this.y + this.verticalSpeed;
+		const newY = this.y + this.speedY;
 		const botY = newY + this.hitbox.height + this.hitbox.offsetY;
 		if (
 			CalcFunctions.isWithinBoundaryBottom(botY) &&
@@ -62,7 +60,7 @@ class MoveableObject extends BasicObject {
 
 	moveUp(checkFor = this.world.enemies) {
 		this.direction = "U";
-		const newY = this.y - this.verticalSpeed;
+		const newY = this.y - this.speedY;
 		const topY = newY + this.hitbox.offsetY;
 
 		if (

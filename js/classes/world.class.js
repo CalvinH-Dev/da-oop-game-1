@@ -4,6 +4,7 @@ class World {
 	characterRef;
 	enemies = [];
 	assets = [];
+	projectiles = [];
 	scrollX = 0;
 	maxScrollLeft = 0;
 	maxScrollRight = BOARD_WIDTH * 1;
@@ -29,7 +30,8 @@ class World {
 		this.showBoxes = bool;
 	}
 
-	update() {
+	update(elapsed) {
+		console.log(elapsed);
 		this.draw();
 		requestAnimationFrame(this.update.bind(this));
 	}
@@ -40,6 +42,7 @@ class World {
 		this.characterRef.drawObject(this.canvasCtx, this.showBoxes);
 		this.characterRef.checkState();
 		this.drawObjects(this.enemies);
+		this.drawObjects(this.projectiles);
 	}
 
 	drawObjects(objects) {
@@ -51,7 +54,7 @@ class World {
 
 	scrollRight() {
 		if (this.scrollX > -this.maxScrollRight) {
-			const amountScroll = this.characterRef.horizontalSpeed;
+			const amountScroll = this.characterRef.speedX;
 			this.canvasCtx.translate(-amountScroll, 0);
 			this.scrollX -= amountScroll;
 		}
@@ -59,7 +62,7 @@ class World {
 
 	scrollLeft() {
 		if (this.scrollX < this.maxScrollLeft) {
-			const amountScroll = this.characterRef.horizontalSpeed;
+			const amountScroll = this.characterRef.speedX;
 			this.canvasCtx.translate(amountScroll, 0);
 			this.scrollX += amountScroll;
 		}

@@ -15,7 +15,7 @@ class PufferFish extends MoveableObject {
 		}
 
 		if (!speed) {
-			speed = { horizontal: 10, vertical: 10 };
+			speed = { x: 10, y: 10 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "L";

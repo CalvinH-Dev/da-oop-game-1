@@ -15,7 +15,7 @@ class Character extends MoveableObject {
 		}
 
 		if (!speed) {
-			speed = { horizontal: 20, vertical: 20 };
+			speed = { x: 20, y: 20 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "R";
@@ -93,6 +93,20 @@ class Character extends MoveableObject {
 
 	idleAfterAnimation() {
 		this.world.keyboard.enabled = true;
+		const bubbleProj = new Projectile(
+			{
+				x: this.x + this.hitbox.offsetX + this.hitbox.width,
+				y: this.y + this.hitbox.offsetY + this.hitbox.height / 2 + -25,
+			},
+			{ width: 50, height: 50 },
+			{ y: 50 },
+			"assets/used/character/attacks/Bubble.png",
+			{ y: 0 },
+			"U",
+		);
+		bubbleProj.world = this.world;
+		bubbleProj.collision = false;
+		this.world.projectiles.push(bubbleProj);
 		this.idle();
 	}
 
