@@ -4,6 +4,7 @@ class MoveableEntity extends Entity {
 	speedX = 20;
 	accelerationY = 0;
 	accelerationX = 0;
+	currentMovementInterval;
 
 	constructor(position, size, speed, imgSrc) {
 		super(position.x, position.y, size.width, size.height, imgSrc);
@@ -21,51 +22,51 @@ class MoveableEntity extends Entity {
 		}, ANIMATION_INTERVAL * 5);
 	}
 
-	moveRight(dt, checkFor = this.world.enemies) {
+	moveRight(dt) {
 		this.direction = "R";
 		const newX = this.x + this.speedX * dt;
 		const rightX = newX + this.hitbox.width + this.hitbox.offsetX;
 		if (
 			CalcFunctions.isWithinBoundaryRight(this.world, rightX) &&
-			!CalcFunctions.checkCollision(this, checkFor, newX, this.y)
+			!CalcFunctions.checkCollision(this, newX, this.y)
 		) {
 			this.x = newX;
 		}
 	}
 
-	moveLeft(dt, checkFor = this.world.enemies) {
+	moveLeft(dt) {
 		this.direction = "L";
 		const newX = this.x - this.speedX * dt;
 		const leftX = newX + this.hitbox.offsetX;
 
 		if (
 			CalcFunctions.isWithinBoundaryLeft(this.world, leftX) &&
-			!CalcFunctions.checkCollision(this, checkFor, newX, this.y)
+			!CalcFunctions.checkCollision(this, newX, this.y)
 		) {
 			this.x = newX;
 		}
 	}
 
-	moveDown(dt, checkFor = this.world.enemies) {
+	moveDown(dt) {
 		this.direction = "D";
 		const newY = this.y + this.speedY * dt;
 		const botY = newY + this.hitbox.height + this.hitbox.offsetY;
 		if (
 			CalcFunctions.isWithinBoundaryBottom(botY) &&
-			!CalcFunctions.checkCollision(this, checkFor, this.x, newY)
+			!CalcFunctions.checkCollision(this, this.x, newY)
 		) {
 			this.y = newY;
 		}
 	}
 
-	moveUp(dt, checkFor = this.world.enemies) {
+	moveUp(dt) {
 		this.direction = "U";
 		const newY = this.y - this.speedY * dt;
 		const topY = newY + this.hitbox.offsetY;
 
 		if (
 			CalcFunctions.isWithinBoundaryTop(topY) &&
-			!CalcFunctions.checkCollision(this, checkFor, this.x, newY)
+			!CalcFunctions.checkCollision(this, this.x, newY)
 		) {
 			this.y = newY;
 		}

@@ -35,17 +35,38 @@ class CalcFunctions {
 		return xValue <= BOARD_WIDTH + world.maxScrollRight;
 	}
 
-	static checkCollision(obj, checkForObjects, x, y) {
+	static checkCollision(obj, x, y) {
+		const world = obj.world;
+		if (obj === world.characterRef) {
+			console.log("hier");
+		}
 		let isColliding = false;
 
 		const aBox = CalcFunctions.calcCollisionBox(x, y, obj.hitbox);
 
-		checkForObjects.forEach((enemy) => {
-			if (!obj.collision || !enemy.collision || isColliding) return;
+		for (const enemy of world.enemies) {
+			if (!obj.collision || !enemy.collision || isColliding || obj === enemy) continue;
 
 			const bBox = enemy.getHitbox();
 			isColliding = CalcFunctions.hitboxesColliding(aBox, bBox);
-		});
+		}
+
+		for (const asset of world.assets) {
+			if (!obj.collision || !asset.collision || isColliding || obj === asset) continue;
+
+			const bBox = asset.getHitbox();
+			isColliding = CalcFunctions.hitboxesColliding(aBox, bBox);
+		}
+
+		if (
+			obj.collision &&
+			world.characterRef.collision &&
+			!isColliding &&
+			obj != world.characterRef
+		) {
+			const bBox = world.characterRef.getHitbox();
+			isColliding = CalcFunctions.hitboxesColliding(aBox, bBox);
+		}
 
 		return isColliding;
 	}

@@ -15,15 +15,15 @@ class PufferFish extends MoveableEntity {
 		}
 
 		if (!speed) {
-			speed = { x: 10, y: 10 };
+			speed = { x: 250, y: 250 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "L";
 		this.color = color;
 		this.applyColor();
-		// this.collision = true;
+		this.collision = true;
 
-		this.changeSize();
+		// this.changeSize();
 		this.move();
 	}
 
@@ -45,16 +45,16 @@ class PufferFish extends MoveableEntity {
 		return this.buildBasicAnimation(this.swimImages);
 	}
 
-	moveRandom() {
+	moveRandom(ft) {
 		const number = Math.floor(Math.random() * 4);
 		if (number === 0) {
-			this.moveRight([this.world.characterRef]);
+			this.moveRight(ft);
 		} else if (number === 1) {
-			this.moveLeft([this.world.characterRef]);
+			this.moveLeft(ft);
 		} else if (number === 2) {
-			this.moveUp([this.world.characterRef]);
+			this.moveUp(ft);
 		} else {
-			this.moveDown([this.world.characterRef]);
+			this.moveDown(ft);
 		}
 	}
 
@@ -98,5 +98,12 @@ class PufferFish extends MoveableEntity {
 			this.swimImages = images;
 			this.cacheImages(images);
 		}
+	}
+
+	update(ft) {
+		if (this.currentMovementInterval) return;
+		this.currentMovementInterval = setInterval(() => {
+			this.moveRandom(FPS_INTERVAL / 1000);
+		}, PUFFERFISH_MOVEMENT_INTERVAL);
 	}
 }

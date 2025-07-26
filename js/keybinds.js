@@ -12,9 +12,6 @@ window.addEventListener("keydown", (event) => {
 			keyboard.LEFT = true;
 
 			// world.characterRef.moveLeft();
-			if (world.characterRef.x <= CalcFunctions.getMiddleOfBoardX(world)) {
-				world.scrollLeft();
-			}
 
 			break;
 		case "ArrowDown":
@@ -27,9 +24,6 @@ window.addEventListener("keydown", (event) => {
 			keyboard.RIGHT = true;
 
 			// world.characterRef.moveRight();
-			if (world.characterRef.x >= CalcFunctions.getMiddleOfBoardX(world)) {
-				world.scrollRight();
-			}
 
 			break;
 
@@ -42,7 +36,6 @@ window.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("keyup", (event) => {
-	if (!keyboard.enabled) return;
 	if (
 		event.key === "ArrowLeft" ||
 		event.key === "ArrowRight" ||
@@ -63,6 +56,10 @@ window.addEventListener("keyup", (event) => {
 			break;
 		case "ArrowRight":
 			keyboard.RIGHT = false;
+			break;
+		case "d":
+			keyboard.D = false;
+
 			break;
 	}
 });

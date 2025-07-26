@@ -7,15 +7,18 @@ class Keyboard {
 	enabled = true;
 
 	action(world, dt) {
-		if (!dt) {
-			console.log(dt);
-		}
 		const character = world.characterRef;
 		if (!this.enabled) return;
 		if (this.LEFT) {
 			character.moveLeft(dt);
+			if (character.x <= CalcFunctions.getMiddleOfBoardX(world)) {
+				world.scrollLeft(dt);
+			}
 		} else if (this.RIGHT) {
 			character.moveRight(dt);
+			if (character.x >= CalcFunctions.getMiddleOfBoardX(world)) {
+				world.scrollRight(dt);
+			}
 		} else if (this.UP) {
 			character.moveUp(dt);
 		} else if (this.DOWN) {

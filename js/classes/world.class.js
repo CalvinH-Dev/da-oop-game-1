@@ -55,23 +55,22 @@ class World {
 
 		this.accumulator += dt;
 		const dtInSec = dt / 1000;
-
-		if (!dtInSec) {
-			console.log(dt);
-		}
+		const targetFPS = FPS_INTERVAL / 1000;
 
 		while (this.accumulator >= FPS_INTERVAL) {
-			this.update(dtInSec);
+			this.update(targetFPS); // pixel pro Sekunde ist velocity eines charakters
 			this.accumulator -= FPS_INTERVAL;
 		}
+
+		this.keyboard.action(this, dtInSec);
 		this.render();
 	}
 
-	update(dt) {
-		this.updateAll(dt);
+	update(ft) {
+		this.updateAll(ft);
 	}
 
-	updateAll(dt) {
+	updateAll(ft) {
 		const updateFns = [
 			this.updateProjectiles.bind(this),
 			this.updateCharacter.bind(this),
@@ -80,29 +79,29 @@ class World {
 		];
 
 		for (const updateFn of updateFns) {
-			updateFn(dt);
+			updateFn(ft);
 		}
 	}
 
-	updateCharacter(dt) {
-		this.characterRef.update(dt);
+	updateCharacter(ft) {
+		this.characterRef.update(ft);
 	}
 
-	updateProjectiles(dt) {
+	updateProjectiles(ft) {
 		for (const projectile of this.projectiles) {
-			projectile.update(dt);
+			projectile.update(ft);
 		}
 	}
 
-	updateEnemies(dt) {
+	updateEnemies(ft) {
 		for (const enemy of this.enemies) {
-			enemy.update(dt);
+			enemy.update(ft);
 		}
 	}
 
-	updateAssets(dt) {
+	updateAssets(ft) {
 		for (const asset of this.assets) {
-			asset.update(dt);
+			asset.update(ft);
 		}
 	}
 
@@ -146,24 +145,17 @@ class World {
 		}
 	}
 
-	drawObjects(objects) {
-		for (const obj of objects) {
-			obj.drawObject(this.canvasCtx, this.showBoxes);
-			obj.checkState();
-		}
-	}
-
-	scrollRight() {
+	scrollRight(dt) {
 		if (this.scrollX > -this.maxScrollRight) {
-			const amountScroll = this.characterRef.speedX;
+			const amountScroll = this.characterRef.speedX * dt;
 			this.canvasCtx.translate(-amountScroll, 0);
 			this.scrollX -= amountScroll;
 		}
 	}
 
-	scrollLeft() {
+	scrollLeft(dt) {
 		if (this.scrollX < this.maxScrollLeft) {
-			const amountScroll = this.characterRef.speedX;
+			const amountScroll = this.characterRef.speedX * dt;
 			this.canvasCtx.translate(amountScroll, 0);
 			this.scrollX += amountScroll;
 		}

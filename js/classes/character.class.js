@@ -15,7 +15,7 @@ class Character extends MoveableEntity {
 		}
 
 		if (!speed) {
-			speed = { x: 700, y: 500 };
+			speed = { x: 400, y: 300 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "R";
@@ -65,7 +65,15 @@ class Character extends MoveableEntity {
 	}
 
 	animateBubble() {
-		return this.buildBasicAnimation(this.bubbleImages, this.idleAfterAnimation.bind(this));
+		return setInterval(() => {
+			this.imgRef = this.cachedImages[this.bubbleImages[this.animationState]];
+			if (this.animationState >= this.bubbleImages.length - 1) {
+				this.resetAnimationState();
+				this.idleAfterAnimation();
+			} else {
+				this.animationState++;
+			}
+		}, 100);
 	}
 
 	swim() {
@@ -93,21 +101,21 @@ class Character extends MoveableEntity {
 
 	idleAfterAnimation() {
 		this.world.keyboard.enabled = true;
+		this.idle();
 		const bubbleProj = new Projectile(
 			{
 				x: this.x + this.hitbox.offsetX + this.hitbox.width,
 				y: this.y + this.hitbox.offsetY + this.hitbox.height / 2 + -25,
 			},
 			{ width: 50, height: 50 },
-			{ y: 50 },
+			{ y: 200, x: 1000 },
 			"assets/used/character/attacks/Bubble.png",
-			{ y: 0 },
-			"U",
+			{ y: 0, x: 50 },
+			this.direction === "L" ? "L" : "R",
 		);
 		bubbleProj.world = this.world;
 		bubbleProj.collision = false;
 		this.world.projectiles.push(bubbleProj);
-		this.idle();
 	}
 
 	trackIdleTime() {
@@ -184,9 +192,5 @@ class Character extends MoveableEntity {
 		super.cacheImages(this.longIdleImages);
 		super.cacheImages(this.longIdleRepeatImages);
 		super.cacheImages(this.bubbleImages);
-	}
-
-	update(dt) {
-		this.world.keyboard.action(this.world, dt);
 	}
 }

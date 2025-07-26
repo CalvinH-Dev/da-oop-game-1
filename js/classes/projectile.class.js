@@ -1,5 +1,5 @@
 class Projectile extends MoveableEntity {
-	waterFriction = 1;
+	waterFriction = 10;
 	constructor(position, size, speed, imgSrc, acceleration, direction) {
 		super(position, size, speed, imgSrc);
 		this.accelerationX = acceleration.x;
@@ -10,14 +10,14 @@ class Projectile extends MoveableEntity {
 
 	test() {
 		setInterval(() => {
-			console.log("speed", this.speedY);
-			console.log("acc", this.accelerationY);
-			this.speedY = Math.max(0, this.speedY + this.accelerationY - this.waterFriction);
-			if (this.speedY === 0) this.despawn();
+			console.log("speed", this.speedX);
+			console.log("acc", this.accelerationX);
+			this.speedX = Math.max(0, this.speedX + this.accelerationX - this.waterFriction);
+			if (this.speedX <= 10) this.despawn();
 
-			this.accelerationY = Math.max(
+			this.accelerationX = Math.max(
 				0,
-				this.accelerationY - this.accelerationY * ANIMATION_INTERVAL,
+				this.accelerationX - this.accelerationX * ANIMATION_INTERVAL,
 			);
 
 			this.move();
@@ -30,13 +30,13 @@ class Projectile extends MoveableEntity {
 
 	move() {
 		if (this.direction === "L") {
-			this.moveLeft();
+			this.moveLeft(FPS_INTERVAL / 1000);
 		} else if (this.direction === "R") {
-			this.moveRight();
+			this.moveRight(FPS_INTERVAL / 1000);
 		} else if (this.direction === "U") {
-			this.moveUp();
+			this.moveUp(FPS_INTERVAL / 1000);
 		} else if (this.direction === "D") {
-			this.moveDown();
+			this.moveDown(FPS_INTERVAL / 1000);
 		} else console.log("Sollte nicht passieren");
 	}
 }

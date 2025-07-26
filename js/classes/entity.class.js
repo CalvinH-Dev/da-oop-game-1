@@ -159,5 +159,5 @@ class Entity {
 		}, ANIMATION_INTERVAL * 2 + Math.random() * randomSign * 10);
 	}
 
-	update() {}
+	update(ft) {}
 }
