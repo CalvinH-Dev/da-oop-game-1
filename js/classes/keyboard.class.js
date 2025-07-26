@@ -9,7 +9,7 @@ class Keyboard {
 	start(world) {
 		setInterval(() => {
 			this.action(world);
-		}, ANIMATION_TIME_NORMAL);
+		}, ANIMATION_INTERVAL);
 	}
 
 	action(world) {

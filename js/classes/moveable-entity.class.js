@@ -1,4 +1,4 @@
-class MoveableObject extends BasicObject {
+class MoveableEntity extends Entity {
 	direction;
 	speedY = 20;
 	speedX = 20;
@@ -18,7 +18,7 @@ class MoveableObject extends BasicObject {
 				this.accelerationY += this.speedY;
 				this.y += this.accelerationY;
 			}
-		}, ANIMATION_TIME_NORMAL * 5);
+		}, ANIMATION_INTERVAL * 5);
 	}
 
 	moveRight(checkFor = this.world.enemies) {

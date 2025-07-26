@@ -1,4 +1,4 @@
-class Projectile extends MoveableObject {
+class Projectile extends MoveableEntity {
 	waterFriction = 1;
 	constructor(position, size, speed, imgSrc, acceleration, direction) {
 		super(position, size, speed, imgSrc);
@@ -17,11 +17,11 @@ class Projectile extends MoveableObject {
 
 			this.accelerationY = Math.max(
 				0,
-				this.accelerationY - this.accelerationY * ANIMATION_TIME_NORMAL,
+				this.accelerationY - this.accelerationY * ANIMATION_INTERVAL,
 			);
 
 			this.move();
-		}, ANIMATION_TIME_NORMAL);
+		}, ANIMATION_INTERVAL);
 	}
 
 	despawn() {

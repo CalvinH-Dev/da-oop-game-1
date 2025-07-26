@@ -1,4 +1,4 @@
-class BasicObject {
+class Entity {
 	imgRef;
 	cachedImages = {};
 	animationState = 1;
@@ -53,14 +53,14 @@ class BasicObject {
 		});
 	}
 
-	drawObject(ctx, showBox = false) {
+	render(ctx, showBox = false) {
 		ctx.drawImage(this.imgRef, this.x, this.y, this.width, this.height);
 		if (showBox) {
 			this.showHitBox(ctx);
 		}
 	}
 
-	drawFlippedObject(ctx, showBox = false) {
+	renderFlipped(ctx, showBox = false) {
 		ctx.save();
 		ctx.translate(this.x + this.width, this.y);
 		ctx.scale(-1, 1);
@@ -71,7 +71,7 @@ class BasicObject {
 		}
 	}
 
-	drawRotatedObject(ctx, degree, showBox = false) {
+	renderRotated(ctx, degree, showBox = false) {
 		ctx.save();
 		ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
 		ctx.rotate((degree * Math.PI) / 180);
@@ -130,7 +130,7 @@ class BasicObject {
 			} else {
 				this.animationState++;
 			}
-		}, ANIMATION_TIME_NORMAL);
+		}, ANIMATION_INTERVAL);
 	}
 
 	changeSize(options = {}, callbacks = {}) {
@@ -156,6 +156,6 @@ class BasicObject {
 				callbackMax();
 				multiplier -= 2 * changeRatio;
 			}
-		}, ANIMATION_TIME_NORMAL * 2 + Math.random() * randomSign * 10);
+		}, ANIMATION_INTERVAL * 2 + Math.random() * randomSign * 10);
 	}
 }

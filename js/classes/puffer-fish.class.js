@@ -1,4 +1,4 @@
-class PufferFish extends MoveableObject {
+class PufferFish extends MoveableEntity {
 	defaultDirection = "L";
 	color = "green";
 	hitbox = {
@@ -67,15 +67,15 @@ class PufferFish extends MoveableObject {
 		}
 	}
 
-	drawObject(ctx, showBox) {
+	render(ctx, showBox) {
 		if (
 			this.direction === this.defaultDirection ||
 			this.direction === "U" ||
 			this.direction === "D"
 		) {
-			super.drawObject(ctx, showBox);
+			super.render(ctx, showBox);
 		} else {
-			super.drawFlippedObject(ctx, showBox);
+			super.renderFlipped(ctx, showBox);
 		}
 	}
 

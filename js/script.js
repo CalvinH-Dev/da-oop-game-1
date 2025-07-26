@@ -4,7 +4,8 @@ function startLevel(levelId) {
 	const assets = levels[levelId].assets;
 
 	world.setLevel(levelId, character, enemies, assets);
-	world.update();
+
+	world.startGame();
 	world.keyboard.start(world);
 }
 

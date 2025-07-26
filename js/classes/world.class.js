@@ -1,4 +1,7 @@
 class World {
+	stop;
+	accumulator = 0;
+	before = 0;
 	canvasRef;
 	canvasCtx;
 	characterRef;
@@ -30,19 +33,70 @@ class World {
 		this.showBoxes = bool;
 	}
 
-	update(elapsed) {
-		console.log(elapsed);
-		this.draw();
-		requestAnimationFrame(this.update.bind(this));
+	stopGame() {
+		cancelAnimationFrame(this.stop);
 	}
 
-	draw() {
+	startGame() {
+		const now = performance.now();
+		this.before = now;
+		this.accumulator = 0;
+
+		requestAnimationFrame(this.gameLoop.bind(this));
+	}
+
+	gameLoop(tFrame) {
+		this.stop = requestAnimationFrame(this.gameLoop.bind(this));
+
+		const now = tFrame;
+		const dt = now - this.before;
+
+		this.before = now;
+
+		this.accumulator += dt;
+
+		while (this.accumulator >= FPS_INTERVAL) {
+			this.update();
+			this.accumulator -= FPS_INTERVAL;
+		}
+		this.render();
+	}
+
+	render() {
 		this.canvasCtx.clearRect(0, 0, this.canvasRef.width, this.canvasRef.height);
-		this.drawObjects(this.assets);
-		this.characterRef.drawObject(this.canvasCtx, this.showBoxes);
-		this.characterRef.checkState();
-		this.drawObjects(this.enemies);
-		this.drawObjects(this.projectiles);
+		this.renderAll();
+	}
+
+	update() {
+		console.log("hier würde jetzt gecheckt werden");
+	}
+
+	renderAll() {
+		const renderFns = [
+			this.renderAssets.bind(this),
+			this.renderCharacter.bind(this),
+			this.renderEnemies.bind(this),
+		];
+
+		for (const renderFn of renderFns) {
+			renderFn();
+		}
+	}
+
+	renderAssets() {
+		for (const asset of this.assets) {
+			asset.render(this.canvasCtx, this.showBoxes);
+		}
+	}
+
+	renderEnemies() {
+		for (const enemy of this.enemies) {
+			enemy.render(this.canvasCtx, this.showBoxes);
+		}
+	}
+
+	renderCharacter() {
+		this.characterRef.render(this.canvasCtx, this.showBoxes);
 	}
 
 	drawObjects(objects) {
