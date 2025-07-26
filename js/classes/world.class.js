@@ -54,12 +54,56 @@ class World {
 		this.before = now;
 
 		this.accumulator += dt;
+		const dtInSec = dt / 1000;
+
+		if (!dtInSec) {
+			console.log(dt);
+		}
 
 		while (this.accumulator >= FPS_INTERVAL) {
-			this.update();
+			this.update(dtInSec);
 			this.accumulator -= FPS_INTERVAL;
 		}
 		this.render();
+	}
+
+	update(dt) {
+		this.updateAll(dt);
+	}
+
+	updateAll(dt) {
+		const updateFns = [
+			this.updateProjectiles.bind(this),
+			this.updateCharacter.bind(this),
+			this.updateEnemies.bind(this),
+			this.updateAssets.bind(this),
+		];
+
+		for (const updateFn of updateFns) {
+			updateFn(dt);
+		}
+	}
+
+	updateCharacter(dt) {
+		this.characterRef.update(dt);
+	}
+
+	updateProjectiles(dt) {
+		for (const projectile of this.projectiles) {
+			projectile.update(dt);
+		}
+	}
+
+	updateEnemies(dt) {
+		for (const enemy of this.enemies) {
+			enemy.update(dt);
+		}
+	}
+
+	updateAssets(dt) {
+		for (const asset of this.assets) {
+			asset.update(dt);
+		}
 	}
 
 	render() {
@@ -67,15 +111,12 @@ class World {
 		this.renderAll();
 	}
 
-	update() {
-		console.log("hier würde jetzt gecheckt werden");
-	}
-
 	renderAll() {
 		const renderFns = [
 			this.renderAssets.bind(this),
-			this.renderCharacter.bind(this),
 			this.renderEnemies.bind(this),
+			this.renderProjectiles.bind(this),
+			this.renderCharacter.bind(this),
 		];
 
 		for (const renderFn of renderFns) {
@@ -83,9 +124,13 @@ class World {
 		}
 	}
 
-	renderAssets() {
-		for (const asset of this.assets) {
-			asset.render(this.canvasCtx, this.showBoxes);
+	renderCharacter() {
+		this.characterRef.render(this.canvasCtx, this.showBoxes);
+	}
+
+	renderProjectiles() {
+		for (const projectile of this.projectiles) {
+			projectile.render(this.canvasCtx, this.showBoxes);
 		}
 	}
 
@@ -95,8 +140,10 @@ class World {
 		}
 	}
 
-	renderCharacter() {
-		this.characterRef.render(this.canvasCtx, this.showBoxes);
+	renderAssets() {
+		for (const asset of this.assets) {
+			asset.render(this.canvasCtx, this.showBoxes);
+		}
 	}
 
 	drawObjects(objects) {

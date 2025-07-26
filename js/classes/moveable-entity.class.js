@@ -21,9 +21,9 @@ class MoveableEntity extends Entity {
 		}, ANIMATION_INTERVAL * 5);
 	}
 
-	moveRight(checkFor = this.world.enemies) {
+	moveRight(dt, checkFor = this.world.enemies) {
 		this.direction = "R";
-		const newX = this.x + this.speedX;
+		const newX = this.x + this.speedX * dt;
 		const rightX = newX + this.hitbox.width + this.hitbox.offsetX;
 		if (
 			CalcFunctions.isWithinBoundaryRight(this.world, rightX) &&
@@ -33,9 +33,9 @@ class MoveableEntity extends Entity {
 		}
 	}
 
-	moveLeft(checkFor = this.world.enemies) {
+	moveLeft(dt, checkFor = this.world.enemies) {
 		this.direction = "L";
-		const newX = this.x - this.speedX;
+		const newX = this.x - this.speedX * dt;
 		const leftX = newX + this.hitbox.offsetX;
 
 		if (
@@ -46,9 +46,9 @@ class MoveableEntity extends Entity {
 		}
 	}
 
-	moveDown(checkFor = this.world.enemies) {
+	moveDown(dt, checkFor = this.world.enemies) {
 		this.direction = "D";
-		const newY = this.y + this.speedY;
+		const newY = this.y + this.speedY * dt;
 		const botY = newY + this.hitbox.height + this.hitbox.offsetY;
 		if (
 			CalcFunctions.isWithinBoundaryBottom(botY) &&
@@ -58,9 +58,9 @@ class MoveableEntity extends Entity {
 		}
 	}
 
-	moveUp(checkFor = this.world.enemies) {
+	moveUp(dt, checkFor = this.world.enemies) {
 		this.direction = "U";
-		const newY = this.y - this.speedY;
+		const newY = this.y - this.speedY * dt;
 		const topY = newY + this.hitbox.offsetY;
 
 		if (

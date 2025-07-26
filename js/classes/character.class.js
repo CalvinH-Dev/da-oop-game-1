@@ -15,7 +15,7 @@ class Character extends MoveableEntity {
 		}
 
 		if (!speed) {
-			speed = { x: 20, y: 20 };
+			speed = { x: 700, y: 500 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "R";
@@ -116,23 +116,23 @@ class Character extends MoveableEntity {
 		}
 	}
 
-	moveRight() {
-		super.moveRight();
+	moveRight(dt) {
+		super.moveRight(dt);
 		this.animate("swim");
 	}
 
-	moveLeft() {
-		super.moveLeft();
+	moveLeft(dt) {
+		super.moveLeft(dt);
 		this.animate("swim");
 	}
 
-	moveDown() {
-		super.moveDown();
+	moveDown(dt) {
+		super.moveDown(dt);
 		this.animate("swim");
 	}
 
-	moveUp() {
-		super.moveUp();
+	moveUp(dt) {
+		super.moveUp(dt);
 		this.animate("swim");
 	}
 
@@ -186,5 +186,7 @@ class Character extends MoveableEntity {
 		super.cacheImages(this.bubbleImages);
 	}
 
-	checkState() {}
+	update(dt) {
+		this.world.keyboard.action(this.world, dt);
+	}
 }
