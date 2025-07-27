@@ -19,27 +19,33 @@ class CalcFunctions {
 		);
 	}
 
-	static isWithinBoundaryTop(yValue) {
-		return yValue >= 0;
+	static isWithingBoundaries(world, xValueLeft, xValueRight, yValueTop, yValueBot) {
+		return (
+			this.isWithinBoundaryTop(yValueTop) &&
+			this.isWithinBoundaryBottom(yValueBot) &&
+			this.isWithinBoundaryLeft(world, xValueLeft) &&
+			this.isWithinBoundaryRight(world, xValueRight)
+		);
 	}
 
-	static isWithinBoundaryBottom(yValue) {
-		return yValue <= BOARD_HEIGHT;
+	static isWithinBoundaryTop(yValueTop) {
+		return yValueTop >= 0;
 	}
 
-	static isWithinBoundaryLeft(world, xValue) {
-		return xValue >= world.maxScrollLeft;
+	static isWithinBoundaryBottom(yValueBot) {
+		return yValueBot <= BOARD_HEIGHT;
 	}
 
-	static isWithinBoundaryRight(world, xValue) {
-		return xValue <= BOARD_WIDTH + world.maxScrollRight;
+	static isWithinBoundaryLeft(world, xValueLeft) {
+		return xValueLeft >= world.maxScrollLeft;
+	}
+
+	static isWithinBoundaryRight(world, xValueRight) {
+		return xValueRight <= BOARD_WIDTH + world.maxScrollRight;
 	}
 
 	static checkCollision(obj, x, y) {
 		const world = obj.world;
-		if (obj === world.characterRef) {
-			console.log("hier");
-		}
 		let isColliding = false;
 
 		const aBox = CalcFunctions.calcCollisionBox(x, y, obj.hitbox);
@@ -69,6 +75,24 @@ class CalcFunctions {
 		}
 
 		return isColliding;
+	}
+
+	static checkHitByProjectile(projectile, isFriendly, x, y, hitCallback = () => {}) {
+		const world = projectile.world;
+
+		const aBox = CalcFunctions.calcCollisionBox(x, y, projectile.hitbox);
+
+		if (isFriendly) {
+			for (const enemy of world.enemies) {
+				const bBox = enemy.getHitbox();
+				if (CalcFunctions.hitboxesColliding(aBox, bBox)) {
+					hitCallback(enemy);
+					if (projectile.collision) {
+						return projectile.despawn();
+					}
+				}
+			}
+		}
 	}
 
 	static getMiddleOfBoardX(world) {

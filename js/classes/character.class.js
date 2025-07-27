@@ -108,13 +108,11 @@ class Character extends MoveableEntity {
 				y: this.y + this.hitbox.offsetY + this.hitbox.height / 2 + -25,
 			},
 			{ width: 50, height: 50 },
-			{ y: 200, x: 1000 },
+			{ y: 100, x: 100 },
 			"assets/used/character/attacks/Bubble.png",
-			{ y: 0, x: 50 },
-			this.direction === "L" ? "L" : "R",
+			{ y: 0, x: 15 },
 		);
 		bubbleProj.world = this.world;
-		bubbleProj.collision = false;
 		this.world.projectiles.push(bubbleProj);
 	}
 

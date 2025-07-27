@@ -2,8 +2,7 @@ class MoveableEntity extends Entity {
 	direction;
 	speedY = 20;
 	speedX = 20;
-	accelerationY = 0;
-	accelerationX = 0;
+	acceleration = { x: 0, y: 0 };
 	currentMovementInterval;
 
 	constructor(position, size, speed, imgSrc) {
@@ -15,9 +14,9 @@ class MoveableEntity extends Entity {
 	applyGravity() {
 		this.speedY += 5;
 		setInterval(() => {
-			if (CalcFunctions.isWithinBoundaryBottom(this.y + this.accelerationY + this.height)) {
-				this.accelerationY += this.speedY;
-				this.y += this.accelerationY;
+			if (CalcFunctions.isWithinBoundaryBottom(this.y + this.acceleration.y + this.height)) {
+				this.acceleration.y += this.speedY;
+				this.y += this.acceleration.y;
 			}
 		}, ANIMATION_INTERVAL * 5);
 	}

@@ -53,13 +53,12 @@ class World {
 
 		this.before = now;
 
-		this.accumulator += dt;
 		const dtInSec = dt / 1000;
-		const targetFPS = FPS_INTERVAL / 1000;
+		this.accumulator += dtInSec;
 
-		while (this.accumulator >= FPS_INTERVAL) {
-			this.update(targetFPS); // pixel pro Sekunde ist velocity eines charakters
-			this.accumulator -= FPS_INTERVAL;
+		while (this.accumulator >= UPDATE_IN_SEC) {
+			this.update(UPDATE_IN_SEC); // pixel pro Sekunde ist velocity eines charakters
+			this.accumulator -= UPDATE_IN_SEC;
 		}
 
 		this.keyboard.action(this, dtInSec);

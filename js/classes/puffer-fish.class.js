@@ -7,6 +7,7 @@ class PufferFish extends MoveableEntity {
 		width: 50,
 		height: 40,
 	};
+	wasHit = false;
 
 	constructor(position, color = "green", size, speed) {
 		const imgSrc = `/assets/used/enemies/puffer-fish/${color}/swim/1.png`;
@@ -100,10 +101,15 @@ class PufferFish extends MoveableEntity {
 		}
 	}
 
+	despawn() {
+		this.world.enemies = this.world.enemies.filter((fish) => fish !== this);
+	}
+
 	update(ft) {
+		if (this.wasHit) this.despawn();
 		if (this.currentMovementInterval) return;
 		this.currentMovementInterval = setInterval(() => {
-			this.moveRandom(FPS_INTERVAL / 1000);
+			this.moveRandom(ft);
 		}, PUFFERFISH_MOVEMENT_INTERVAL);
 	}
 }
