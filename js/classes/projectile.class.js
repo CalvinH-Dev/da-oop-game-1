@@ -2,7 +2,11 @@ class Projectile extends MoveableEntity {
 	waterFriction = 10;
 	velocity = {};
 	gravity;
-	constructor(position, size, speed, imgSrc, acceleration, gravity = 9.81) {
+	maxLifeTimeInSec = 10;
+	livedInSec = 0;
+	direction;
+
+	constructor(position, size, speed, imgSrc, acceleration, direction, gravity = 9.81) {
 		super(position, size, speed, imgSrc);
 		this.acceleration.x = acceleration.x;
 		this.acceleration.y = acceleration.y;
@@ -11,6 +15,7 @@ class Projectile extends MoveableEntity {
 		this.velocity.y = this.speedY;
 		this.hitbox.width = this.width;
 		this.hitbox.height = this.height;
+		this.direction = direction;
 		this.collision = true;
 	}
 
@@ -34,13 +39,21 @@ class Projectile extends MoveableEntity {
 	}
 
 	update(ft) {
-		this.acceleration.x -= this.waterFriction * ft;
-		this.velocity.x += this.acceleration.x;
-		this.x += this.velocity.x * ft;
+		this.livedInSec += ft;
+
+		this.calcMovement(ft);
+
 		CalcFunctions.checkHitByProjectile(this, true, this.x, this.y, (obj) => {
 			obj.wasHit = true;
 		});
 
-		if (this.velocity.x <= 5 || this.shouldDespawn()) this.despawn();
+		if (this.velocity.x <= 5 || this.shouldDespawn() || this.livedInSec >= this.maxLifeTimeInSec)
+			this.despawn();
+	}
+
+	calcMovement(ft) {
+		this.acceleration.x -= this.waterFriction * ft;
+		this.velocity.x += this.acceleration.x;
+		this.x += this.velocity.x * ft;
 	}
 }

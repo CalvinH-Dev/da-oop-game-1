@@ -99,21 +99,28 @@ class Character extends MoveableEntity {
 		}
 	}
 
+	bubblePosition() {
+		if (this.direction === "L") {
+			return {
+				x: this.x + this.hitbox.offsetX - this.hitbox.width / 2,
+				y: this.y + this.hitbox.offsetY + this.hitbox.height / 2 + -25,
+			};
+		} else {
+			return {
+				x: this.x + this.hitbox.offsetX + this.hitbox.width,
+				y: this.y + this.hitbox.offsetY + this.hitbox.height / 2 + -25,
+			};
+		}
+	}
+
 	idleAfterAnimation() {
 		this.world.keyboard.enabled = true;
 		this.idle();
-		const bubbleProj = new Projectile(
-			{
-				x: this.x + this.hitbox.offsetX + this.hitbox.width,
-				y: this.y + this.hitbox.offsetY + this.hitbox.height / 2 + -25,
-			},
-			{ width: 50, height: 50 },
-			{ y: 100, x: 100 },
-			"assets/used/character/attacks/Bubble.png",
-			{ y: 0, x: 15 },
-		);
+		const direction = this.direction === "L" ? "L" : "R";
+		const bubbleProj = new Bubble(this.bubblePosition(), direction);
 		bubbleProj.world = this.world;
 		this.world.projectiles.push(bubbleProj);
+		this.animate("idle");
 	}
 
 	trackIdleTime() {

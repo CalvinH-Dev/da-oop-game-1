@@ -88,4 +88,8 @@ class ImageHub {
 	}
 
 	static getPufferFish() {}
+
+	static getBubbleImage() {
+		return "assets/used/character/attacks/Bubble.png";
+	}
 }

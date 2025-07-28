@@ -1,83 +1,71 @@
-const characterLv1 = new Character({ x: 1000, y: 200 });
+const characterLv1 = new Character({ x: 300, y: 200 });
 characterLv1.world = world;
 
 const pfColorsLv1 = ["green", "orange", "red"];
 
 const enemiesLv1 = [
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * (3840 - 50), y: Math.random() * (1080 - 50) },
+		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
 		pfColorsLv1[Math.floor(Math.random() * 3)],
 	),
 ];

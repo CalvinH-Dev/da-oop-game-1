@@ -22,9 +22,9 @@ class PufferFish extends MoveableEntity {
 		this.direction = "L";
 		this.color = color;
 		this.applyColor();
-		this.collision = true;
+		// this.collision = true;
 
-		// this.changeSize();
+		this.changeSize();
 		this.move();
 	}
 
