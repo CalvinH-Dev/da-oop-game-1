@@ -106,6 +106,7 @@ class Character extends MoveableEntity {
 	}
 
 	animate(name) {
+		if (this.animationLocked) return;
 		switch (name) {
 			case "idle":
 				super.animate("idle", ImageHub.getCharacterIdleImages());
@@ -126,7 +127,7 @@ class Character extends MoveableEntity {
 				break;
 
 			case "poisoned":
-				this.world.keyboard.enabled = false;
+				this.animationLocked = true;
 				super.animate("poisoned", ImageHub.getCharacterPoisonedImages());
 				break;
 		}
@@ -172,8 +173,12 @@ class Character extends MoveableEntity {
 				this.shootBubble();
 			} else if (this.currentAnimation === "poisoned") {
 				this.status = "normal";
-				this.world.keyboard.enabled = true;
+				this.animationLocked = false;
 				this.idle();
+			} else if (this.currentAnimation === "idle" && this.animationCount > 1) {
+				this.longIdle();
+			} else if (this.currentAnimation === "longIdle") {
+				this.animationState = this.frames.length - 1;
 			} else {
 				this.animationCount++;
 			}

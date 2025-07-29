@@ -5,6 +5,7 @@ class Entity {
 	currentAnimation;
 	lastAnimationInterval;
 	animationCount;
+	animationLocked = false;
 	frames;
 
 	collisionDamageCooldownInSec = 0;

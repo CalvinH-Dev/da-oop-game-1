@@ -7,7 +7,7 @@ class PufferFish extends MoveableEntity {
 		width: 50,
 		height: 40,
 	};
-	maxCollisionDamageCooldownInSec = 1000;
+	maxCollisionDamageCooldownInSec = 2;
 
 	wasHit = false;
 
