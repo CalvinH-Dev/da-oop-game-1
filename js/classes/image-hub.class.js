@@ -77,6 +77,15 @@ class ImageHub {
 		];
 	}
 
+	static getCharacterPoisonedImages() {
+		return [
+			"/assets/used/character/statuses/poisoned/1.png",
+			"/assets/used/character/statuses/poisoned/2.png",
+			"/assets/used/character/statuses/poisoned/3.png",
+			"/assets/used/character/statuses/poisoned/4.png",
+		];
+	}
+
 	static getPufferFishSwimImages(color) {
 		return [
 			`/assets/used/enemies/puffer-fish/${color}/swim/1.png`,

@@ -7,7 +7,11 @@ class PufferFish extends MoveableEntity {
 		width: 50,
 		height: 40,
 	};
+	maxCollisionDamageCooldownInSec = 1000;
+
 	wasHit = false;
+
+	isFriendly = false;
 
 	constructor(position, color = "green", size, speed) {
 		const imgSrc = `/assets/used/enemies/puffer-fish/${color}/swim/1.png`;
@@ -106,10 +110,20 @@ class PufferFish extends MoveableEntity {
 	}
 
 	update(ft) {
+		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
 		if (this.wasHit) this.despawn();
 		if (this.currentMovementInterval) return;
 		this.currentMovementInterval = setInterval(() => {
 			this.moveRandom(ft);
 		}, PUFFERFISH_MOVEMENT_INTERVAL);
+	}
+
+	effectOnCollision(obj) {
+		if (obj.isFriendly == this.isFriendly) return;
+		if (this.collisionDamageCooldownInSec === 0) {
+			obj.status = "poisoned";
+			console.log("Spieler getroffen!");
+			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
+		}
 	}
 }

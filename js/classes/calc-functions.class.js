@@ -51,27 +51,37 @@ class CalcFunctions {
 		const aBox = CalcFunctions.calcCollisionBox(x, y, obj.hitbox);
 
 		for (const enemy of world.enemies) {
-			if (!obj.collision || !enemy.collision || isColliding || obj === enemy) continue;
-
 			const bBox = enemy.getHitbox();
-			isColliding = CalcFunctions.hitboxesColliding(aBox, bBox);
+			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
+			if (collided && obj.isFriendly) {
+				obj.effectOnCollision(enemy);
+			}
+
+			if (!obj.collision || !enemy.collision || isColliding || obj === enemy) continue;
+			isColliding = collided;
 		}
 
 		for (const asset of world.assets) {
-			if (!obj.collision || !asset.collision || isColliding || obj === asset) continue;
-
 			const bBox = asset.getHitbox();
-			isColliding = CalcFunctions.hitboxesColliding(aBox, bBox);
+			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
+			if (collided && obj.isFriendly) {
+				obj.effectOnCollision(asset);
+			}
+
+			if (!obj.collision || !asset.collision || isColliding || obj === asset) continue;
+			isColliding = collided;
 		}
 
-		if (
-			obj.collision &&
-			world.characterRef.collision &&
-			!isColliding &&
-			obj != world.characterRef
-		) {
+		if (obj != world.characterRef) {
 			const bBox = world.characterRef.getHitbox();
-			isColliding = CalcFunctions.hitboxesColliding(aBox, bBox);
+			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
+			if (collided && !obj.isFriendly) {
+				obj.effectOnCollision(world.characterRef);
+			}
+
+			if (obj.collision && world.characterRef.collision) {
+				isColliding = collided;
+			}
 		}
 
 		return isColliding;

@@ -5,9 +5,11 @@ class Projectile extends MoveableEntity {
 	maxLifeTimeInSec = 10;
 	livedInSec = 0;
 	direction;
+	castedBy = {};
 
-	constructor(position, size, speed, imgSrc, acceleration, direction, gravity = 9.81) {
+	constructor(castedBy, position, size, speed, imgSrc, acceleration, direction, gravity = 9.81) {
 		super(position, size, speed, imgSrc);
+		this.castedBy = castedBy;
 		this.acceleration.x = acceleration.x;
 		this.acceleration.y = acceleration.y;
 		this.gravity = gravity;
@@ -43,12 +45,20 @@ class Projectile extends MoveableEntity {
 
 		this.calcMovement(ft);
 
-		CalcFunctions.checkHitByProjectile(this, true, this.x, this.y, (obj) => {
-			obj.wasHit = true;
-		});
+		CalcFunctions.checkHitByProjectile(
+			this,
+			this.castedBy.isFriendly,
+			this.x,
+			this.y,
+			this.effectOnHit,
+		);
 
 		if (this.velocity.x <= 5 || this.shouldDespawn() || this.livedInSec >= this.maxLifeTimeInSec)
 			this.despawn();
+	}
+
+	effectOnHit(obj) {
+		obj.wasHit = true;
 	}
 
 	calcMovement(ft) {

@@ -5,6 +5,9 @@ class Entity {
 	currentAnimation;
 	lastAnimationInterval;
 	animationCount;
+	collisionDamageCooldownInSec = 0;
+
+	isFriendly = false;
 
 	width;
 	height;
@@ -18,6 +21,8 @@ class Entity {
 		width: 0,
 		height: 0,
 	};
+
+	status = "normal";
 
 	world;
 
@@ -123,6 +128,9 @@ class Entity {
 		this.animationCount = 0;
 		return setInterval(() => {
 			this.imgRef = this.cachedImages[imgArr[this.animationState]];
+			if (!this.imgRef) {
+				debugger;
+			}
 			if (this.animationState >= imgArr.length - 1) {
 				this.resetAnimationState();
 				callbackEndEffect();
@@ -147,6 +155,7 @@ class Entity {
 			applied *= multiplier;
 			this.height *= multiplier;
 			this.width *= multiplier;
+			CalcFunctions.checkCollision(this, this.x, this.y);
 			if (applied <= minSize) {
 				callbackMin();
 				multiplier += 2 * changeRatio;
@@ -160,4 +169,6 @@ class Entity {
 	}
 
 	update(ft) {}
+
+	effectOnCollision() {}
 }

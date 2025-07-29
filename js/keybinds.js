@@ -36,15 +36,16 @@ window.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("keyup", (event) => {
-	if (
-		(event.key === "ArrowLeft" ||
-			event.key === "ArrowRight" ||
-			event.key === "ArrowUp" ||
-			event.key === "ArrowDown") &&
-		keyboard.enabled
-	) {
-		world.characterRef.animate("idle");
-	}
+	// if (
+	// 	(event.key === "ArrowLeft" ||
+	// 		event.key === "ArrowRight" ||
+	// 		event.key === "ArrowUp" ||
+	// 		event.key === "ArrowDown") &&
+	// 	keyboard.enabled &&
+	// 	world.characterRef.status === "normal"
+	// ) {
+	// 	world.characterRef.animate("idle");
+	// }
 	switch (event.key) {
 		case "ArrowLeft":
 			keyboard.LEFT = false;

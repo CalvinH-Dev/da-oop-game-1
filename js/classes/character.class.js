@@ -7,6 +7,8 @@ class Character extends MoveableEntity {
 		height: 75,
 	};
 
+	isFriendly = true;
+
 	constructor(position, size, speed) {
 		const scale = 1;
 		const imgSrc = "/assets/used/character/idle/1.png";
@@ -69,7 +71,7 @@ class Character extends MoveableEntity {
 			this.imgRef = this.cachedImages[this.bubbleImages[this.animationState]];
 			if (this.animationState >= this.bubbleImages.length - 1) {
 				this.resetAnimationState();
-				this.idleAfterAnimation();
+				this.shootBubble();
 			} else {
 				this.animationState++;
 			}
@@ -113,11 +115,11 @@ class Character extends MoveableEntity {
 		}
 	}
 
-	idleAfterAnimation() {
+	shootBubble() {
 		this.world.keyboard.enabled = true;
 		this.idle();
 		const direction = this.direction === "L" ? "L" : "R";
-		const bubbleProj = new Bubble(this.bubblePosition(), direction);
+		const bubbleProj = new Bubble(this, this.bubblePosition(), direction);
 		bubbleProj.world = this.world;
 		this.world.projectiles.push(bubbleProj);
 		this.animate("idle");
@@ -131,22 +133,30 @@ class Character extends MoveableEntity {
 
 	moveRight(dt) {
 		super.moveRight(dt);
-		this.animate("swim");
+		if (this.status === "normal") {
+			this.animate("swim");
+		}
 	}
 
 	moveLeft(dt) {
 		super.moveLeft(dt);
-		this.animate("swim");
+		if (this.status === "normal") {
+			this.animate("swim");
+		}
 	}
 
 	moveDown(dt) {
 		super.moveDown(dt);
-		this.animate("swim");
+		if (this.status === "normal") {
+			this.animate("swim");
+		}
 	}
 
 	moveUp(dt) {
 		super.moveUp(dt);
-		this.animate("swim");
+		if (this.status === "normal") {
+			this.animate("swim");
+		}
 	}
 
 	animate(name) {
@@ -156,6 +166,9 @@ class Character extends MoveableEntity {
 
 				break;
 			case "swim":
+				if (this.currentAnimation === "poisoned") {
+					console.log("hier");
+				}
 				super.animate("swim", this.animateSwim.bind(this));
 
 				break;
@@ -191,11 +204,33 @@ class Character extends MoveableEntity {
 		this.longIdleImages = ImageHub.getCharacterLongIdleImages();
 		this.longIdleRepeatImages = ImageHub.getCharacterLongIdleRepeatImages();
 		this.bubbleImages = ImageHub.getCharacterBubbleImages();
+		this.poisonedImages = ImageHub.getCharacterPoisonedImages();
 
 		super.cacheImages(this.swimImages);
 		super.cacheImages(this.idleImages);
 		super.cacheImages(this.longIdleImages);
 		super.cacheImages(this.longIdleRepeatImages);
 		super.cacheImages(this.bubbleImages);
+		super.cacheImages(this.poisonedImages);
+	}
+
+	update(ft) {
+		if (this.status === "poisoned" && !this.imgRef.src.includes("poisoned")) {
+			this.imgRef = this.cachedImages[this.poisonedImages[0]];
+			console.log(this.imgRef.src);
+			console.log("SPieler ist vergiftet!");
+			this.currentAnimation = "poisoned";
+			const poisonedInterval = setInterval(() => {
+				this.imgRef = this.cachedImages[this.poisonedImages[this.animationState]];
+				if (this.animationState >= this.poisonedImages.length - 1) {
+					this.status = "normal";
+					this.stopAnimation();
+					this.idle();
+				} else {
+					this.animationState++;
+				}
+			}, ANIMATION_INTERVAL);
+			this.lastAnimationInterval = poisonedInterval;
+		}
 	}
 }
