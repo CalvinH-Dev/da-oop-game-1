@@ -7,6 +7,7 @@ class Entity {
 	animationCount;
 	animationLocked = false;
 	frames;
+	changeSizeInterval;
 
 	collisionDamageCooldownInSec = 0;
 
@@ -25,7 +26,7 @@ class Entity {
 		height: 0,
 	};
 
-	status = "normal";
+	statuses = [];
 
 	world;
 
@@ -133,7 +134,7 @@ class Entity {
 		let multiplier = 1 + changeRatio;
 		let applied = 1;
 
-		setInterval(() => {
+		this.changeSizeInterval = setInterval(() => {
 			if (this.hitbox.offsetX !== undefined) {
 				this.hitbox.width *= multiplier;
 				this.hitbox.height *= multiplier;

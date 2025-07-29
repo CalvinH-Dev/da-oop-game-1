@@ -1,12 +1,12 @@
 class Bubble extends Projectile {
 	maxLifeTimeInSec = 10;
 
-	constructor(castedBy, position, direction) {
+	constructor(castedBy, position, direction, damage = 15) {
 		const size = { width: 50, height: 50 };
 		const velocity = { y: 100, x: 100 };
 		const imgSrc = ImageHub.getBubbleImage();
 		const acceleration = { y: 0, x: 15 };
-		super(castedBy, position, size, velocity, imgSrc, acceleration, direction);
+		super(castedBy, position, size, velocity, imgSrc, acceleration, direction, damage);
 	}
 
 	calcMovement(ft) {
@@ -17,5 +17,9 @@ class Bubble extends Projectile {
 		} else {
 			this.x += this.velocity.x * ft;
 		}
+	}
+
+	effectOnHit(obj) {
+		obj.onHit(this.damage);
 	}
 }

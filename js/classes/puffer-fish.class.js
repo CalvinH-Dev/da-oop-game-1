@@ -10,6 +10,7 @@ class PufferFish extends MoveableEntity {
 	maxCollisionDamageCooldownInSec = 2;
 
 	wasHit = false;
+	hp = 20;
 
 	isFriendly = false;
 
@@ -105,11 +106,13 @@ class PufferFish extends MoveableEntity {
 
 	despawn() {
 		this.world.enemies = this.world.enemies.filter((fish) => fish !== this);
+		clearInterval(this.currentMovementInterval);
+		clearInterval(this.changeSizeInterval);
 	}
 
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
-		if (this.wasHit) this.despawn();
+		if (this.hp <= 0) this.onDead();
 		if (this.currentMovementInterval) return;
 		this.currentMovementInterval = setInterval(() => {
 			this.moveRandom(ft);
@@ -119,8 +122,9 @@ class PufferFish extends MoveableEntity {
 	effectOnCollision(obj) {
 		if (obj.isFriendly == this.isFriendly) return;
 		if (this.collisionDamageCooldownInSec === 0) {
-			obj.status = "poisoned";
-			obj.animate("poisoned");
+			obj.statuses.push("poisoned");
+			obj.poison.applied = new Date().getTime() / 1000;
+			obj.onHit(10);
 			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 		}
 	}
@@ -128,5 +132,15 @@ class PufferFish extends MoveableEntity {
 	animationTick(ft) {
 		this.imgRef = this.cachedImages[this.frames[this.animationState]];
 		this.animationState = (this.animationState + 1) % this.frames.length;
+	}
+
+	onDead() {
+		this.despawn();
+	}
+
+	onHit(damage) {
+		if (Number(damage)) {
+			this.hp -= damage;
+		}
 	}
 }

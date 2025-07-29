@@ -70,4 +70,8 @@ class MoveableEntity extends Entity {
 			this.y = newY;
 		}
 	}
+
+	onDead() {}
+
+	onHit() {}
 }

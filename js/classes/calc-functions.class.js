@@ -87,7 +87,7 @@ class CalcFunctions {
 		return isColliding;
 	}
 
-	static checkHitByProjectile(projectile, isFriendly, x, y, hitCallback = () => {}) {
+	static checkHitByProjectile(projectile, isFriendly, x, y) {
 		const world = projectile.world;
 
 		const aBox = CalcFunctions.calcCollisionBox(x, y, projectile.hitbox);
@@ -96,7 +96,7 @@ class CalcFunctions {
 			for (const enemy of world.enemies) {
 				const bBox = enemy.getHitbox();
 				if (CalcFunctions.hitboxesColliding(aBox, bBox)) {
-					hitCallback(enemy);
+					projectile.effectOnHit(enemy);
 					if (projectile.collision) {
 						return projectile.despawn();
 					}

@@ -86,6 +86,17 @@ class ImageHub {
 		];
 	}
 
+	static getCharacterIsHurtImages() {
+		return [
+			"/assets/used/character/statuses/hurt/1.png",
+			"/assets/used/character/statuses/hurt/2.png",
+			"/assets/used/character/statuses/hurt/1.png",
+			"/assets/used/character/statuses/hurt/2.png",
+			"/assets/used/character/statuses/hurt/1.png",
+			"/assets/used/character/statuses/hurt/2.png",
+		];
+	}
+
 	static getPufferFishSwimImages(color) {
 		return [
 			`/assets/used/enemies/puffer-fish/${color}/swim/1.png`,

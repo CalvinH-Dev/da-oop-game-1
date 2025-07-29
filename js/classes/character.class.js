@@ -8,6 +8,11 @@ class Character extends MoveableEntity {
 	};
 
 	isFriendly = true;
+	hp = 100;
+	poison = {
+		lastTick: 0,
+		applied: 0,
+	};
 
 	constructor(position, size, speed) {
 		const scale = 1;
@@ -79,30 +84,23 @@ class Character extends MoveableEntity {
 
 	moveRight(dt) {
 		super.moveRight(dt);
-		if (this.status === "normal") {
-			this.animate("swim");
-		}
+		this.animate("swim");
 	}
 
 	moveLeft(dt) {
 		super.moveLeft(dt);
-		if (this.status === "normal") {
-			this.animate("swim");
-		}
+
+		this.animate("swim");
 	}
 
 	moveDown(dt) {
 		super.moveDown(dt);
-		if (this.status === "normal") {
-			this.animate("swim");
-		}
+		this.animate("swim");
 	}
 
 	moveUp(dt) {
 		super.moveUp(dt);
-		if (this.status === "normal") {
-			this.animate("swim");
-		}
+		this.animate("swim");
 	}
 
 	animate(name) {
@@ -130,6 +128,10 @@ class Character extends MoveableEntity {
 				this.animationLocked = true;
 				super.animate("poisoned", ImageHub.getCharacterPoisonedImages());
 				break;
+			case "hurt":
+				this.animationLocked = true;
+				super.animate("hurt", ImageHub.getCharacterIsHurtImages());
+				break;
 		}
 	}
 
@@ -152,6 +154,7 @@ class Character extends MoveableEntity {
 		this.longIdleRepeatImages = ImageHub.getCharacterLongIdleRepeatImages();
 		this.bubbleImages = ImageHub.getCharacterBubbleImages();
 		this.poisonedImages = ImageHub.getCharacterPoisonedImages();
+		this.isHurtImages = ImageHub.getCharacterIsHurtImages();
 
 		super.cacheImages(this.swimImages);
 		super.cacheImages(this.idleImages);
@@ -159,9 +162,27 @@ class Character extends MoveableEntity {
 		super.cacheImages(this.longIdleRepeatImages);
 		super.cacheImages(this.bubbleImages);
 		super.cacheImages(this.poisonedImages);
+		super.cacheImages(this.isHurtImages);
 	}
 
-	update(ft) {}
+	update(ft) {
+		if (this.hp <= 0) this.onDead();
+		if (this.statuses.includes("poisoned")) {
+			this.onPoisoned();
+		}
+	}
+
+	onPoisoned() {
+		const now = new Date().getTime() / 1000;
+		if (now - this.poison.lastTick >= POISON_TICK_TIME_IN_SEC) {
+			this.poison.lastTick = now;
+			this.animate("poisoned");
+		}
+
+		if (now - this.poison.applied >= POISON_TICK_TIME_IN_SEC * 5) {
+			this.statuses = this.statuses.filter((status) => status != "poisoned");
+		}
+	}
 
 	animationTick(ft) {
 		this.imgRef = this.cachedImages[this.frames[this.animationState]];
@@ -171,8 +192,10 @@ class Character extends MoveableEntity {
 			// End of Animation
 			if (this.currentAnimation === "bubble") {
 				this.shootBubble();
+			} else if (this.currentAnimation === "hurt") {
+				this.animationLocked = false;
+				this.idle();
 			} else if (this.currentAnimation === "poisoned") {
-				this.status = "normal";
 				this.animationLocked = false;
 				this.idle();
 			} else if (this.currentAnimation === "idle" && this.animationCount > 1) {
@@ -183,5 +206,18 @@ class Character extends MoveableEntity {
 				this.animationCount++;
 			}
 		}
+	}
+
+	onDead() {
+		console.log("Spieler gestorben!");
+		cancelAnimationFrame(this.world.stop);
+	}
+
+	onHit(damage) {
+		if (Number(damage)) {
+			this.hp -= damage;
+		}
+		this.animate("hurt");
+		this.animationLocked = true;
 	}
 }

@@ -6,8 +6,19 @@ class Projectile extends MoveableEntity {
 	livedInSec = 0;
 	direction;
 	castedBy = {};
+	damage;
 
-	constructor(castedBy, position, size, speed, imgSrc, acceleration, direction, gravity = 9.81) {
+	constructor(
+		castedBy,
+		position,
+		size,
+		speed,
+		imgSrc,
+		acceleration,
+		direction,
+		damage = 0,
+		gravity = 9.81,
+	) {
 		super(position, size, speed, imgSrc);
 		this.castedBy = castedBy;
 		this.acceleration.x = acceleration.x;
@@ -19,6 +30,7 @@ class Projectile extends MoveableEntity {
 		this.hitbox.height = this.height;
 		this.direction = direction;
 		this.collision = true;
+		this.damage = damage;
 	}
 
 	despawn() {
@@ -45,21 +57,13 @@ class Projectile extends MoveableEntity {
 
 		this.calcMovement(ft);
 
-		CalcFunctions.checkHitByProjectile(
-			this,
-			this.castedBy.isFriendly,
-			this.x,
-			this.y,
-			this.effectOnHit,
-		);
+		CalcFunctions.checkHitByProjectile(this, this.castedBy.isFriendly, this.x, this.y);
 
 		if (this.velocity.x <= 5 || this.shouldDespawn() || this.livedInSec >= this.maxLifeTimeInSec)
 			this.despawn();
 	}
 
-	effectOnHit(obj) {
-		obj.wasHit = true;
-	}
+	effectOnHit(obj) {}
 
 	calcMovement(ft) {
 		this.acceleration.x -= this.waterFriction * ft;
