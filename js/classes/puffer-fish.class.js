@@ -15,6 +15,7 @@ class PufferFish extends MoveableEntity {
 
 	constructor(position, color = "green", size, speed) {
 		const imgSrc = `/assets/used/enemies/puffer-fish/${color}/swim/1.png`;
+		console.log(imgSrc);
 		if (!size) {
 			size = { width: 50, height: 50 };
 		}
@@ -25,8 +26,9 @@ class PufferFish extends MoveableEntity {
 		super(position, size, speed, imgSrc);
 		this.direction = "L";
 		this.color = color;
-		this.applyColor();
 		// this.collision = true;
+		this.applyColor();
+		this.swim();
 
 		this.changeSize();
 		this.move();
@@ -35,9 +37,7 @@ class PufferFish extends MoveableEntity {
 	defaultAnimation() {}
 
 	applyColor() {
-		this.stopAnimation();
 		this.getColorImages();
-		this.animate("swim");
 	}
 
 	move() {
@@ -47,7 +47,7 @@ class PufferFish extends MoveableEntity {
 	}
 
 	swim() {
-		return this.buildBasicAnimation(this.swimImages);
+		this.animate("swim");
 	}
 
 	moveRandom(ft) {
@@ -66,8 +66,7 @@ class PufferFish extends MoveableEntity {
 	animate(name) {
 		switch (name) {
 			case "swim":
-				super.animate("swim", this.swim.bind(this));
-
+				super.animate("swim", this.swimImages);
 				break;
 		}
 	}
@@ -125,5 +124,10 @@ class PufferFish extends MoveableEntity {
 			console.log("Spieler getroffen!");
 			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 		}
+	}
+
+	animationTick(ft) {
+		this.imgRef = this.cachedImages[this.frames[this.animationState]];
+		this.animationState = (this.animationState + 1) % this.frames.length;
 	}
 }

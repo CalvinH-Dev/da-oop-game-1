@@ -1,6 +1,7 @@
 class World {
 	stop;
 	accumulator = 0;
+	animationAccumulator = 0;
 	before = 0;
 	canvasRef;
 	canvasCtx;
@@ -55,10 +56,16 @@ class World {
 
 		const dtInSec = dt / 1000;
 		this.accumulator += dtInSec;
+		this.animationAccumulator += dtInSec;
 
 		while (this.accumulator >= UPDATE_IN_SEC) {
 			this.update(UPDATE_IN_SEC); // pixel pro Sekunde ist velocity eines charakters
 			this.accumulator -= UPDATE_IN_SEC;
+		}
+
+		if (this.animationAccumulator >= ANIMATION_IN_SEC) {
+			this.animationTick(ANIMATION_IN_SEC);
+			this.animationAccumulator -= ANIMATION_IN_SEC;
 		}
 
 		this.keyboard.action(this, dtInSec);
@@ -101,6 +108,45 @@ class World {
 	updateAssets(ft) {
 		for (const asset of this.assets) {
 			asset.update(ft);
+		}
+	}
+
+	animationTick(ft) {
+		this.animateAll(ft);
+	}
+
+	animateAll(ft) {
+		const animateFns = [
+			this.animateProjectiles.bind(this),
+			this.animateCharacter.bind(this),
+			this.animateEnemies.bind(this),
+			this.animateAssets.bind(this),
+		];
+
+		for (const animateFn of animateFns) {
+			animateFn(ft);
+		}
+	}
+
+	animateCharacter(ft) {
+		this.characterRef.animationTick(ft);
+	}
+
+	animateProjectiles(ft) {
+		for (const projectile of this.projectiles) {
+			projectile.animationTick(ft);
+		}
+	}
+
+	animateEnemies(ft) {
+		for (const enemy of this.enemies) {
+			enemy.animationTick(ft);
+		}
+	}
+
+	animateAssets(ft) {
+		for (const asset of this.assets) {
+			asset.animationTick(ft);
 		}
 	}
 

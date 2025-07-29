@@ -5,6 +5,8 @@ class Entity {
 	currentAnimation;
 	lastAnimationInterval;
 	animationCount;
+	frames;
+
 	collisionDamageCooldownInSec = 0;
 
 	isFriendly = false;
@@ -107,38 +109,20 @@ class Entity {
 		);
 	}
 
-	animate(name, callback) {
+	animate(name, frames) {
 		if (this.currentAnimation === name) return;
 		this.stopAnimation();
 		this.currentAnimation = name;
-		this.lastAnimationInterval = callback();
+		this.frames = frames;
 	}
 
 	stopAnimation() {
 		this.currentAnimation = undefined;
-		clearInterval(this.lastAnimationInterval);
 		this.resetAnimationState();
 	}
 
 	resetAnimationState() {
 		this.animationState = 0;
-	}
-
-	buildBasicAnimation(imgArr, callbackEndEffect = () => {}) {
-		this.animationCount = 0;
-		return setInterval(() => {
-			this.imgRef = this.cachedImages[imgArr[this.animationState]];
-			if (!this.imgRef) {
-				debugger;
-			}
-			if (this.animationState >= imgArr.length - 1) {
-				this.resetAnimationState();
-				callbackEndEffect();
-				this.animationCount++;
-			} else {
-				this.animationState++;
-			}
-		}, ANIMATION_INTERVAL);
 	}
 
 	changeSize(options = {}, callbacks = {}) {
@@ -169,6 +153,8 @@ class Entity {
 	}
 
 	update(ft) {}
+
+	animationTick(ft) {}
 
 	effectOnCollision() {}
 }

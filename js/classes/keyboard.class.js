@@ -25,8 +25,8 @@ class Keyboard {
 			character.moveDown(dt);
 		} else if (this.D) {
 			character.bubble();
-		} else if (character.currentAnimation !== "idle" && character.status === "normal") {
-			character.stopAnimation();
+		} else {
+			character.idle();
 		}
 	}
 }

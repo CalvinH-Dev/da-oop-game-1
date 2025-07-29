@@ -29,55 +29,6 @@ class Character extends MoveableEntity {
 		this.idle();
 	}
 
-	animateSwim() {
-		return this.buildBasicAnimation(this.swimImages);
-	}
-
-	animateIdle() {
-		return this.buildBasicAnimation(this.idleImages, this.trackIdleTime.bind(this));
-	}
-
-	animateLongIdle() {
-		const imgArr = this.longIdleImages;
-		this.animationCount = 0;
-		return setInterval(() => {
-			this.imgRef = this.cachedImages[imgArr[this.animationState]];
-			if (this.animationState >= imgArr.length - 1) {
-				this.animate("repeatLongIdle");
-				this.animationCount++;
-				this.resetAnimationState();
-			} else {
-				this.animationState++;
-			}
-		}, ANIMATION_INTERVAL);
-	}
-
-	animateRepeatLongIdle() {
-		const imgArr = this.longIdleRepeatImages;
-		this.animationCount = 0;
-		return setInterval(() => {
-			this.imgRef = this.cachedImages[imgArr[this.animationState]];
-			if (this.animationState >= imgArr.length - 1) {
-				this.animationCount++;
-				this.resetAnimationState();
-			} else {
-				this.animationState++;
-			}
-		}, ANIMATION_INTERVAL * 3);
-	}
-
-	animateBubble() {
-		return setInterval(() => {
-			this.imgRef = this.cachedImages[this.bubbleImages[this.animationState]];
-			if (this.animationState >= this.bubbleImages.length - 1) {
-				this.resetAnimationState();
-				this.shootBubble();
-			} else {
-				this.animationState++;
-			}
-		}, 100);
-	}
-
 	swim() {
 		this.animate("swim");
 	}
@@ -117,12 +68,11 @@ class Character extends MoveableEntity {
 
 	shootBubble() {
 		this.world.keyboard.enabled = true;
-		this.idle();
 		const direction = this.direction === "L" ? "L" : "R";
 		const bubbleProj = new Bubble(this, this.bubblePosition(), direction);
 		bubbleProj.world = this.world;
 		this.world.projectiles.push(bubbleProj);
-		this.animate("idle");
+		this.idle();
 	}
 
 	trackIdleTime() {
@@ -162,26 +112,21 @@ class Character extends MoveableEntity {
 	animate(name) {
 		switch (name) {
 			case "idle":
-				super.animate("idle", this.animateIdle.bind(this));
+				super.animate("idle", ImageHub.getCharacterIdleImages());
 
 				break;
 			case "swim":
-				if (this.currentAnimation === "poisoned") {
-					console.log("hier");
-				}
-				super.animate("swim", this.animateSwim.bind(this));
+				super.animate("swim", ImageHub.getCharacterSwimImages());
 
 				break;
 			case "longIdle":
-				super.animate("longIdle", this.animateLongIdle.bind(this));
+				super.animate("longIdle", ImageHub.getCharacterLongIdleImages());
 
 				break;
-			case "repeatLongIdle":
-				super.animate("repeatLongIdle", this.animateRepeatLongIdle.bind(this));
 
-				break;
 			case "bubble":
-				super.animate("bubble", this.animateBubble.bind(this));
+				this.world.keyboard.enabled = false;
+				super.animate("bubble", ImageHub.getCharacterBubbleImages());
 				break;
 		}
 	}
@@ -215,22 +160,33 @@ class Character extends MoveableEntity {
 	}
 
 	update(ft) {
-		if (this.status === "poisoned" && !this.imgRef.src.includes("poisoned")) {
-			this.imgRef = this.cachedImages[this.poisonedImages[0]];
-			console.log(this.imgRef.src);
-			console.log("SPieler ist vergiftet!");
-			this.currentAnimation = "poisoned";
-			const poisonedInterval = setInterval(() => {
-				this.imgRef = this.cachedImages[this.poisonedImages[this.animationState]];
-				if (this.animationState >= this.poisonedImages.length - 1) {
-					this.status = "normal";
-					this.stopAnimation();
-					this.idle();
-				} else {
-					this.animationState++;
-				}
-			}, ANIMATION_INTERVAL);
-			this.lastAnimationInterval = poisonedInterval;
+		// if (this.status === "poisoned" && !this.imgRef.src.includes("poisoned")) {
+		// 	this.imgRef = this.cachedImages[this.poisonedImages[0]];
+		// 	console.log(this.imgRef.src);
+		// 	console.log("SPieler ist vergiftet!");
+		// 	this.currentAnimation = "poisoned";
+		// 	const poisonedInterval = setInterval(() => {
+		// 		this.imgRef = this.cachedImages[this.poisonedImages[this.animationState]];
+		// 		if (this.animationState >= this.poisonedImages.length - 1) {
+		// 			this.status = "normal";
+		// 			this.stopAnimation();
+		// 			this.idle();
+		// 		} else {
+		// 			this.animationState++;
+		// 		}
+		// 	}, ANIMATION_INTERVAL);
+		// 	this.lastAnimationInterval = poisonedInterval;
+		// }
+	}
+
+	animationTick(ft) {
+		this.imgRef = this.cachedImages[this.frames[this.animationState]];
+		this.animationState = (this.animationState + 1) % this.frames.length;
+
+		if (this.animationState === 0) {
+			if (this.currentAnimation === "bubble") {
+				this.shootBubble();
+			}
 		}
 	}
 }
