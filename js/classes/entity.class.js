@@ -114,6 +114,7 @@ class Entity {
 		this.stopAnimation();
 		this.currentAnimation = name;
 		this.frames = frames;
+		this.animationCount = 0;
 	}
 
 	stopAnimation() {

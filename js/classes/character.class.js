@@ -75,11 +75,7 @@ class Character extends MoveableEntity {
 		this.idle();
 	}
 
-	trackIdleTime() {
-		if (this.animationCount > 2) {
-			this.longIdle();
-		}
-	}
+	trackIdleTime() {}
 
 	moveRight(dt) {
 		super.moveRight(dt);
@@ -128,6 +124,11 @@ class Character extends MoveableEntity {
 				this.world.keyboard.enabled = false;
 				super.animate("bubble", ImageHub.getCharacterBubbleImages());
 				break;
+
+			case "poisoned":
+				this.world.keyboard.enabled = false;
+				super.animate("poisoned", ImageHub.getCharacterPoisonedImages());
+				break;
 		}
 	}
 
@@ -159,33 +160,22 @@ class Character extends MoveableEntity {
 		super.cacheImages(this.poisonedImages);
 	}
 
-	update(ft) {
-		// if (this.status === "poisoned" && !this.imgRef.src.includes("poisoned")) {
-		// 	this.imgRef = this.cachedImages[this.poisonedImages[0]];
-		// 	console.log(this.imgRef.src);
-		// 	console.log("SPieler ist vergiftet!");
-		// 	this.currentAnimation = "poisoned";
-		// 	const poisonedInterval = setInterval(() => {
-		// 		this.imgRef = this.cachedImages[this.poisonedImages[this.animationState]];
-		// 		if (this.animationState >= this.poisonedImages.length - 1) {
-		// 			this.status = "normal";
-		// 			this.stopAnimation();
-		// 			this.idle();
-		// 		} else {
-		// 			this.animationState++;
-		// 		}
-		// 	}, ANIMATION_INTERVAL);
-		// 	this.lastAnimationInterval = poisonedInterval;
-		// }
-	}
+	update(ft) {}
 
 	animationTick(ft) {
 		this.imgRef = this.cachedImages[this.frames[this.animationState]];
 		this.animationState = (this.animationState + 1) % this.frames.length;
 
 		if (this.animationState === 0) {
+			// End of Animation
 			if (this.currentAnimation === "bubble") {
 				this.shootBubble();
+			} else if (this.currentAnimation === "poisoned") {
+				this.status = "normal";
+				this.world.keyboard.enabled = true;
+				this.idle();
+			} else {
+				this.animationCount++;
 			}
 		}
 	}

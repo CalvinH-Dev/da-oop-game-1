@@ -15,7 +15,6 @@ class PufferFish extends MoveableEntity {
 
 	constructor(position, color = "green", size, speed) {
 		const imgSrc = `/assets/used/enemies/puffer-fish/${color}/swim/1.png`;
-		console.log(imgSrc);
 		if (!size) {
 			size = { width: 50, height: 50 };
 		}
@@ -121,7 +120,7 @@ class PufferFish extends MoveableEntity {
 		if (obj.isFriendly == this.isFriendly) return;
 		if (this.collisionDamageCooldownInSec === 0) {
 			obj.status = "poisoned";
-			console.log("Spieler getroffen!");
+			obj.animate("poisoned");
 			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 		}
 	}
