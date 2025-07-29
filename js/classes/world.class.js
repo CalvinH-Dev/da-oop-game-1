@@ -58,14 +58,14 @@ class World {
 		this.accumulator += dtInSec;
 		this.animationAccumulator += dtInSec;
 
-		while (this.accumulator >= UPDATE_IN_SEC) {
+		if (this.accumulator >= UPDATE_IN_SEC) {
 			this.update(UPDATE_IN_SEC); // pixel pro Sekunde ist velocity eines charakters
-			this.accumulator -= UPDATE_IN_SEC;
+			this.accumulator = 0;
 		}
 
 		if (this.animationAccumulator >= ANIMATION_IN_SEC) {
 			this.animationTick(ANIMATION_IN_SEC);
-			this.animationAccumulator -= ANIMATION_IN_SEC;
+			this.animationAccumulator = 0;
 		}
 
 		this.keyboard.action(this, dtInSec);
