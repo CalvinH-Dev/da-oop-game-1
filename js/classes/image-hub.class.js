@@ -142,6 +142,15 @@ class ImageHub {
 
 	static getPufferFish() {}
 
+	static getCoinImages() {
+		return [
+			"/assets/used/collectables/coin/1.png",
+			"/assets/used/collectables/coin/2.png",
+			"/assets/used/collectables/coin/3.png",
+			"/assets/used/collectables/coin/4.png",
+		];
+	}
+
 	static getBubbleImage() {
 		return "assets/used/character/attacks/Bubble.png";
 	}

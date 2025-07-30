@@ -84,6 +84,16 @@ class CalcFunctions {
 			}
 		}
 
+		if (obj === world.characterRef) {
+			for (const collectable of world.collectables) {
+				const bBox = collectable.getHitbox();
+				const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
+				if (collided) {
+					collectable.onCollected(world.characterRef);
+				}
+			}
+		}
+
 		return isColliding;
 	}
 

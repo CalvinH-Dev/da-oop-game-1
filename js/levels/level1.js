@@ -64,6 +64,13 @@ const assetsLv1 = [
 	new Entity(3840, 0, 3840, 1080, "/assets/used/background/completo.png"),
 ];
 
+const collectablesLv1 = [
+	new Coin(100, 100),
+	new Coin(1000, 100),
+	new Coin(1000, 400),
+	new Coin(100, 400),
+];
+
 for (const enemy of enemiesLv1) {
 	enemy.world = world;
 }
@@ -72,5 +79,9 @@ for (const asset of assetsLv1) {
 	asset.world = world;
 }
 
-const level1 = new Level(1, characterLv1, enemiesLv1, assetsLv1);
+for (const collectable of collectablesLv1) {
+	collectable.world = world;
+}
+
+const level1 = new Level(1, characterLv1, enemiesLv1, assetsLv1, collectablesLv1);
 levels[1] = level1;

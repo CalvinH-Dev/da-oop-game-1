@@ -14,6 +14,8 @@ class Character extends MoveableEntity {
 		applied: 0,
 	};
 
+	coins = 0;
+
 	constructor(position, size, speed) {
 		const scale = 1;
 		const imgSrc = "/assets/used/character/idle/1.png";

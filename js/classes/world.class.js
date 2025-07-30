@@ -9,6 +9,7 @@ class World {
 	enemies = [];
 	assets = [];
 	projectiles = [];
+	collectables = [];
 	scrollX = 0;
 	maxScrollLeft = 0;
 	maxScrollRight = BOARD_WIDTH * 1;
@@ -23,11 +24,12 @@ class World {
 		this.showHitboxes();
 	}
 
-	setLevel(levelId, character, enemies, assets) {
+	setLevel(levelId, character, enemies, assets, collectables) {
 		this.levelId = levelId;
 		this.characterRef = character;
 		this.enemies = enemies;
 		this.assets = assets;
+		this.collectables = collectables;
 	}
 
 	showHitboxes(bool = true) {
@@ -82,6 +84,7 @@ class World {
 
 	updateAll(ft) {
 		const updateFns = [
+			this.updateCollectables.bind(this),
 			this.updateProjectiles.bind(this),
 			this.updateCharacter.bind(this),
 			this.updateEnemies.bind(this),
@@ -90,6 +93,12 @@ class World {
 
 		for (const updateFn of updateFns) {
 			updateFn(ft);
+		}
+	}
+
+	updateCollectables(ft) {
+		for (const collectable of this.collectables) {
+			collectable.update(ft);
 		}
 	}
 
@@ -121,6 +130,7 @@ class World {
 
 	animateAll(ft) {
 		const animateFns = [
+			this.animateCollectables.bind(this),
 			this.animateProjectiles.bind(this),
 			this.animateCharacter.bind(this),
 			this.animateEnemies.bind(this),
@@ -129,6 +139,12 @@ class World {
 
 		for (const animateFn of animateFns) {
 			animateFn(ft);
+		}
+	}
+
+	animateCollectables(ft) {
+		for (const collectable of this.collectables) {
+			collectable.animationTick(ft);
 		}
 	}
 
@@ -162,6 +178,7 @@ class World {
 	renderAll() {
 		const renderFns = [
 			this.renderAssets.bind(this),
+			this.renderCollectables.bind(this),
 			this.renderEnemies.bind(this),
 			this.renderProjectiles.bind(this),
 			this.renderCharacter.bind(this),
@@ -169,6 +186,12 @@ class World {
 
 		for (const renderFn of renderFns) {
 			renderFn();
+		}
+	}
+
+	renderCollectables() {
+		for (const collectable of this.collectables) {
+			collectable.render(this.canvasCtx, this.showBoxes);
 		}
 	}
 
