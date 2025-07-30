@@ -34,16 +34,20 @@ class World {
 		this.showBoxes = bool;
 	}
 
-	stopGame() {
-		cancelAnimationFrame(this.stop);
-	}
-
 	startGame() {
 		const now = performance.now();
 		this.before = now;
 		this.accumulator = 0;
 
 		requestAnimationFrame(this.gameLoop.bind(this));
+	}
+
+	pause() {
+		cancelAnimationFrame(this.stop);
+	}
+
+	unpause() {
+		this.stop = requestAnimationFrame(this.gameLoop.bind(this));
 	}
 
 	gameLoop(tFrame) {

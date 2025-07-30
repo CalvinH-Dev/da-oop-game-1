@@ -51,12 +51,12 @@ class PufferFish extends MoveableEntity {
 	}
 
 	moveRandom(ft) {
-		const number = Math.floor(Math.random() * 4);
+		const number = Math.floor(Math.random() * 7);
 		if (number === 0) {
 			this.moveRight(ft);
-		} else if (number === 1) {
+		} else if (number >= 1 && number < 5) {
 			this.moveLeft(ft);
-		} else if (number === 2) {
+		} else if (number === 5) {
 			this.moveUp(ft);
 		} else {
 			this.moveDown(ft);
@@ -68,6 +68,9 @@ class PufferFish extends MoveableEntity {
 			case "swim":
 				super.animate("swim", this.swimImages);
 				break;
+
+			case "dead":
+				super.animate("dead", this.deadImages);
 		}
 	}
 
@@ -79,20 +82,25 @@ class PufferFish extends MoveableEntity {
 		) {
 			super.render(ctx, showBox);
 		} else {
-			super.renderFlipped(ctx, showBox);
+			super.render(ctx, showBox);
 		}
 	}
 
 	getColorImages() {
 		const keys = Object.keys(this.cachedImages);
 		let images = [];
+		let deadImages = [];
 
 		for (const key of keys) {
 			if (key.includes(`${this.color}/swim`)) {
 				images.push(key);
+			} else if (key.includes(`${this.color}/dead`)) {
+				deadImages.push(key);
 			}
 		}
+
 		this.swimImages = images;
+		this.deadImages = deadImages;
 	}
 
 	cacheAllImages() {
@@ -101,6 +109,8 @@ class PufferFish extends MoveableEntity {
 			const images = ImageHub.getPufferFishSwimImages(color);
 			this.swimImages = images;
 			this.cacheImages(images);
+			const deadImages = ImageHub.getPufferFishDeadImages(color);
+			this.cacheImages(deadImages);
 		}
 	}
 
@@ -112,7 +122,7 @@ class PufferFish extends MoveableEntity {
 
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
-		if (this.hp <= 0) this.onDead();
+		if (this.hp <= 0) this.onDead(ft);
 		if (this.currentMovementInterval) return;
 		this.currentMovementInterval = setInterval(() => {
 			this.moveRandom(ft);
@@ -120,25 +130,48 @@ class PufferFish extends MoveableEntity {
 	}
 
 	effectOnCollision(obj) {
+		if (this.dead) {
+			return;
+		}
 		if (obj.isFriendly == this.isFriendly) return;
+
 		if (this.collisionDamageCooldownInSec === 0) {
-			obj.statuses.push("poisoned");
-			obj.poison.applied = new Date().getTime() / 1000;
-			obj.onHit(10);
+			if (this.color === "orange") {
+				obj.onGettingHit(15);
+			} else {
+				if (!obj.statuses.includes("poisoned")) {
+					obj.statuses.push("poisoned");
+				}
+				obj.poison.applied = new Date().getTime() / 1000;
+				obj.onGettingHit(POISON_TICK_DAMAGE);
+			}
 			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 		}
 	}
 
 	animationTick(ft) {
-		this.imgRef = this.cachedImages[this.frames[this.animationState]];
+		if (!this.wasHit) {
+			this.imgRef = this.cachedImages[this.frames[this.animationState]];
+		} else {
+			this.imgRef =
+				this.cachedImages[this.frames[this.animationState].replace(`${this.color}`, "red")];
+
+			this.wasHit = false;
+		}
 		this.animationState = (this.animationState + 1) % this.frames.length;
 	}
 
-	onDead() {
-		this.despawn();
+	onDead(ft) {
+		this.dead = true;
+		this.animate("dead");
+		const canMoveUp = this.moveUp(ft);
+		if (!canMoveUp) {
+			this.despawn();
+		}
 	}
 
-	onHit(damage) {
+	onGettingHit(damage) {
+		if (this.dead) return;
 		if (Number(damage)) {
 			this.hp -= damage;
 		}

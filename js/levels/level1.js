@@ -1,73 +1,62 @@
 const characterLv1 = new Character({ x: 300, y: 200 });
 characterLv1.world = world;
 
-const pfColorsLv1 = ["green", "orange", "red"];
+const pfColorsLv1 = ["green", "orange"];
 
 const enemiesLv1 = [
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
 	new PufferFish(
 		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
+		pfColorsLv1[Math.floor(Math.random() * 2)],
 	),
-	new PufferFish(
-		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
-	),
-	new PufferFish(
-		{ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) },
-		pfColorsLv1[Math.floor(Math.random() * 3)],
-	),
+
+	new JellyFish({ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) }),
+	new JellyFish({ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) }, "purple"),
+	new JellyFish({ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) }, "purple"),
+	new JellyFish({ x: Math.random() * (3300 - 50) + 500, y: Math.random() * (1080 - 50) }),
 ];
 
 const assetsLv1 = [

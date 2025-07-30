@@ -20,6 +20,9 @@ class Bubble extends Projectile {
 	}
 
 	effectOnHit(obj) {
-		obj.onHit(this.damage);
+		obj.onGettingHit(this.damage);
+		if (obj instanceof PufferFish) {
+			obj.wasHit = true;
+		}
 	}
 }

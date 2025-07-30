@@ -65,3 +65,19 @@ window.addEventListener("keyup", (event) => {
 			break;
 	}
 });
+
+window.addEventListener("blur", () => {
+	keyboard.LEFT = false;
+	keyboard.RIGHT = false;
+	keyboard.UP = false;
+	keyboard.DOWN = false;
+	keyboard.D = false;
+});
+
+window.addEventListener("contextmenu", () => {
+	keyboard.LEFT = false;
+	keyboard.RIGHT = false;
+	keyboard.UP = false;
+	keyboard.DOWN = false;
+	keyboard.D = false;
+});

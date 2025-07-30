@@ -4,6 +4,7 @@ class MoveableEntity extends Entity {
 	speedX = 20;
 	acceleration = { x: 0, y: 0 };
 	currentMovementInterval;
+	dead = false;
 
 	constructor(position, size, speed, imgSrc) {
 		super(position.x, position.y, size.width, size.height, imgSrc);
@@ -25,53 +26,55 @@ class MoveableEntity extends Entity {
 		this.direction = "R";
 		const newX = this.x + this.speedX * dt;
 		const rightX = newX + this.hitbox.width + this.hitbox.offsetX;
-		if (
-			CalcFunctions.isWithinBoundaryRight(this.world, rightX) &&
-			!CalcFunctions.checkCollision(this, newX, this.y)
-		) {
+		const canMoveRight = CalcFunctions.isWithinBoundaryRight(this.world, rightX);
+
+		if (canMoveRight && !CalcFunctions.checkCollision(this, newX, this.y)) {
 			this.x = newX;
 		}
+
+		return canMoveRight;
 	}
 
 	moveLeft(dt) {
 		this.direction = "L";
 		const newX = this.x - this.speedX * dt;
 		const leftX = newX + this.hitbox.offsetX;
+		const canMoveLeft = CalcFunctions.isWithinBoundaryLeft(this.world, leftX);
 
-		if (
-			CalcFunctions.isWithinBoundaryLeft(this.world, leftX) &&
-			!CalcFunctions.checkCollision(this, newX, this.y)
-		) {
+		if (canMoveLeft && !CalcFunctions.checkCollision(this, newX, this.y)) {
 			this.x = newX;
 		}
+
+		return canMoveLeft;
 	}
 
 	moveDown(dt) {
 		this.direction = "D";
 		const newY = this.y + this.speedY * dt;
 		const botY = newY + this.hitbox.height + this.hitbox.offsetY;
-		if (
-			CalcFunctions.isWithinBoundaryBottom(botY) &&
-			!CalcFunctions.checkCollision(this, this.x, newY)
-		) {
+		const canMoveBottom = CalcFunctions.isWithinBoundaryBottom(botY);
+
+		if (canMoveBottom && !CalcFunctions.checkCollision(this, this.x, newY)) {
 			this.y = newY;
 		}
+
+		return canMoveBottom;
 	}
 
 	moveUp(dt) {
 		this.direction = "U";
 		const newY = this.y - this.speedY * dt;
 		const topY = newY + this.hitbox.offsetY;
+		const canMoveTop = CalcFunctions.isWithinBoundaryTop(topY);
 
-		if (
-			CalcFunctions.isWithinBoundaryTop(topY) &&
-			!CalcFunctions.checkCollision(this, this.x, newY)
-		) {
+		if (canMoveTop && !CalcFunctions.checkCollision(this, this.x, newY)) {
 			this.y = newY;
 		}
+
+		return canMoveTop;
 	}
 
 	onDead() {}
 
-	onHit() {}
+	onGettingHit() {}
 }

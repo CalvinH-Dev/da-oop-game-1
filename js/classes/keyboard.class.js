@@ -24,9 +24,7 @@ class Keyboard {
 		} else if (this.DOWN) {
 			character.moveDown(dt);
 		} else if (this.D) {
-			if (!character.animationLocked) {
-				character.bubble();
-			}
+			character.bubble();
 		} else if (character.currentAnimation !== "longIdle" && !character.animationLocked) {
 			character.idle();
 		}

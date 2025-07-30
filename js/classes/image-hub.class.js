@@ -97,6 +97,17 @@ class ImageHub {
 		];
 	}
 
+	static getCharacterElectrifiedImages() {
+		return [
+			"/assets/used/character/statuses/electrified/1.png",
+			"/assets/used/character/statuses/electrified/2.png",
+			"/assets/used/character/statuses/electrified/3.png",
+			"/assets/used/character/statuses/electrified/1.png",
+			"/assets/used/character/statuses/electrified/2.png",
+			"/assets/used/character/statuses/electrified/3.png",
+		];
+	}
+
 	static getPufferFishSwimImages(color) {
 		return [
 			`/assets/used/enemies/puffer-fish/${color}/swim/1.png`,
@@ -104,6 +115,28 @@ class ImageHub {
 			`/assets/used/enemies/puffer-fish/${color}/swim/3.png`,
 			`/assets/used/enemies/puffer-fish/${color}/swim/4.png`,
 			`/assets/used/enemies/puffer-fish/${color}/swim/5.png`,
+		];
+	}
+
+	static getPufferFishDeadImages(color) {
+		return [`/assets/used/enemies/puffer-fish/${color}/dead/1.png`];
+	}
+
+	static getJellyFishSwimImages(color) {
+		return [
+			`/assets/used/enemies/jelly-fish/${color}/swim/1.png`,
+			`/assets/used/enemies/jelly-fish/${color}/swim/2.png`,
+			`/assets/used/enemies/jelly-fish/${color}/swim/3.png`,
+			`/assets/used/enemies/jelly-fish/${color}/swim/4.png`,
+		];
+	}
+
+	static getJellyFishDeadImages(color) {
+		return [
+			`/assets/used/enemies/jelly-fish/${color}/dead/1.png`,
+			`/assets/used/enemies/jelly-fish/${color}/dead/2.png`,
+			`/assets/used/enemies/jelly-fish/${color}/dead/3.png`,
+			`/assets/used/enemies/jelly-fish/${color}/dead/4.png`,
 		];
 	}
 

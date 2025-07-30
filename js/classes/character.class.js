@@ -104,6 +104,11 @@ class Character extends MoveableEntity {
 	}
 
 	animate(name) {
+		if (name === "bubble") {
+			this.world.keyboard.enabled = false;
+			super.animate("bubble", ImageHub.getCharacterBubbleImages());
+			return;
+		}
 		if (this.animationLocked) return;
 		switch (name) {
 			case "idle":
@@ -128,6 +133,13 @@ class Character extends MoveableEntity {
 				this.animationLocked = true;
 				super.animate("poisoned", ImageHub.getCharacterPoisonedImages());
 				break;
+
+			case "electrified":
+				this.animationLocked = true;
+				this.world.keyboard.enabled = false;
+				super.animate("electrified", ImageHub.getCharacterElectrifiedImages());
+				break;
+
 			case "hurt":
 				this.animationLocked = true;
 				super.animate("hurt", ImageHub.getCharacterIsHurtImages());
@@ -155,6 +167,7 @@ class Character extends MoveableEntity {
 		this.bubbleImages = ImageHub.getCharacterBubbleImages();
 		this.poisonedImages = ImageHub.getCharacterPoisonedImages();
 		this.isHurtImages = ImageHub.getCharacterIsHurtImages();
+		this.electrifiedImages = ImageHub.getCharacterElectrifiedImages();
 
 		super.cacheImages(this.swimImages);
 		super.cacheImages(this.idleImages);
@@ -163,6 +176,7 @@ class Character extends MoveableEntity {
 		super.cacheImages(this.bubbleImages);
 		super.cacheImages(this.poisonedImages);
 		super.cacheImages(this.isHurtImages);
+		super.cacheImages(this.electrifiedImages);
 	}
 
 	update(ft) {
@@ -175,6 +189,7 @@ class Character extends MoveableEntity {
 	onPoisoned() {
 		const now = new Date().getTime() / 1000;
 		if (now - this.poison.lastTick >= POISON_TICK_TIME_IN_SEC) {
+			this.hp -= 3;
 			this.poison.lastTick = now;
 			this.animate("poisoned");
 		}
@@ -188,15 +203,21 @@ class Character extends MoveableEntity {
 		this.imgRef = this.cachedImages[this.frames[this.animationState]];
 		this.animationState = (this.animationState + 1) % this.frames.length;
 
+		if (this.currentAnimation === "bubble" && this.animationState === 1) {
+			setTimeout(() => {
+				this.shootBubble();
+			}, ANIMATION_IN_SEC * 1000 * this.frames.length);
+		}
+
 		if (this.animationState === 0) {
 			// End of Animation
 			if (this.currentAnimation === "bubble") {
-				this.shootBubble();
 			} else if (this.currentAnimation === "hurt") {
-				this.animationLocked = false;
 				this.idle();
 			} else if (this.currentAnimation === "poisoned") {
-				this.animationLocked = false;
+				this.idle();
+			} else if (this.currentAnimation === "electrified") {
+				this.statuses = this.statuses.filter((status) => status != "electrified");
 				this.idle();
 			} else if (this.currentAnimation === "idle" && this.animationCount > 1) {
 				this.longIdle();
@@ -205,18 +226,25 @@ class Character extends MoveableEntity {
 			} else {
 				this.animationCount++;
 			}
+			this.animationLocked = false;
+			this.world.keyboard.enabled = true;
 		}
 	}
 
 	onDead() {
 		console.log("Spieler gestorben!");
-		cancelAnimationFrame(this.world.stop);
+		this.world.pause();
 	}
 
-	onHit(damage) {
+	onGettingHit(damage) {
 		if (Number(damage)) {
 			this.hp -= damage;
 		}
+
+		if (this.statuses.includes("electrified")) {
+			return this.animate("electrified");
+		}
+
 		this.animate("hurt");
 		this.animationLocked = true;
 	}
