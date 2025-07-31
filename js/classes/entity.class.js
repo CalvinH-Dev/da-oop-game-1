@@ -17,6 +17,8 @@ class Entity {
 	height;
 	x;
 	y;
+	hp = 50;
+	maxHP = 50;
 
 	collision = false;
 	hitbox = {
@@ -160,4 +162,10 @@ class Entity {
 	animationTick(ft) {}
 
 	effectOnCollision() {}
+
+	heal(amount) {
+		if (Number(amount)) {
+			this.hp = Math.min(this.maxHP, this.hp + amount);
+		}
+	}
 }

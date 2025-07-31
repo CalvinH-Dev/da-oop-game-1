@@ -8,6 +8,7 @@ class Character extends MoveableEntity {
 	};
 
 	isFriendly = true;
+	maxHP = 100;
 	hp = 100;
 	poison = {
 		lastTick: 0,
@@ -73,12 +74,12 @@ class Character extends MoveableEntity {
 		}
 	}
 
-	shootBubble() {
-		this.world.keyboard.enabled = true;
-		const direction = this.direction === "L" ? "L" : "R";
-		const bubbleProj = new Bubble(this, this.bubblePosition(), direction);
+	shootBubble(direction) {
+		const shootDirection = direction === "L" ? "L" : "R";
+		const bubbleProj = new Bubble(this, this.bubblePosition(), shootDirection);
 		bubbleProj.world = this.world;
 		this.world.projectiles.push(bubbleProj);
+		this.world.keyboard.enabled = true;
 		this.idle();
 	}
 
@@ -205,15 +206,10 @@ class Character extends MoveableEntity {
 		this.imgRef = this.cachedImages[this.frames[this.animationState]];
 		this.animationState = (this.animationState + 1) % this.frames.length;
 
-		if (this.currentAnimation === "bubble" && this.animationState === 1) {
-			setTimeout(() => {
-				this.shootBubble();
-			}, ANIMATION_IN_SEC * 1000 * this.frames.length);
-		}
-
 		if (this.animationState === 0) {
 			// End of Animation
 			if (this.currentAnimation === "bubble") {
+				this.shootBubble(this.direction);
 			} else if (this.currentAnimation === "hurt") {
 				this.idle();
 			} else if (this.currentAnimation === "poisoned") {
@@ -250,4 +246,6 @@ class Character extends MoveableEntity {
 		this.animate("hurt");
 		this.animationLocked = true;
 	}
+
+	heal(amount) {}
 }

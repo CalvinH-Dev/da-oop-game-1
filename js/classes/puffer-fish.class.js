@@ -8,9 +8,11 @@ class PufferFish extends MoveableEntity {
 		height: 40,
 	};
 	maxCollisionDamageCooldownInSec = 2;
+	originalSize = { width: 0, height: 0 };
 
 	wasHit = false;
 	hp = 20;
+	maxHP = 20;
 
 	isFriendly = false;
 
@@ -24,6 +26,8 @@ class PufferFish extends MoveableEntity {
 			speed = { x: 250, y: 250 };
 		}
 		super(position, size, speed, imgSrc);
+		this.originalSize.width = this.width;
+		this.originalSize.height = this.height;
 		this.direction = "L";
 		this.color = color;
 		// this.collision = true;
@@ -163,6 +167,9 @@ class PufferFish extends MoveableEntity {
 
 	onDead(ft) {
 		this.dead = true;
+		clearInterval(this.changeSizeInterval);
+		this.width = this.originalSize.width;
+		this.height = this.originalSize.height;
 		this.animate("dead");
 		const canMoveUp = this.moveUp(ft);
 		if (!canMoveUp) {
