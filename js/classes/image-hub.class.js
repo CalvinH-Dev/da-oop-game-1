@@ -97,6 +97,22 @@ class ImageHub {
 		];
 	}
 
+	static getCharacterIsDeadImages() {
+		return [
+			"/assets/used/character/dead/normal/1.png",
+			"/assets/used/character/dead/normal/2.png",
+			"/assets/used/character/dead/normal/3.png",
+			"/assets/used/character/dead/normal/5.png",
+			"/assets/used/character/dead/normal/6.png",
+			"/assets/used/character/dead/normal/7.png",
+			"/assets/used/character/dead/normal/8.png",
+			"/assets/used/character/dead/normal/9.png",
+			"/assets/used/character/dead/normal/10.png",
+			"/assets/used/character/dead/normal/11.png",
+			"/assets/used/character/dead/normal/12.png",
+		];
+	}
+
 	static getCharacterElectrifiedImages() {
 		return [
 			"/assets/used/character/statuses/electrified/1.png",

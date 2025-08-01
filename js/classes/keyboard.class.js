@@ -29,4 +29,13 @@ class Keyboard {
 			character.idle();
 		}
 	}
+
+	reset() {
+		this.LEFT = false;
+		this.RIGHT = false;
+		this.UP = false;
+		this.DOWN = false;
+		this.D = false;
+		this.enabled = true;
+	}
 }

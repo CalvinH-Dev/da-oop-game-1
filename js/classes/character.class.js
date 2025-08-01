@@ -147,6 +147,10 @@ class Character extends MoveableEntity {
 				this.animationLocked = true;
 				super.animate("hurt", ImageHub.getCharacterIsHurtImages());
 				break;
+
+			case "dead":
+				this.animationLocked = true;
+				super.animate("dead", ImageHub.getCharacterIsDeadImages());
 		}
 	}
 
@@ -170,6 +174,7 @@ class Character extends MoveableEntity {
 		this.bubbleImages = ImageHub.getCharacterBubbleImages();
 		this.poisonedImages = ImageHub.getCharacterPoisonedImages();
 		this.isHurtImages = ImageHub.getCharacterIsHurtImages();
+		this.deadImages = ImageHub.getCharacterIsDeadImages();
 		this.electrifiedImages = ImageHub.getCharacterElectrifiedImages();
 
 		super.cacheImages(this.swimImages);
@@ -179,11 +184,12 @@ class Character extends MoveableEntity {
 		super.cacheImages(this.bubbleImages);
 		super.cacheImages(this.poisonedImages);
 		super.cacheImages(this.isHurtImages);
+		super.cacheImages(this.deadImages);
 		super.cacheImages(this.electrifiedImages);
 	}
 
 	update(ft) {
-		if (this.hp <= 0) this.onDead();
+		if (this.hp <= 0) this.dead = true;
 		if (this.statuses.includes("poisoned")) {
 			this.onPoisoned();
 		}
@@ -230,8 +236,19 @@ class Character extends MoveableEntity {
 	}
 
 	onDead() {
-		console.log("Spieler gestorben!");
-		this.world.pause();
+		this.animationLocked = false;
+		this.animate("dead");
+
+		const deadInterval = setInterval(() => {
+			this.animationTick(ANIMATION_IN_SEC);
+			this.world.render();
+			if (this.animationState == 0) {
+				clearInterval(deadInterval);
+			}
+		}, ANIMATION_IN_SEC * 1000);
+		setTimeout(() => {
+			startLevel(1);
+		}, 5000);
 	}
 
 	onGettingHit(damage) {

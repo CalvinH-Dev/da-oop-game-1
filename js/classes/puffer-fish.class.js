@@ -35,19 +35,12 @@ class PufferFish extends MoveableEntity {
 		this.swim();
 
 		this.changeSize();
-		this.move();
 	}
 
 	defaultAnimation() {}
 
 	applyColor() {
 		this.getColorImages();
-	}
-
-	move() {
-		setInterval(() => {
-			this.moveRandom();
-		}, 500 + Math.floor(Math.random() * 10) * 20);
 	}
 
 	swim() {

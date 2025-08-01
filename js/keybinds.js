@@ -1,6 +1,7 @@
 let state;
 
 window.addEventListener("keydown", (event) => {
+	const keyboard = world.keyboard;
 	if (!keyboard.enabled) return;
 	switch (event.key) {
 		case "ArrowUp":
@@ -36,6 +37,8 @@ window.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("keyup", (event) => {
+	const keyboard = world.keyboard;
+
 	// if (
 	// 	(event.key === "ArrowLeft" ||
 	// 		event.key === "ArrowRight" ||

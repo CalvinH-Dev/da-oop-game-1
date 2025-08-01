@@ -36,7 +36,8 @@ class World {
 		this.showBoxes = bool;
 	}
 
-	startGame() {
+	startGame(translateX) {
+		this.canvasCtx.translate(translateX, 0);
 		const now = performance.now();
 		this.before = now;
 		this.accumulator = 0;
@@ -46,6 +47,10 @@ class World {
 
 	pause() {
 		cancelAnimationFrame(this.stop);
+		for (const enemy of this.enemies) {
+			enemy.currentMovementInterval = clearInterval(enemy.currentMovementInterval);
+			enemy.changeSizeInterval = clearInterval(enemy.changeSizeInterval);
+		}
 	}
 
 	unpause() {
@@ -75,6 +80,12 @@ class World {
 		}
 
 		this.keyboard.action(this, dtInSec);
+
+		if (this.characterRef.dead) {
+			this.pause();
+			return this.characterRef.onDead();
+		}
+
 		this.render();
 	}
 
