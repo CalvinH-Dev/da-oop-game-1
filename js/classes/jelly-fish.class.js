@@ -12,7 +12,7 @@ class JellyFish extends MovableEntity {
 	wasHit = false;
 	hp = 35;
 	maxHP = 35;
-	collision = true;
+	hittable = true;
 
 	isFriendly = false;
 

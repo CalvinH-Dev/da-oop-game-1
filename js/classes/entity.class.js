@@ -27,6 +27,7 @@ class Entity {
 		width: 0,
 		height: 0,
 	};
+	hittable = false;
 
 	statuses = [];
 

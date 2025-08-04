@@ -196,4 +196,19 @@ class ImageHub {
 	static getBubbleImage() {
 		return "assets/used/character/attacks/Bubble.png";
 	}
+
+	static getSpawnWhaleImages() {
+		return [
+			"/assets/used/enemies/whale/spawn/1.png",
+			"/assets/used/enemies/whale/spawn/2.png",
+			"/assets/used/enemies/whale/spawn/3.png",
+			"/assets/used/enemies/whale/spawn/4.png",
+			"/assets/used/enemies/whale/spawn/5.png",
+			"/assets/used/enemies/whale/spawn/6.png",
+			"/assets/used/enemies/whale/spawn/7.png",
+			"/assets/used/enemies/whale/spawn/8.png",
+			"/assets/used/enemies/whale/spawn/9.png",
+			"/assets/used/enemies/whale/spawn/10.png",
+		];
+	}
 }

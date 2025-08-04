@@ -104,7 +104,7 @@ class CalcFunctions {
 
 		if (isFriendly) {
 			for (const enemy of world.enemies) {
-				if (!enemy.collision) return;
+				if (!enemy.hittable) return;
 				const bBox = enemy.getHitbox();
 				if (CalcFunctions.hitboxesColliding(aBox, bBox)) {
 					projectile.effectOnHit(enemy);

@@ -13,7 +13,7 @@ class PufferFish extends MovableEntity {
 	wasHit = false;
 	hp = 20;
 	maxHP = 20;
-	collision = true;
+	hittable = true;
 
 	isFriendly = false;
 

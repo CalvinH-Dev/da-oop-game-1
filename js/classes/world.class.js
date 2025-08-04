@@ -235,9 +235,9 @@ class World {
 			this.scrollX -= amountScroll;
 		} else {
 			if (!this.spawned) {
-				const jellyman = new JellyFish({ x: 4500, y: 500 });
-				jellyman.world = this;
-				this.enemies.push(jellyman);
+				const boss = new Endboss({ x: 5000, y: 100 });
+				boss.world = this;
+				this.enemies.push(boss);
 				this.spawned = true;
 			}
 		}
