@@ -1,4 +1,4 @@
-class MoveableEntity extends Entity {
+class MovableEntity extends Entity {
 	direction;
 	speedY = 20;
 	speedX = 20;

@@ -1,4 +1,4 @@
-class Projectile extends MoveableEntity {
+class Projectile extends MovableEntity {
 	waterFriction = 10;
 	velocity = {};
 	gravity;

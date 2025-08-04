@@ -1,4 +1,4 @@
-class Character extends MoveableEntity {
+class Character extends MovableEntity {
 	defaultDirection = "R";
 	hitbox = {
 		offsetX: 30,

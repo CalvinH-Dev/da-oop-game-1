@@ -12,7 +12,7 @@ class World {
 	collectables = [];
 	scrollX = 0;
 	maxScrollLeft = 0;
-	maxScrollRight = BOARD_WIDTH * 1;
+	maxScrollRight = BOARD_WIDTH * 2;
 	keyboard;
 	levelId;
 	showBoxes = false;
@@ -233,6 +233,13 @@ class World {
 			const amountScroll = this.characterRef.speedX * dt;
 			this.canvasCtx.translate(-amountScroll, 0);
 			this.scrollX -= amountScroll;
+		} else {
+			if (!this.spawned) {
+				const jellyman = new JellyFish({ x: 4500, y: 500 });
+				jellyman.world = this;
+				this.enemies.push(jellyman);
+				this.spawned = true;
+			}
 		}
 	}
 

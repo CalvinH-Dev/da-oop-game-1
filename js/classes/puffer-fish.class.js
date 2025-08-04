@@ -1,4 +1,4 @@
-class PufferFish extends MoveableEntity {
+class PufferFish extends MovableEntity {
 	defaultDirection = "L";
 	color = "green";
 	hitbox = {
@@ -13,6 +13,7 @@ class PufferFish extends MoveableEntity {
 	wasHit = false;
 	hp = 20;
 	maxHP = 20;
+	collision = true;
 
 	isFriendly = false;
 

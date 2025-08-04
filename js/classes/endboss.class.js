@@ -1,0 +1,1 @@
+class Endboss extends MovableObject {}

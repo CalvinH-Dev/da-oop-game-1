@@ -1,4 +1,4 @@
-class JellyFish extends MoveableEntity {
+class JellyFish extends MovableEntity {
 	defaultDirection = "U";
 	color = "green";
 	hitbox = {
@@ -12,6 +12,7 @@ class JellyFish extends MoveableEntity {
 	wasHit = false;
 	hp = 35;
 	maxHP = 35;
+	collision = true;
 
 	isFriendly = false;
 
@@ -103,7 +104,7 @@ class JellyFish extends MoveableEntity {
 		if (this.hp <= 0) this.onDead(ft);
 		if (this.currentMovementInterval) return;
 
-		this.move(ft * JELLYFISH_MOVEMENT_MULTIPLIER);
+		this.move(ft);
 	}
 
 	animationTick(ft) {
