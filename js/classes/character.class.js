@@ -6,6 +6,7 @@ class Character extends MoveableEntity {
 		width: 100,
 		height: 75,
 	};
+	willAttackWithFin = false;
 
 	isFriendly = true;
 	maxHP = 100;
@@ -56,6 +57,7 @@ class Character extends MoveableEntity {
 
 	finAttack() {
 		this.world.keyboard.enabled = false;
+		this.willAttackWithFin = true;
 		this.animate("fin");
 	}
 
@@ -65,23 +67,25 @@ class Character extends MoveableEntity {
 		}
 	}
 
-	attackPosition() {
+	attackPosition(height) {
+		const hitboxX = this.x + this.hitbox.offsetX;
+		const hitboxY = this.y + this.hitbox.offsetY;
 		if (this.direction === "L") {
 			return {
-				x: this.x + this.hitbox.offsetX - this.hitbox.width / 2,
-				y: this.y + this.hitbox.offsetY + this.hitbox.height / 2 + -25,
+				x: hitboxX - this.hitbox.width / 2,
+				y: hitboxY + this.hitbox.height / 2 + (-1 * height) / 2,
 			};
 		} else {
 			return {
-				x: this.x + this.hitbox.offsetX + this.hitbox.width,
-				y: this.y + this.hitbox.offsetY + this.hitbox.height / 2 + -25,
+				x: hitboxX + this.hitbox.width,
+				y: hitboxY + this.hitbox.height / 2 + (-1 * height) / 2,
 			};
 		}
 	}
 
 	shootBubble() {
 		const shootDirection = this.direction === "L" ? "L" : "R";
-		const bubbleProj = new Bubble(this, this.attackPosition(), shootDirection);
+		const bubbleProj = new Bubble(this, this.attackPosition(50), shootDirection);
 		bubbleProj.world = this.world;
 		this.world.projectiles.push(bubbleProj);
 		this.world.keyboard.enabled = true;
@@ -89,7 +93,7 @@ class Character extends MoveableEntity {
 	}
 
 	attackWithFin() {
-		const attackCoords = this.attackPosition();
+		const attackCoords = this.attackPosition(50);
 
 		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 50, height: this.hitbox.height };
 
@@ -246,7 +250,7 @@ class Character extends MoveableEntity {
 			// End of Animation
 			if (this.currentAnimation === "bubble") {
 				this.shootBubble();
-			} else if (this.currentAnimation === "fin") {
+			} else if (this.currentAnimation === "fin" || this.willAttackWithFin) {
 				this.attackWithFin();
 			} else if (this.currentAnimation === "hurt") {
 				this.idle();
@@ -264,6 +268,7 @@ class Character extends MoveableEntity {
 			}
 			this.animationLocked = false;
 			this.world.keyboard.enabled = true;
+			this.willAttackWithFin = false;
 		}
 	}
 

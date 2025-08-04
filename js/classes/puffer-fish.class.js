@@ -2,10 +2,10 @@ class PufferFish extends MoveableEntity {
 	defaultDirection = "L";
 	color = "green";
 	hitbox = {
-		offsetX: 0,
-		offsetY: 0,
-		width: 50,
-		height: 40,
+		offsetX: 5,
+		offsetY: 5,
+		width: 40,
+		height: 30,
 	};
 	maxCollisionDamageCooldownInSec = 2;
 	originalSize = { width: 0, height: 0 };

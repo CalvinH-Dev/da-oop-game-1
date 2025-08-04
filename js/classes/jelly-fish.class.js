@@ -2,10 +2,10 @@ class JellyFish extends MoveableEntity {
 	defaultDirection = "U";
 	color = "green";
 	hitbox = {
-		offsetX: 0,
-		offsetY: 10,
-		width: 100,
-		height: 80,
+		offsetX: 15,
+		offsetY: 15,
+		width: 70,
+		height: 70,
 	};
 	maxCollisionDamageCooldownInSec = 3;
 
@@ -22,7 +22,7 @@ class JellyFish extends MoveableEntity {
 		}
 
 		if (!speed) {
-			speed = { x: 250, y: 250 };
+			speed = { x: 150, y: 150 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "U";
