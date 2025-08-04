@@ -25,7 +25,7 @@ class Character extends MoveableEntity {
 		}
 
 		if (!speed) {
-			speed = { x: 400, y: 300 };
+			speed = { x: 300, y: 200 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "R";
@@ -100,7 +100,6 @@ class Character extends MoveableEntity {
 
 			if (colliding) {
 				enemy.onGettingHit(15);
-				console.log("getroffen");
 			}
 		}
 		this.world.keyboard.enabled = true;
@@ -234,7 +233,7 @@ class Character extends MoveableEntity {
 			this.animate("poisoned");
 		}
 
-		if (now - this.poison.applied >= POISON_TICK_TIME_IN_SEC * 5) {
+		if (now - this.poison.applied >= POISON_TICK_TIME_IN_SEC * 3) {
 			this.statuses = this.statuses.filter((status) => status != "poisoned");
 		}
 	}

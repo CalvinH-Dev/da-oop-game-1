@@ -82,7 +82,7 @@ class JellyFish extends MoveableEntity {
 	}
 
 	cacheAllImages() {
-		const colors = ["yellow", "purple"];
+		const colors = ["yellow", "purple", "green", "pink"];
 		for (const color of colors) {
 			const images = ImageHub.getJellyFishSwimImages(color);
 			this.swimImages = images;
@@ -107,7 +107,15 @@ class JellyFish extends MoveableEntity {
 	}
 
 	animationTick(ft) {
-		this.imgRef = this.cachedImages[this.frames[this.animationState]];
+		if (!this.wasHit || this.dead) {
+			this.imgRef = this.cachedImages[this.frames[this.animationState]];
+		} else {
+			const newColor = this.color === "yellow" ? "green" : "pink";
+			this.imgRef =
+				this.cachedImages[this.frames[this.animationState].replace(`${this.color}`, newColor)];
+
+			this.wasHit = false;
+		}
 		this.animationState = (this.animationState + 1) % this.frames.length;
 	}
 
@@ -122,6 +130,7 @@ class JellyFish extends MoveableEntity {
 
 	onGettingHit(damage) {
 		if (this.dead) return;
+		this.wasHit = true;
 		if (Number(damage)) {
 			this.hp -= damage;
 		}
