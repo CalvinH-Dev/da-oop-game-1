@@ -76,6 +76,9 @@ function getLevel1(world) {
 		new Coin(1000, 100),
 		new Coin(1000, 400),
 		new Coin(100, 400),
+		new PoisonCollectable(200, 500),
+		new PoisonCollectable(3000, 500),
+		new PoisonCollectable(2500, 1000),
 	];
 
 	for (const enemy of enemiesLv1) {

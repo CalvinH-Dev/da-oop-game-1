@@ -180,6 +180,19 @@ class ImageHub {
 		];
 	}
 
+	static getPoisonCollectableImages() {
+		return [
+			"/assets/used/collectables/poison/1.png",
+			"/assets/used/collectables/poison/2.png",
+			"/assets/used/collectables/poison/3.png",
+			"/assets/used/collectables/poison/4.png",
+			"/assets/used/collectables/poison/5.png",
+			"/assets/used/collectables/poison/6.png",
+			"/assets/used/collectables/poison/7.png",
+			"/assets/used/collectables/poison/8.png",
+		];
+	}
+
 	static getBubbleImage() {
 		return "assets/used/character/attacks/Bubble.png";
 	}

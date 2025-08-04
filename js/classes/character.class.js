@@ -11,11 +11,12 @@ class Character extends MoveableEntity {
 	isFriendly = true;
 	maxHP = 100;
 	hp = 100;
-	poison = {
+
+	poisonDoT = {
 		lastTick: 0,
 		applied: 0,
 	};
-
+	poison = 0;
 	coins = 0;
 
 	constructor(position, size, speed) {
@@ -231,13 +232,13 @@ class Character extends MoveableEntity {
 
 	onPoisoned() {
 		const now = new Date().getTime() / 1000;
-		if (now - this.poison.lastTick >= POISON_TICK_TIME_IN_SEC) {
+		if (now - this.poisonDoT.lastTick >= POISON_TICK_TIME_IN_SEC) {
 			this.hp -= 3;
-			this.poison.lastTick = now;
+			this.poisonDoT.lastTick = now;
 			this.animate("poisoned");
 		}
 
-		if (now - this.poison.applied >= POISON_TICK_TIME_IN_SEC * 3) {
+		if (now - this.poisonDoT.applied >= POISON_TICK_TIME_IN_SEC * 3) {
 			this.statuses = this.statuses.filter((status) => status != "poisoned");
 		}
 	}

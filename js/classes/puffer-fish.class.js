@@ -139,7 +139,7 @@ class PufferFish extends MoveableEntity {
 				if (!obj.statuses.includes("poisoned")) {
 					obj.statuses.push("poisoned");
 				}
-				obj.poison.applied = new Date().getTime() / 1000;
+				obj.poisonDoT.applied = new Date().getTime() / 1000;
 				obj.onGettingHit(POISON_TICK_DAMAGE);
 			}
 			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
