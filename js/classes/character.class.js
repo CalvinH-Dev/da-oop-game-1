@@ -54,13 +54,18 @@ class Character extends MoveableEntity {
 		this.animate("bubble");
 	}
 
+	finAttack() {
+		this.world.keyboard.enabled = false;
+		this.animate("fin");
+	}
+
 	repeatLongIdle() {
 		if (this.animationCount >= 1) {
 			this.animate("repeatLongIdle");
 		}
 	}
 
-	bubblePosition() {
+	attackPosition() {
 		if (this.direction === "L") {
 			return {
 				x: this.x + this.hitbox.offsetX - this.hitbox.width / 2,
@@ -74,11 +79,30 @@ class Character extends MoveableEntity {
 		}
 	}
 
-	shootBubble(direction) {
-		const shootDirection = direction === "L" ? "L" : "R";
-		const bubbleProj = new Bubble(this, this.bubblePosition(), shootDirection);
+	shootBubble() {
+		const shootDirection = this.direction === "L" ? "L" : "R";
+		const bubbleProj = new Bubble(this, this.attackPosition(), shootDirection);
 		bubbleProj.world = this.world;
 		this.world.projectiles.push(bubbleProj);
+		this.world.keyboard.enabled = true;
+		this.idle();
+	}
+
+	attackWithFin() {
+		const attackCoords = this.attackPosition();
+
+		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 50, height: this.hitbox.height };
+
+		for (const enemy of this.world.enemies) {
+			const bBox = enemy.getHitbox();
+
+			const colliding = CalcFunctions.hitboxesColliding(aBox, bBox);
+
+			if (colliding) {
+				enemy.onGettingHit(15);
+				console.log("getroffen");
+			}
+		}
 		this.world.keyboard.enabled = true;
 		this.idle();
 	}
@@ -132,6 +156,11 @@ class Character extends MoveableEntity {
 				super.animate("bubble", ImageHub.getCharacterBubbleImages());
 				break;
 
+			case "fin":
+				this.world.keyboard.enabled = false;
+				super.animate("fin", ImageHub.getCharacterFinImages());
+				break;
+
 			case "poisoned":
 				this.animationLocked = true;
 				super.animate("poisoned", ImageHub.getCharacterPoisonedImages());
@@ -172,6 +201,7 @@ class Character extends MoveableEntity {
 		this.longIdleImages = ImageHub.getCharacterLongIdleImages();
 		this.longIdleRepeatImages = ImageHub.getCharacterLongIdleRepeatImages();
 		this.bubbleImages = ImageHub.getCharacterBubbleImages();
+		this.finImages = ImageHub.getCharacterFinImages();
 		this.poisonedImages = ImageHub.getCharacterPoisonedImages();
 		this.isHurtImages = ImageHub.getCharacterIsHurtImages();
 		this.deadImages = ImageHub.getCharacterIsDeadImages();
@@ -182,6 +212,7 @@ class Character extends MoveableEntity {
 		super.cacheImages(this.longIdleImages);
 		super.cacheImages(this.longIdleRepeatImages);
 		super.cacheImages(this.bubbleImages);
+		super.cacheImages(this.finImages);
 		super.cacheImages(this.poisonedImages);
 		super.cacheImages(this.isHurtImages);
 		super.cacheImages(this.deadImages);
@@ -215,7 +246,9 @@ class Character extends MoveableEntity {
 		if (this.animationState === 0) {
 			// End of Animation
 			if (this.currentAnimation === "bubble") {
-				this.shootBubble(this.direction);
+				this.shootBubble();
+			} else if (this.currentAnimation === "fin") {
+				this.attackWithFin();
 			} else if (this.currentAnimation === "hurt") {
 				this.idle();
 			} else if (this.currentAnimation === "poisoned") {

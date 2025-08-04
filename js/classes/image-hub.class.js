@@ -77,6 +77,19 @@ class ImageHub {
 		];
 	}
 
+	static getCharacterFinImages() {
+		return [
+			"/assets/used/character/fin/1.png",
+			// "/assets/used/character/fin/2.png",
+			// "/assets/used/character/fin/3.png",
+			"/assets/used/character/fin/4.png",
+			"/assets/used/character/fin/5.png",
+			"/assets/used/character/fin/6.png",
+			"/assets/used/character/fin/7.png",
+			"/assets/used/character/fin/8.png",
+		];
+	}
+
 	static getCharacterPoisonedImages() {
 		return [
 			"/assets/used/character/statuses/poisoned/1.png",

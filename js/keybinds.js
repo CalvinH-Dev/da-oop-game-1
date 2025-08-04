@@ -6,49 +6,27 @@ window.addEventListener("keydown", (event) => {
 	switch (event.key) {
 		case "ArrowUp":
 			keyboard.UP = true;
-			// world.characterRef.moveUp();
-
 			break;
 		case "ArrowLeft":
 			keyboard.LEFT = true;
-
-			// world.characterRef.moveLeft();
-
 			break;
 		case "ArrowDown":
 			keyboard.DOWN = true;
-
-			// world.characterRef.moveDown();
-
 			break;
 		case "ArrowRight":
 			keyboard.RIGHT = true;
-
-			// world.characterRef.moveRight();
-
 			break;
-
 		case "d":
 			keyboard.D = true;
-			// world.characterRef.bubble();
-
+			break;
+		case "f":
+			keyboard.F = true;
 			break;
 	}
 });
 
 window.addEventListener("keyup", (event) => {
 	const keyboard = world.keyboard;
-
-	// if (
-	// 	(event.key === "ArrowLeft" ||
-	// 		event.key === "ArrowRight" ||
-	// 		event.key === "ArrowUp" ||
-	// 		event.key === "ArrowDown") &&
-	// 	keyboard.enabled &&
-	// 	world.characterRef.status === "normal"
-	// ) {
-	// 	world.characterRef.animate("idle");
-	// }
 	switch (event.key) {
 		case "ArrowLeft":
 			keyboard.LEFT = false;
@@ -64,7 +42,9 @@ window.addEventListener("keyup", (event) => {
 			break;
 		case "d":
 			keyboard.D = false;
-
+			break;
+		case "f":
+			keyboard.F = false;
 			break;
 	}
 });

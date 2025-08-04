@@ -172,6 +172,7 @@ class PufferFish extends MoveableEntity {
 
 	onGettingHit(damage) {
 		if (this.dead) return;
+		this.wasHit = true;
 		if (Number(damage)) {
 			this.hp -= damage;
 		}

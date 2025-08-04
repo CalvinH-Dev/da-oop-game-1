@@ -4,6 +4,7 @@ class Keyboard {
 	UP = false;
 	DOWN = false;
 	D = false;
+	F = false;
 	enabled = true;
 
 	action(world, dt) {
@@ -25,6 +26,8 @@ class Keyboard {
 			character.moveDown(dt);
 		} else if (this.D) {
 			character.bubble();
+		} else if (this.F) {
+			character.finAttack();
 		} else if (character.currentAnimation !== "longIdle" && !character.animationLocked) {
 			character.idle();
 		}
