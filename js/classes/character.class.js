@@ -57,7 +57,6 @@ class Character extends MoveableEntity {
 
 	finAttack() {
 		this.world.keyboard.enabled = false;
-		this.willAttackWithFin = true;
 		this.animate("fin");
 	}
 
@@ -161,6 +160,7 @@ class Character extends MoveableEntity {
 
 			case "fin":
 				this.world.keyboard.enabled = false;
+				this.willAttackWithFin = true;
 				super.animate("fin", ImageHub.getCharacterFinImages());
 				break;
 
