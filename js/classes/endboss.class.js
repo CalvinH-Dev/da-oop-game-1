@@ -75,6 +75,11 @@ class Endboss extends MovableEntity {
 		super.cacheImages(this.deadImages);
 	}
 
+	update(ft) {
+		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
+		if (this.hp <= 0) this.onDead(ft);
+	}
+
 	animationTick() {
 		if (this.wasHit) {
 			this.animate("hurt");
@@ -85,10 +90,21 @@ class Endboss extends MovableEntity {
 
 		if (this.animationState === 0) {
 			if (this.currentAnimation === "spawn") {
-				this.collision = true;
 				this.hittable = true;
 				this.idle();
 			}
+		}
+	}
+
+	effectOnCollision(obj) {
+		if (!this.hittable || this.dead) return;
+
+		if (obj.isFriendly == this.isFriendly) return;
+
+		if (this.collisionDamageCooldownInSec === 0) {
+			obj.onGettingHit(COLLISION_DAMAGE * 2);
+
+			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 		}
 	}
 

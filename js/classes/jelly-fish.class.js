@@ -143,12 +143,12 @@ class JellyFish extends MovableEntity {
 
 		if (this.collisionDamageCooldownInSec === 0) {
 			if (this.color === "purple") {
-				obj.onGettingHit(20);
+				obj.onGettingHit(COLLISION_DAMAGE);
 			} else {
 				if (!obj.statuses.includes("electrified")) {
 					obj.statuses.push("electrified");
 				}
-				obj.onGettingHit(5);
+				obj.onGettingHit(COLLISION_DAMAGE);
 			}
 			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 		}

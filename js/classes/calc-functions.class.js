@@ -55,6 +55,7 @@ class CalcFunctions {
 			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
 			if (collided && obj.isFriendly) {
 				obj.effectOnCollision(enemy);
+				enemy.effectOnCollision(obj);
 			}
 
 			if (!obj.collision || !enemy.collision || isColliding || obj === enemy) continue;
@@ -66,6 +67,7 @@ class CalcFunctions {
 			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
 			if (collided && obj.isFriendly) {
 				obj.effectOnCollision(asset);
+				asset.effectOnCollision(obj);
 			}
 
 			if (!obj.collision || !asset.collision || isColliding || obj === asset) continue;
@@ -77,6 +79,7 @@ class CalcFunctions {
 			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
 			if (collided && !obj.isFriendly) {
 				obj.effectOnCollision(world.characterRef);
+				world.characterRef.effectOnCollision(obj);
 			}
 
 			if (obj.collision && world.characterRef.collision) {

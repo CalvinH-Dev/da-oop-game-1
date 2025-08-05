@@ -1,5 +1,6 @@
 function startLevel(levelId) {
 	world.canvasCtx.translate(0, 0);
+
 	getLevel1(world);
 	const character = levels[levelId].character;
 	const enemies = levels[levelId].enemies;
@@ -21,6 +22,7 @@ function startLevel(levelId) {
 	}
 
 	const translateX = -1 * world.scrollX;
+	world.scrollX = 0;
 	world.startGame(translateX);
 }
 
