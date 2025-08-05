@@ -12,7 +12,7 @@ class World {
 	collectables = [];
 	scrollX = 0;
 	maxScrollLeft = 0;
-	maxScrollRight = BOARD_WIDTH * 2;
+	maxScrollRight = (MAP_WIDTH / BOARD_WIDTH - 1) * BOARD_WIDTH;
 	keyboard;
 	levelId;
 	showBoxes = false;
@@ -21,7 +21,7 @@ class World {
 		this.canvasRef = canvasRef;
 		this.canvasCtx = this.canvasRef.getContext("2d");
 		this.keyboard = keyboard;
-		this.showHitboxes(false);
+		this.showHitboxes(true);
 	}
 
 	setLevel(levelId, character, enemies, assets, collectables) {
@@ -235,7 +235,7 @@ class World {
 			this.scrollX -= amountScroll;
 		} else {
 			if (!this.spawned) {
-				const boss = new Endboss({ x: 5000, y: 100 });
+				const boss = new Endboss({ x: MAP_WIDTH - 570, y: 0 });
 				boss.world = this;
 				this.enemies.push(boss);
 				this.spawned = true;

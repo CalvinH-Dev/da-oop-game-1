@@ -7,5 +7,6 @@ const POISON_TICK_TIME_IN_SEC = 3;
 const POISON_TICK_DAMAGE = 5;
 const BOARD_WIDTH = 1920;
 const BOARD_HEIGHT = 1080;
+const MAP_WIDTH = BOARD_WIDTH * 4;
 
 let levels = {};

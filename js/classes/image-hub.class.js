@@ -197,7 +197,7 @@ class ImageHub {
 		return "assets/used/character/attacks/Bubble.png";
 	}
 
-	static getSpawnWhaleImages() {
+	static getWhaleSpawnImages() {
 		return [
 			"/assets/used/enemies/whale/spawn/1.png",
 			"/assets/used/enemies/whale/spawn/2.png",
@@ -209,6 +209,55 @@ class ImageHub {
 			"/assets/used/enemies/whale/spawn/8.png",
 			"/assets/used/enemies/whale/spawn/9.png",
 			"/assets/used/enemies/whale/spawn/10.png",
+		];
+	}
+
+	static getWhaleIdleImages() {
+		return [
+			"/assets/used/enemies/whale/idle/1.png",
+			"/assets/used/enemies/whale/idle/2.png",
+			"/assets/used/enemies/whale/idle/3.png",
+			"/assets/used/enemies/whale/idle/4.png",
+			"/assets/used/enemies/whale/idle/5.png",
+			"/assets/used/enemies/whale/idle/6.png",
+			"/assets/used/enemies/whale/idle/7.png",
+			"/assets/used/enemies/whale/idle/8.png",
+			"/assets/used/enemies/whale/idle/9.png",
+			"/assets/used/enemies/whale/idle/10.png",
+			"/assets/used/enemies/whale/idle/11.png",
+			"/assets/used/enemies/whale/idle/12.png",
+			"/assets/used/enemies/whale/idle/13.png",
+		];
+	}
+
+	static getWhaleAttackImages() {
+		return [
+			"/assets/used/enemies/whale/attack/1.png",
+			"/assets/used/enemies/whale/attack/2.png",
+			"/assets/used/enemies/whale/attack/3.png",
+			"/assets/used/enemies/whale/attack/4.png",
+			"/assets/used/enemies/whale/attack/5.png",
+			"/assets/used/enemies/whale/attack/6.png",
+		];
+	}
+
+	static getWhaleHurtImages() {
+		return [
+			"/assets/used/enemies/whale/hurt/1.png",
+			"/assets/used/enemies/whale/hurt/2.png",
+			"/assets/used/enemies/whale/hurt/3.png",
+			"/assets/used/enemies/whale/hurt/4.png",
+		];
+	}
+
+	static getWhaleDeadImages() {
+		return [
+			"/assets/used/enemies/whale/dead/1.png",
+			"/assets/used/enemies/whale/dead/2.png",
+			"/assets/used/enemies/whale/dead/3.png",
+			"/assets/used/enemies/whale/dead/4.png",
+			"/assets/used/enemies/whale/dead/5.png",
+			"/assets/used/enemies/whale/dead/6.png",
 		];
 	}
 }

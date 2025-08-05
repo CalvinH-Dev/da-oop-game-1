@@ -1,10 +1,10 @@
 class Character extends MovableEntity {
 	defaultDirection = "R";
 	hitbox = {
-		offsetX: 30,
-		offsetY: 90,
-		width: 100,
-		height: 75,
+		offsetX: 40,
+		offsetY: 100,
+		width: 90,
+		height: 50,
 	};
 	willAttackWithFin = false;
 
@@ -27,7 +27,7 @@ class Character extends MovableEntity {
 		}
 
 		if (!speed) {
-			speed = { x: 300, y: 200 };
+			speed = { x: 600, y: 200 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "R";

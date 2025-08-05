@@ -18,3 +18,15 @@ const world = new World(keyboard, canvas);
 let levelId = 1;
 
 startLevel(1);
+
+document.querySelector("button").addEventListener("click", () => {
+	const grid = document.querySelector(".grid");
+
+	if (document.fullscreenElement) {
+		document.exitFullscreen();
+		return;
+	}
+	grid.requestFullscreen().catch((err) => {
+		console.error(`Error enabling fullscreen: ${err.message}`);
+	});
+});
