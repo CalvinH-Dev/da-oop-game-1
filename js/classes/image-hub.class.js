@@ -260,4 +260,37 @@ class ImageHub {
 			"/assets/used/enemies/whale/dead/6.png",
 		];
 	}
+
+	static getStatusBarPoisonImages() {
+		return [
+			"/assets/used/statuses/poison/0.png",
+			"/assets/used/statuses/poison/20.png",
+			"/assets/used/statuses/poison/40.png",
+			"/assets/used/statuses/poison/60.png",
+			"/assets/used/statuses/poison/80.png",
+			"/assets/used/statuses/poison/100.png",
+		];
+	}
+
+	static getStatusBarHealthImages() {
+		return [
+			"/assets/used/statuses/health/0.png",
+			"/assets/used/statuses/health/20.png",
+			"/assets/used/statuses/health/40.png",
+			"/assets/used/statuses/health/60.png",
+			"/assets/used/statuses/health/80.png",
+			"/assets/used/statuses/health/100.png",
+		];
+	}
+
+	static getStatusBarCoinsImages() {
+		return [
+			"/assets/used/statuses/coins/0.png",
+			"/assets/used/statuses/coins/20.png",
+			"/assets/used/statuses/coins/40.png",
+			"/assets/used/statuses/coins/60.png",
+			"/assets/used/statuses/coins/80.png",
+			"/assets/used/statuses/coins/100.png",
+		];
+	}
 }

@@ -27,9 +27,8 @@ class Coin extends Collectable {
 
 	onCollected() {
 		const character = this.world.characterRef;
-		character.coins += 1;
+		character.coins = Math.min(100, character.coins + 20);
 		character.heal(10);
-		console.log(this.world.characterRef.coins);
 		super.onCollected();
 	}
 }

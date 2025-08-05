@@ -135,7 +135,7 @@ class PufferFish extends MovableEntity {
 
 		if (this.collisionDamageCooldownInSec === 0) {
 			if (this.color === "orange") {
-				obj.onGettingHit(15);
+				obj.onGettingHit(20);
 			} else {
 				if (!obj.statuses.includes("poisoned")) {
 					obj.statuses.push("poisoned");

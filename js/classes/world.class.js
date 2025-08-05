@@ -10,6 +10,7 @@ class World {
 	assets = [];
 	projectiles = [];
 	collectables = [];
+	statusBars = [];
 	scrollX = 0;
 	maxScrollLeft = 0;
 	maxScrollRight = (MAP_WIDTH / BOARD_WIDTH - 1) * BOARD_WIDTH;
@@ -87,6 +88,16 @@ class World {
 		}
 
 		this.render();
+		this.renderUI();
+	}
+
+	renderUI() {
+		const x = 20 - this.scrollX;
+
+		for (const bar of this.statusBars) {
+			bar.x = x;
+			bar.render(this.canvasCtx, false);
+		}
 	}
 
 	update(ft) {
@@ -95,6 +106,7 @@ class World {
 
 	updateAll(ft) {
 		const updateFns = [
+			this.updateStatusBars.bind(this),
 			this.updateCollectables.bind(this),
 			this.updateProjectiles.bind(this),
 			this.updateCharacter.bind(this),
@@ -104,6 +116,12 @@ class World {
 
 		for (const updateFn of updateFns) {
 			updateFn(ft);
+		}
+	}
+
+	updateStatusBars(ft) {
+		for (const bar of this.statusBars) {
+			bar.update(ft);
 		}
 	}
 

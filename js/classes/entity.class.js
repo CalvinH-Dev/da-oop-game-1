@@ -63,6 +63,8 @@ class Entity {
 			img.src = imagePath;
 			this.cachedImages[imagePath] = img;
 		});
+
+		return images;
 	}
 
 	render(ctx, showBox = false) {

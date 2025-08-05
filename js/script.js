@@ -6,8 +6,19 @@ function startLevel(levelId) {
 	const assets = levels[levelId].assets;
 	const collectables = levels[levelId].collectables;
 
+	let statusBars = [
+		new StatusBar(20, 0, "health"),
+		new StatusBar(20, 60, "coins"),
+		new StatusBar(20, 120, "poison"),
+	];
+
 	world.setLevel(levelId, character, enemies, assets, collectables);
 	world.keyboard = new Keyboard();
+	world.statusBars = statusBars;
+
+	for (const bar of statusBars) {
+		bar.world = world;
+	}
 
 	const translateX = -1 * world.scrollX;
 	world.startGame(translateX);

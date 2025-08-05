@@ -27,8 +27,7 @@ class PoisonCollectable extends Collectable {
 
 	onCollected() {
 		const character = this.world.characterRef;
-		character.poison += 1;
-		console.log("gift aufgehoben");
+		character.poison = Math.min(100, character.poison + 20);
 		super.onCollected();
 	}
 }
