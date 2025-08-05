@@ -17,6 +17,7 @@ class World {
 	keyboard;
 	levelId;
 	showBoxes = false;
+	playState = "paused";
 
 	constructor(keyboard, canvasRef) {
 		this.canvasRef = canvasRef;
@@ -38,6 +39,7 @@ class World {
 	}
 
 	startGame(translateX) {
+		this.playState = "running";
 		this.canvasCtx.translate(translateX, 0);
 		const now = performance.now();
 		this.before = now;
@@ -47,6 +49,7 @@ class World {
 	}
 
 	pause() {
+		this.playState = "paused";
 		cancelAnimationFrame(this.stop);
 		for (const enemy of this.enemies) {
 			enemy.currentMovementInterval = clearInterval(enemy.currentMovementInterval);
@@ -55,6 +58,7 @@ class World {
 	}
 
 	unpause() {
+		this.playState = "running";
 		this.stop = requestAnimationFrame(this.gameLoop.bind(this));
 	}
 

@@ -28,6 +28,7 @@ class Coin extends Collectable {
 	onCollected() {
 		const character = this.world.characterRef;
 		character.coins = Math.min(100, character.coins + 20);
+		SoundHub.play(SoundHub.coinCollect);
 		super.onCollected();
 	}
 }

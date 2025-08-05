@@ -4,6 +4,10 @@
 	box-sizing: border-box;
 }
 
+button {
+	cursor: pointer;
+}
+
 body {
 	min-height: 100vh;
 	display: flex;
@@ -13,16 +17,40 @@ body {
 
 .grid {
 	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr auto;
+	grid-auto-flow: column;
 	justify-content: center;
 	align-items: center;
 }
 
 canvas {
-	/* width: 100%; */
-	/* aspect-ratio: 16 / 9; */
 	border: 1px solid black;
-	grid-column: 1;
-	grid-row: 1;
+	grid-row: 2/3;
+	grid-column: 1/-1;
 
 	background-color: transparent;
+}
+
+.volume-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 20px;
+	aspect-ratio: 1;
+}
+
+.volume-button > img {
+	height: 100%;
+}
+
+.menu {
+	background-color: red;
+	height: 100%;
+	grid-row: 2/3;
+	grid-column: 1/-1;
+}
+
+.menu.d-none {
+	display: none;
 }

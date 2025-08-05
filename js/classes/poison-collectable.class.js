@@ -28,6 +28,7 @@ class PoisonCollectable extends Collectable {
 	onCollected() {
 		const character = this.world.characterRef;
 		character.poison = Math.min(100, character.poison + 20);
+		SoundHub.play(SoundHub.poisonCollect);
 		super.onCollected();
 	}
 }

@@ -18,6 +18,7 @@ class Character extends MovableEntity {
 	};
 	poison = 0;
 	coins = 0;
+	snoreInterval;
 
 	constructor(position, size, speed) {
 		const scale = 1;
@@ -96,6 +97,7 @@ class Character extends MovableEntity {
 		const attackCoords = this.attackPosition(this.hitbox.height);
 
 		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 60, height: this.hitbox.height };
+		let collided = false;
 
 		for (const enemy of this.world.enemies) {
 			const bBox = enemy.getHitbox();
@@ -103,9 +105,14 @@ class Character extends MovableEntity {
 			const colliding = CalcFunctions.hitboxesColliding(aBox, bBox);
 
 			if (colliding) {
+				collided = true;
+				SoundHub.play(SoundHub.charFinSlap);
 				enemy.onGettingHit(15);
 			}
 		}
+
+		if (!collided) SoundHub.play(SoundHub.charFinSlapMiss);
+
 		this.world.keyboard.enabled = true;
 		this.idle();
 	}
@@ -140,6 +147,7 @@ class Character extends MovableEntity {
 			return;
 		}
 		if (this.animationLocked) return;
+		if (this.snoreInterval) clearInterval(this.snoreInterval);
 		switch (name) {
 			case "idle":
 				super.animate("idle", ImageHub.getCharacterIdleImages());
@@ -150,6 +158,10 @@ class Character extends MovableEntity {
 
 				break;
 			case "longIdle":
+				this.snoreInterval = setInterval(() => {
+					SoundHub.play(SoundHub.charSnore);
+				}, 2000);
+
 				super.animate("longIdle", ImageHub.getCharacterLongIdleImages());
 
 				break;
@@ -255,6 +267,8 @@ class Character extends MovableEntity {
 				this.attackWithFin();
 			} else if (this.currentAnimation === "hurt") {
 				this.idle();
+			} else if (this.currentAnimation === "swim") {
+				SoundHub.play(SoundHub.charSwim);
 			} else if (this.currentAnimation === "poisoned") {
 				this.idle();
 			} else if (this.currentAnimation === "electrified") {
@@ -276,6 +290,10 @@ class Character extends MovableEntity {
 	onDead() {
 		this.animationLocked = false;
 		this.animate("dead");
+		SoundHub.play(SoundHub.charDeath);
+		setTimeout(() => {
+			SoundHub.play(SoundHub.charDeathBell);
+		}, 2000);
 
 		const deadInterval = setInterval(() => {
 			this.animationTick(ANIMATION_IN_SEC);
@@ -293,6 +311,7 @@ class Character extends MovableEntity {
 		if (Number(damage)) {
 			this.hp -= damage;
 		}
+		SoundHub.play(SoundHub.charGettingHit);
 
 		if (this.statuses.includes("electrified")) {
 			return this.animate("electrified");

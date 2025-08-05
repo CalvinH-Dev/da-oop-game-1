@@ -125,6 +125,7 @@ class JellyFish extends MovableEntity {
 		this.animate("dead");
 		const canMoveUp = this.moveUp(ft);
 		if (!canMoveUp) {
+			SoundHub.play(SoundHub.fishLeaves);
 			this.despawn();
 		}
 	}
@@ -146,6 +147,7 @@ class JellyFish extends MovableEntity {
 				obj.onGettingHit(COLLISION_DAMAGE);
 			} else {
 				if (!obj.statuses.includes("electrified")) {
+					SoundHub.play(SoundHub.jellyElectrified);
 					obj.statuses.push("electrified");
 				}
 				obj.onGettingHit(COLLISION_DAMAGE);

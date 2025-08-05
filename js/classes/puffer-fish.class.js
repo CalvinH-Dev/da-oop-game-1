@@ -167,6 +167,7 @@ class PufferFish extends MovableEntity {
 		this.animate("dead");
 		const canMoveUp = this.moveUp(ft);
 		if (!canMoveUp) {
+			SoundHub.play(SoundHub.fishLeaves);
 			this.despawn();
 		}
 	}

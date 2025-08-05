@@ -7,6 +7,7 @@ class Bubble extends Projectile {
 		const imgSrc = ImageHub.getBubbleImage();
 		const acceleration = { y: 0, x: 15 };
 		super(castedBy, position, size, velocity, imgSrc, acceleration, direction, damage);
+		SoundHub.play(SoundHub.charBubbleShoot);
 	}
 
 	calcMovement(ft) {
@@ -20,6 +21,7 @@ class Bubble extends Projectile {
 	}
 
 	effectOnHit(obj) {
+		SoundHub.play(SoundHub.charBubbleHit);
 		obj.onGettingHit(this.damage);
 	}
 }
