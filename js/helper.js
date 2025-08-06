@@ -51,3 +51,6 @@ function restartGame() {
 	setLevel(levelId);
 	startGame();
 }
+
+const isLandscape = () => window.screen.orientation.type.startsWith("landscape");
+const isPortrait = () => window.screen.orientation.type.startsWith("portrait");

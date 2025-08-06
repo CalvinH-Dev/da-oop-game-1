@@ -92,6 +92,8 @@ function getLevel1(world) {
 		collectable.world = world;
 	}
 
+	world.projectiles = [];
+
 	const level = new Level(1, characterLv1, enemiesLv1, assetsLv1, collectablesLv1);
 	levels[1] = level;
 

@@ -15,6 +15,7 @@ class SoundHub {
 	static poisonCollect = new Audio("/assets/audio/pickup/poison.mp3");
 	static jellyElectrified = new Audio("/assets/audio/jelly-fish/electrified.mp3"); // https://opengameart.org/users/macro
 	static fishLeaves = new Audio("/assets/audio/fish-leaves-canvas.ogg"); // https://opengameart.org/users/antumdeluge
+	static whaleAttack = new Audio("/assets/audio/whale-maul.ogg");
 
 	static allSounds = [
 		SoundHub.bgWater,
@@ -32,6 +33,7 @@ class SoundHub {
 		SoundHub.jellyElectrified,
 		SoundHub.jellyElectrified,
 		SoundHub.fishLeaves,
+		SoundHub.whaleAttack,
 	];
 	static volume = 0;
 

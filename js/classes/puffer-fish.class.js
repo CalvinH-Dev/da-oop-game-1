@@ -30,7 +30,7 @@ class PufferFish extends MovableEntity {
 		}
 
 		if (!speed) {
-			speed = { x: 250, y: 250 };
+			speed = { x: 100, y: 100 };
 		}
 		super(position, size, speed, imgSrc);
 		this.originalSize.width = this.width;
@@ -128,10 +128,14 @@ class PufferFish extends MovableEntity {
 		if (!this.changeSizeInterval) {
 			this.changeSize();
 		}
+		if (!this.target) {
+			const maxX = BOARD_WIDTH * 3 - this.hitbox.width;
+			const maxY = BOARD_HEIGHT - this.hitbox.height;
+			this.setRandomTarget(0, maxX, maxY);
+		}
+		this.moveToTarget(ft);
+
 		if (this.currentMovementInterval) return;
-		this.currentMovementInterval = setInterval(() => {
-			this.moveRandom(ft);
-		}, PUFFERFISH_MOVEMENT_INTERVAL);
 	}
 
 	effectOnCollision(obj) {

@@ -8,6 +8,8 @@ html {
 	--color-blue-lighter: hsl(192, 23%, 85%);
 	--color-blue: hsl(192, 23%, 78%);
 	--color-blue-darker: hsl(192, 23%, 71%);
+
+	--footer-height: 1em;
 }
 
 button {
@@ -16,33 +18,40 @@ button {
 
 body {
 	background-color: var(--color-blue);
-	min-height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	height: 100dvh;
 }
 
 .grid {
-	width: 80vw;
+	width: 100%;
+	height: 100%;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
-	grid-template-rows: 50px 80dvh;
-	grid-auto-flow: column;
+	grid-template-columns: 100%;
+	grid-template-rows: 50px calc(100% - 50px);
+	grid-auto-flow: row;
 	justify-content: center;
 	align-items: start;
 	align-content: center;
 	justify-items: center;
-	margin: auto;
 }
 
-canvas {
+.options {
+	display: flex;
 	width: 100%;
+	justify-content: space-around;
+	align-self: center;
+}
+
+.view {
 	height: 100%;
-	border: 1px solid black;
+	aspect-ratio: 16/9;
 	grid-row: 2/3;
 	grid-column: 1/-1;
+}
 
-	background-color: transparent;
+footer {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
 }
 
 .sound-button {
@@ -65,13 +74,15 @@ canvas {
 	grid-column: 1/-1;
 
 	display: grid;
-	grid-template-rows: 7svh 73svh;
+	grid-template-rows: 7dvh calc(80dvh - var(--footer-height) - 7dvh) var(--footer-height);
 
 	min-width: 0;
 }
 
 .menu.ingame {
-	grid-template-rows: 7svh 7svh 64svh;
+	grid-template-rows: 7dvh 7dvh calc(80dvh - var(--footer-height) - 7dvh - 7dvh) var(
+			--footer-height
+		);
 }
 
 .image-container {
@@ -90,8 +101,25 @@ canvas {
 	display: none;
 }
 
-@media (orientation: landscape) {
+.note {
+	position: absolute;
+	inset: 0;
+	margin: auto;
+	display: none;
+	align-content: center;
+	text-align: center;
+}
+
+@media (orientation: portrait) {
 	.grid {
-		height: 90vh;
+		display: none;
+	}
+
+	.options {
+		display: none;
+	}
+
+	.note {
+		display: initial;
 	}
 }

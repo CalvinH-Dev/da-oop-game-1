@@ -310,7 +310,7 @@ class Character extends MovableEntity {
 
 	onGettingHit(damage) {
 		if (Number(damage)) {
-			this.hp -= damage;
+			this.hp = Math.max(0, this.hp - damage);
 		}
 		SoundHub.play(SoundHub.charGettingHit);
 

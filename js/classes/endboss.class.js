@@ -1,4 +1,6 @@
 class Endboss extends MovableEntity {
+	origin;
+	state = "idle";
 	defaultDirection = "L";
 	hitbox = {
 		offsetX: 40,
@@ -22,10 +24,11 @@ class Endboss extends MovableEntity {
 		}
 
 		if (!speed) {
-			speed = { x: 150, y: 150 };
+			speed = { x: 400, y: 250 };
 		}
 		super(position, size, speed, imgSrc);
 		this.direction = "U";
+		this.origin = position;
 		this.animateSpawn();
 	}
 
@@ -78,6 +81,48 @@ class Endboss extends MovableEntity {
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
 		if (this.hp <= 0) this.onDead(ft);
+		if (this.state === "hurt" || this.currentAnimation === "spawn") return;
+
+		if (!this.target && this.state === "idle") {
+			console.log("rollend");
+			console.log(this.rollAction());
+		}
+
+		if (!this.target && this.state === "movingToTarget") {
+			this.setTarget(this.origin);
+			this.state = "returning";
+		} else if (!this.target && this.state === "returning") {
+			this.state = "idle";
+		} else if ((this.target && this.state === "movingToTarget") || "returning") {
+			this.moveToTarget(ft);
+		}
+	}
+
+	attackPosition(height) {
+		const hitboxX = this.x + this.hitbox.offsetX;
+		const hitboxY = this.y + this.hitbox.offsetY;
+
+		return {
+			x: hitboxX - 60,
+			y: hitboxY + this.hitbox.height / 2 + (-1 * height) / 2,
+		};
+	}
+
+	maul() {
+		const attackCoords = this.attackPosition(this.hitbox.height);
+
+		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 60, height: this.hitbox.height };
+		let collided = false;
+		const character = this.world.characterRef;
+
+		const bBox = character.getHitbox();
+
+		const colliding = CalcFunctions.hitboxesColliding(aBox, bBox);
+
+		if (colliding) {
+			collided = true;
+			character.onGettingHit(COLLISION_DAMAGE);
+		}
 	}
 
 	animationTick() {
@@ -85,6 +130,7 @@ class Endboss extends MovableEntity {
 			this.animate("hurt");
 			this.wasHit = false;
 		}
+
 		this.imgRef = this.cachedImages[this.frames[this.animationState]];
 		this.animationState = (this.animationState + 1) % this.frames.length;
 
@@ -92,6 +138,15 @@ class Endboss extends MovableEntity {
 			if (this.currentAnimation === "spawn") {
 				this.hittable = true;
 				this.idle();
+			} else if (this.currentAnimation === "hurt" && !this.wasHit) {
+				this.animate("idle");
+				this.state = "idle";
+			} else if (this.currentAnimation === "attack") {
+				this.maul();
+				this.animate("idle");
+				this.state = "idle";
+			} else if (this.currentAnimation === "idle" && this.state === "waiting") {
+				this.state = "idle";
 			}
 		}
 	}
@@ -111,8 +166,49 @@ class Endboss extends MovableEntity {
 	onGettingHit(damage) {
 		if (this.dead) return;
 		this.wasHit = true;
+		this.state = "hurt";
 		if (Number(damage)) {
 			this.hp -= damage;
 		}
 	}
+
+	rollAction() {
+		const roll = Math.floor(Math.random() * 24);
+
+		if (roll === 0) {
+			this.doNothing();
+		} else if (roll >= 1 && roll <= 10) {
+			this.attackForward();
+		} else {
+			this.goToRandomTarget();
+		}
+		return roll;
+	}
+
+	attackForward() {
+		this.state = "attacking";
+		SoundHub.play(SoundHub.whaleAttack);
+		this.animate("attack");
+	}
+
+	doNothing() {
+		this.state = "waiting";
+		this.animate("idle");
+	}
+
+	goToRandomTarget() {
+		const minX = BOARD_WIDTH * 3;
+		const maxX = BOARD_WIDTH * 4 - this.hitbox.offsetX - this.hitbox.width;
+		const maxY = BOARD_HEIGHT - this.hitbox.offsetY - this.hitbox.height;
+
+		this.setRandomTarget(minX, maxX, maxY);
+
+		console.log(maxY);
+		console.log(maxX);
+		console.log(this.target);
+
+		this.state = "movingToTarget";
+	}
+
+	returnToOrigin() {}
 }

@@ -34,30 +34,32 @@
 		<script src="js/keybinds.js" defer></script>
 	</head>
 	<body>
+		<audio class="loopSound" src="/assets/audio/bg_water_running.wav" loop autoplay></audio>
+		<!-- https://opengameart.org/users/antumdeluge -->
+		<audio class="loopSound" src="/assets/audio/music.ogg" loop autoplay></audio>
 		<div class="grid" id="mainGrid">
-			<audio class="loopSound" src="/assets/audio/bg_water_running.wav" loop autoplay></audio>
-			<!-- https://opengameart.org/users/antumdeluge -->
-			<audio class="loopSound" src="/assets/audio/music.ogg" loop autoplay></audio>
-			<button class="fullscreen-button">Fullscreen</button>
-			<button
-				class="sound-button"
-				id="sound-button"
-				onclick="SoundHub.muted ? activateSounds() : muteSounds()"
-			>
-				<img src="/assets/img/volume.svg" alt="" srcset="" />
-			</button>
-			<button onclick="world.playState ==='paused' ? closeMenu() : openMenu()">MENU</button>
-			<input
-				type="range"
-				oninput="SoundHub.setVolume()"
-				id="volume"
-				min="0"
-				max="1"
-				step="0.01"
-				value="0.5"
-			/>
-			<canvas id="mainCanvas"></canvas>
-			<div class="menu"></div>
+			<div class="options">
+				<button onclick="world.playState ==='paused' ? closeMenu() : openMenu()">MENU</button>
+				<button
+					class="sound-button"
+					id="sound-button"
+					onclick="SoundHub.muted ? activateSounds() : muteSounds()"
+				>
+					<img src="/assets/img/volume.svg" alt="" srcset="" />
+				</button>
+				<input
+					type="range"
+					oninput="SoundHub.setVolume()"
+					id="volume"
+					min="0"
+					max="1"
+					step="0.01"
+					value="0.5"
+				/>
+			</div>
+			<canvas id="mainCanvas" class="view"></canvas>
+			<div class="menu view"></div>
 		</div>
+		<p class="note">Bitte das Handy drehen!</p>
 	</body>
 </html>
