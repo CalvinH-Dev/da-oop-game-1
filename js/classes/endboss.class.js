@@ -84,8 +84,7 @@ class Endboss extends MovableEntity {
 		if (this.state === "hurt" || this.currentAnimation === "spawn") return;
 
 		if (!this.target && this.state === "idle") {
-			console.log("rollend");
-			console.log(this.rollAction());
+			this.rollAction();
 		}
 
 		if (!this.target && this.state === "movingToTarget") {
@@ -202,10 +201,6 @@ class Endboss extends MovableEntity {
 		const maxY = BOARD_HEIGHT - this.hitbox.offsetY - this.hitbox.height;
 
 		this.setRandomTarget(minX, maxX, maxY);
-
-		console.log(maxY);
-		console.log(maxX);
-		console.log(this.target);
 
 		this.state = "movingToTarget";
 	}

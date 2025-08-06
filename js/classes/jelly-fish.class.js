@@ -82,6 +82,14 @@ class JellyFish extends MovableEntity {
 		this.deadImages = deadImages;
 	}
 
+	render(ctx, showBox) {
+		if (this.direction === this.defaultDirection) {
+			super.render(ctx, showBox);
+		} else {
+			super.renderRotated(ctx, 180, showBox);
+		}
+	}
+
 	cacheAllImages() {
 		const colors = ["yellow", "purple", "green", "pink"];
 		for (const color of colors) {

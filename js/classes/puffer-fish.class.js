@@ -84,7 +84,7 @@ class PufferFish extends MovableEntity {
 		) {
 			super.render(ctx, showBox);
 		} else {
-			super.render(ctx, showBox);
+			super.renderFlipped(ctx, showBox);
 		}
 	}
 
@@ -133,6 +133,12 @@ class PufferFish extends MovableEntity {
 			const maxY = BOARD_HEIGHT - this.hitbox.height;
 			this.setRandomTarget(0, maxX, maxY);
 		}
+		if (this.target.x >= this.x) {
+			this.direction = "R";
+		} else {
+			this.direction = "L";
+		}
+
 		this.moveToTarget(ft);
 
 		if (this.currentMovementInterval) return;
