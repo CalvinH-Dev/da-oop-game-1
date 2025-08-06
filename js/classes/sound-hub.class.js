@@ -16,26 +16,42 @@ class SoundHub {
 	static jellyElectrified = new Audio("/assets/audio/jelly-fish/electrified.mp3"); // https://opengameart.org/users/macro
 	static fishLeaves = new Audio("/assets/audio/fish-leaves-canvas.ogg"); // https://opengameart.org/users/antumdeluge
 
-	static allSounds = [SoundHub.testSound];
+	static allSounds = [
+		SoundHub.bgWater,
+		SoundHub.charBubbleShoot,
+		SoundHub.charBubbleHit,
+		SoundHub.charFinSlap,
+		SoundHub.charFinSlapMiss,
+		SoundHub.charGettingHit,
+		SoundHub.charDeath,
+		SoundHub.charDeathBell,
+		SoundHub.charSwim,
+		SoundHub.charSnore,
+		SoundHub.coinCollect,
+		SoundHub.poisonCollect,
+		SoundHub.jellyElectrified,
+		SoundHub.jellyElectrified,
+		SoundHub.fishLeaves,
+	];
 	static volume = 0;
 
 	static play(sound) {
 		if (this.muted) return;
-		let volumeValue = document.getElementById("volume").value;
 
 		if (this.isQuietSound(sound)) {
-			volumeValue = 1;
+			sound.volume = Math.min(1, this.volume * 3);
 		} else if (this.isLoudSound(sound)) {
-			volumeValue = volumeValue / 3;
+			sound.volume = this.volume / 3;
+		} else {
+			sound.volume = this.volume;
 		}
 
-		sound.volume = volumeValue;
 		sound.currentTime = 0;
 		sound.play();
 	}
 
 	static isLoudSound(sound) {
-		return sound === SoundHub.fishLeaves;
+		return sound === SoundHub.fishLeaves || sound === SoundHub.charSnore;
 	}
 
 	static isQuietSound(sound) {
@@ -54,15 +70,34 @@ class SoundHub {
 
 	static setVolume() {
 		this.volume = Number(document.getElementById("volume").value);
+
+		for (const sound of this.allSounds) {
+			sound.volume = this.volume;
+		}
+
+		const loops = document.querySelectorAll(".loopSound");
+
+		for (const loop of loops) {
+			loop.volume = 0.3 * this.volume;
+		}
+
+		localStorage.setItem("sound-volume", JSON.stringify(this.volume));
 	}
 
 	static muteSounds() {
-		document.getElementById("loopSound").pause();
+		const loops = document.querySelectorAll(".loopSound");
+		for (const loop of loops) {
+			loop.pause();
+		}
+
 		this.muted = true;
 	}
 
 	static activateSounds() {
-		document.getElementById("loopSound").play();
+		const loops = document.querySelectorAll(".loopSound");
+		for (const loop of loops) {
+			loop.play();
+		}
 
 		this.muted = false;
 	}

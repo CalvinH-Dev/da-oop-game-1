@@ -4,11 +4,18 @@
 	box-sizing: border-box;
 }
 
+html {
+	--color-blue-lighter: hsl(192, 23%, 85%);
+	--color-blue: hsl(192, 23%, 78%);
+	--color-blue-darker: hsl(192, 23%, 71%);
+}
+
 button {
 	cursor: pointer;
 }
 
 body {
+	background-color: var(--color-blue);
 	min-height: 100vh;
 	display: flex;
 	justify-content: center;
@@ -16,15 +23,21 @@ body {
 }
 
 .grid {
+	width: 80vw;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr auto;
+	grid-template-rows: 50px 80dvh;
 	grid-auto-flow: column;
 	justify-content: center;
-	align-items: center;
+	align-items: start;
+	align-content: center;
+	justify-items: center;
+	margin: auto;
 }
 
 canvas {
+	width: 100%;
+	height: 100%;
 	border: 1px solid black;
 	grid-row: 2/3;
 	grid-column: 1/-1;
@@ -32,7 +45,7 @@ canvas {
 	background-color: transparent;
 }
 
-.volume-button {
+.sound-button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -40,17 +53,45 @@ canvas {
 	aspect-ratio: 1;
 }
 
-.volume-button > img {
+.sound-button > img {
 	height: 100%;
 }
 
 .menu {
-	background-color: red;
+	background-color: color-mix(in hsl, var(--color-blue-darker), transparent 20%);
 	height: 100%;
+	width: 100%;
 	grid-row: 2/3;
 	grid-column: 1/-1;
+
+	display: grid;
+	grid-template-rows: 7svh 73svh;
+
+	min-width: 0;
+}
+
+.menu.ingame {
+	grid-template-rows: 7svh 7svh 64svh;
+}
+
+.image-container {
+	min-height: 0;
+	min-width: 0;
+	display: flex;
+}
+
+.menu img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 .menu.d-none {
 	display: none;
+}
+
+@media (orientation: landscape) {
+	.grid {
+		height: 90vh;
+	}
 }

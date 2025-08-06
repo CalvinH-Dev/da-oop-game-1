@@ -303,7 +303,8 @@ class Character extends MovableEntity {
 			}
 		}, ANIMATION_IN_SEC * 1000);
 		setTimeout(() => {
-			startLevel(1);
+			setLevel(1);
+			initMenu();
 		}, 5000);
 	}
 

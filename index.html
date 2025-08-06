@@ -26,21 +26,23 @@
 		<script src="js/classes/character.class.js"></script>
 		<script src="js/classes/level.class.js"></script>
 		<script src="js/classes/world.class.js"></script>
+		<script src="js/template.js" defer></script>
+		<script src="js/helper.js" defer></script>
 		<script src="js/init.js" defer></script>
 		<script src="js/levels/level1.js" defer></script>
-		<script src="js/helper.js"></script>
 		<script src="js/script.js" defer></script>
 		<script src="js/keybinds.js" defer></script>
 	</head>
 	<body>
-		<div class="grid">
+		<div class="grid" id="mainGrid">
 			<audio class="loopSound" src="/assets/audio/bg_water_running.wav" loop autoplay></audio>
 			<!-- https://opengameart.org/users/antumdeluge -->
 			<audio class="loopSound" src="/assets/audio/music.ogg" loop autoplay></audio>
-			<button>Fullscreen</button>
+			<button class="fullscreen-button">Fullscreen</button>
 			<button
-				class="volume-button"
-				onclick="SoundHub.muted ? activateSounds(this) : muteSounds(this)"
+				class="sound-button"
+				id="sound-button"
+				onclick="SoundHub.muted ? activateSounds() : muteSounds()"
 			>
 				<img src="/assets/img/volume.svg" alt="" srcset="" />
 			</button>
@@ -55,7 +57,7 @@
 				value="0.5"
 			/>
 			<canvas id="mainCanvas"></canvas>
-			<div class="menu d-none">Das ist das Menü</div>
+			<div class="menu"></div>
 		</div>
 	</body>
 </html>

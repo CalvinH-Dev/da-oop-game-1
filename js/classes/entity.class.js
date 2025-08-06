@@ -138,6 +138,9 @@ class Entity {
 		const { minSize = 1, maxSize = 2.5, changeRatio = 0.1, randomSign = 25 } = options;
 		let multiplier = 1 + changeRatio;
 		let applied = 1;
+		this.hitbox = { ...this.originalHitbox };
+		this.height = this.originalSize.height;
+		this.width = this.originalSize.width;
 
 		this.changeSizeInterval = setInterval(() => {
 			if (this.hitbox.offsetX !== undefined) {

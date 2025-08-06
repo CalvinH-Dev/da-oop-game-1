@@ -18,6 +18,7 @@ class World {
 	levelId;
 	showBoxes = false;
 	playState = "paused";
+	endbossSpawned = false;
 
 	constructor(keyboard, canvasRef) {
 		this.canvasRef = canvasRef;
@@ -26,21 +27,22 @@ class World {
 		this.showHitboxes(true);
 	}
 
-	setLevel(levelId, character, enemies, assets, collectables) {
+	setLevel(levelId, character, enemies, assets, collectables, translateX) {
 		this.levelId = levelId;
 		this.characterRef = character;
 		this.enemies = enemies;
 		this.assets = assets;
 		this.collectables = collectables;
+		this.canvasCtx.translate(translateX, 0);
+		this.scrollX = 0;
 	}
 
 	showHitboxes(bool = true) {
 		this.showBoxes = bool;
 	}
 
-	startGame(translateX) {
+	startGame() {
 		this.playState = "running";
-		this.canvasCtx.translate(translateX, 0);
 		const now = performance.now();
 		this.before = now;
 		this.accumulator = 0;
@@ -74,25 +76,21 @@ class World {
 		this.accumulator += dtInSec;
 		this.animationAccumulator += dtInSec;
 
-		if (this.accumulator >= UPDATE_IN_SEC) {
-			this.update(UPDATE_IN_SEC); // pixel pro Sekunde ist velocity eines charakters
-			this.accumulator = 0;
-		}
-
-		if (this.animationAccumulator >= ANIMATION_IN_SEC) {
-			this.animationTick(ANIMATION_IN_SEC);
-			this.animationAccumulator = 0;
-		}
+		this.update(UPDATE_IN_SEC);
+		this.animationTick(ANIMATION_IN_SEC);
 
 		this.keyboard.action(this, dtInSec);
 
+		this.checkTerminationConditions();
+
+		this.render();
+	}
+
+	checkTerminationConditions() {
 		if (this.characterRef.dead) {
 			this.pause();
 			return this.characterRef.onDead();
 		}
-
-		this.render();
-		this.renderUI();
 	}
 
 	renderUI() {
@@ -105,7 +103,10 @@ class World {
 	}
 
 	update(ft) {
-		this.updateAll(ft);
+		if (this.accumulator >= UPDATE_IN_SEC) {
+			this.updateAll(ft);
+			this.accumulator = 0;
+		}
 	}
 
 	updateAll(ft) {
@@ -158,7 +159,10 @@ class World {
 	}
 
 	animationTick(ft) {
-		this.animateAll(ft);
+		if (this.animationAccumulator >= ANIMATION_IN_SEC) {
+			this.animateAll(ft);
+			this.animationAccumulator = 0;
+		}
 	}
 
 	animateAll(ft) {
@@ -204,6 +208,11 @@ class World {
 	}
 
 	render() {
+		this.renderEntities();
+		this.renderUI();
+	}
+
+	renderEntities() {
 		this.canvasCtx.clearRect(0, 0, this.canvasRef.width, this.canvasRef.height);
 		this.renderAll();
 	}
@@ -256,12 +265,7 @@ class World {
 			this.canvasCtx.translate(-amountScroll, 0);
 			this.scrollX -= amountScroll;
 		} else {
-			if (!this.spawned) {
-				const boss = new Endboss({ x: MAP_WIDTH - 570, y: 0 });
-				boss.world = this;
-				this.enemies.push(boss);
-				this.spawned = true;
-			}
+			this.spawnEndboss();
 		}
 	}
 
@@ -270,6 +274,15 @@ class World {
 			const amountScroll = this.characterRef.speedX * dt;
 			this.canvasCtx.translate(amountScroll, 0);
 			this.scrollX += amountScroll;
+		}
+	}
+
+	spawnEndboss() {
+		if (!this.endbossSpawned) {
+			const boss = new Endboss({ x: MAP_WIDTH - 570, y: 0 });
+			boss.world = this;
+			this.enemies.push(boss);
+			this.endbossSpawned = true;
 		}
 	}
 }

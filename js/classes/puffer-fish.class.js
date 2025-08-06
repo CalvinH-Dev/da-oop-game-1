@@ -9,6 +9,12 @@ class PufferFish extends MovableEntity {
 	};
 	maxCollisionDamageCooldownInSec = 2;
 	originalSize = { width: 0, height: 0 };
+	originalHitbox = {
+		offsetX: 5,
+		offsetY: 5,
+		width: 40,
+		height: 30,
+	};
 
 	wasHit = false;
 	hp = 20;
@@ -34,8 +40,6 @@ class PufferFish extends MovableEntity {
 		// this.collision = true;
 		this.applyColor();
 		this.swim();
-
-		this.changeSize();
 	}
 
 	defaultAnimation() {}
@@ -121,6 +125,9 @@ class PufferFish extends MovableEntity {
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
 		if (this.hp <= 0) this.onDead(ft);
+		if (!this.changeSizeInterval) {
+			this.changeSize();
+		}
 		if (this.currentMovementInterval) return;
 		this.currentMovementInterval = setInterval(() => {
 			this.moveRandom(ft);
