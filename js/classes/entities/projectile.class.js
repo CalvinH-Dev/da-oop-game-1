@@ -1,5 +1,5 @@
 class Projectile extends MovableEntity {
-	waterFriction = 15;
+	waterFriction = 10;
 	velocity = {};
 	gravity;
 	maxLifeTimeInSec = 10;

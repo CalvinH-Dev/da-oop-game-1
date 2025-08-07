@@ -140,7 +140,6 @@ class JellyFish extends MovableEntity {
 	}
 
 	effectOnCollision(obj) {
-		console.log(this.collisionDamageCooldownInSec);
 		if (this.dead || obj.isFriendly == this.isFriendly || this.collisionDamageCooldownInSec !== 0) {
 			return;
 		}
