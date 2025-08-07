@@ -75,3 +75,11 @@ function winMenu() {
 	menu.classList.remove("d-none");
 	menu.innerHTML = renderWinMenu();
 }
+
+function randomizeFirstAndSecondScreen(width) {
+	return Math.floor(Math.random() * (3300 - width)) + 500;
+}
+
+function randomizeThirdScreen(width) {
+	return Math.floor(Math.random() * (5760 - 3840 + 1)) + 3840;
+}

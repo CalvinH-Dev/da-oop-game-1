@@ -16,7 +16,7 @@ class Character extends MovableEntity {
 		lastTick: 0,
 		applied: 0,
 	};
-	poison = 0;
+	poison = 20;
 	coins = 0;
 	snoreInterval;
 
@@ -52,8 +52,10 @@ class Character extends MovableEntity {
 	}
 
 	bubble() {
-		this.world.keyboard.enabled = false;
-		this.animate("bubble");
+		if (this.poison >= 20) {
+			this.world.keyboard.enabled = false;
+			this.animate("bubble");
+		}
 	}
 
 	finAttack() {
@@ -89,6 +91,7 @@ class Character extends MovableEntity {
 		bubbleProj.world = this.world;
 		this.world.projectiles.push(bubbleProj);
 		this.world.keyboard.enabled = true;
+		this.poison -= 20;
 		this.idle();
 	}
 
