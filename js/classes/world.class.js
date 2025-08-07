@@ -24,7 +24,7 @@ class World {
 		this.canvasRef = canvasRef;
 		this.canvasCtx = this.canvasRef.getContext("2d");
 		this.keyboard = keyboard;
-		this.showHitboxes(true);
+		this.showHitboxes(false);
 	}
 
 	setLevel(levelId, character, enemies, assets, collectables, translateX) {

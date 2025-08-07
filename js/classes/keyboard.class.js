@@ -10,7 +10,11 @@ class Keyboard {
 	action(world, dt) {
 		const character = world.characterRef;
 		if (!this.enabled) return;
-		if (this.LEFT) {
+		if (this.F) {
+			character.finAttack();
+		} else if (this.D) {
+			character.bubble();
+		} else if (this.LEFT) {
 			character.moveLeft(dt);
 			if (character.x <= CalcFunctions.getMiddleOfBoardX(world)) {
 				world.scrollLeft(dt);
@@ -24,10 +28,6 @@ class Keyboard {
 			character.moveUp(dt);
 		} else if (this.DOWN) {
 			character.moveDown(dt);
-		} else if (this.D) {
-			character.bubble();
-		} else if (this.F) {
-			character.finAttack();
 		} else if (character.currentAnimation !== "longIdle" && !character.animationLocked) {
 			character.idle();
 		}

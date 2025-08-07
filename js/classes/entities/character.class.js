@@ -7,10 +7,12 @@ class Character extends MovableEntity {
 		height: 50,
 	};
 	willAttackWithFin = false;
+	immune = false;
 
 	isFriendly = true;
 	maxHP = 100;
 	hp = 100;
+	finDirection = "R";
 
 	poisonDoT = {
 		lastTick: 0,
@@ -52,6 +54,7 @@ class Character extends MovableEntity {
 	}
 
 	bubble() {
+		this.immune = true;
 		if (this.poison >= 20) {
 			this.world.keyboard.enabled = false;
 			this.animate("bubble");
@@ -59,7 +62,7 @@ class Character extends MovableEntity {
 	}
 
 	finAttack() {
-		this.world.keyboard.enabled = false;
+		this.immune = true;
 		this.animate("fin");
 	}
 
@@ -96,6 +99,7 @@ class Character extends MovableEntity {
 	}
 
 	attackWithFin() {
+		this.finDirection = this.direction === "L" ? "L" : "R";
 		const attackCoords = this.attackPosition(this.hitbox.height);
 
 		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 60, height: this.hitbox.height };
@@ -154,12 +158,6 @@ class Character extends MovableEntity {
 			super.animate("electrified", ImageHub.getCharacterElectrifiedImages());
 			return;
 		}
-
-		if (name === "bubble") {
-			this.world.keyboard.enabled = false;
-			super.animate("bubble", ImageHub.getCharacterBubbleImages());
-			return;
-		}
 	}
 
 	_animateStatuses(name) {
@@ -181,10 +179,14 @@ class Character extends MovableEntity {
 
 	_animateAttacks(name) {
 		if (name === "bubble") {
+			this.animationLocked = true;
+
 			this.world.keyboard.enabled = false;
 			super.animate("bubble", ImageHub.getCharacterBubbleImages());
 		} else if (name === "fin") {
-			this.world.keyboard.enabled = false;
+			this.animationLocked = true;
+
+			// this.world.keyboard.enabled = false;
 			this.willAttackWithFin = true;
 			super.animate("fin", ImageHub.getCharacterFinImages());
 		}
@@ -218,14 +220,22 @@ class Character extends MovableEntity {
 	}
 
 	render(ctx, showBox) {
+		if (this.currentAnimation === "fin") {
+			if (this.finDirection === "R") {
+				return super.render(ctx, showBox);
+			} else {
+				return super.renderFlipped(ctx, showBox);
+			}
+		}
+
 		if (
 			this.direction === this.defaultDirection ||
 			this.direction === "U" ||
 			this.direction === "D"
 		) {
-			super.render(ctx, showBox);
+			return super.render(ctx, showBox);
 		} else {
-			super.renderFlipped(ctx, showBox);
+			return super.renderFlipped(ctx, showBox);
 		}
 	}
 
@@ -326,6 +336,7 @@ class Character extends MovableEntity {
 	}
 
 	onGettingHit(damage) {
+		if (this.immune) return;
 		if (Number(damage)) {
 			this.hp = Math.max(0, this.hp - damage);
 		}
