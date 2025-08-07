@@ -1,0 +1,13 @@
+@media (width >= 1000px) {
+	.mobile-movement {
+		display: none;
+	}
+
+	.mobile-attacks {
+		display: none;
+	}
+
+	#menu {
+		grid-template-rows: auto 1fr;
+	}
+}

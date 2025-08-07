@@ -5,3 +5,18 @@ window.screen.orientation.addEventListener("change", () => {
 		}
 	}
 });
+
+function toggleFullscreen() {
+	if (isFullscreen()) {
+		document.exitFullscreen();
+	} else {
+		const mainView = document.querySelector(".main-view");
+		mainView.requestFullscreen();
+		openMenu();
+	}
+}
+
+function isFullscreen() {
+	const mainView = document.querySelector(".main-view");
+	return document.fullscreenElement === mainView;
+}

@@ -18,11 +18,10 @@ function activateSounds() {
 function openMenu() {
 	world.pause();
 	muteSounds();
-	const menu = document.querySelector(".menu");
+	const menu = document.querySelector("#menu");
 
-	if (world.before !== 0) {
-		menu.innerHTML = renderMenuIngame();
-	}
+	menu.innerHTML = renderMenu();
+
 	menu.classList.remove("d-none");
 }
 
@@ -36,7 +35,7 @@ function closeMenu() {
 }
 
 function startGame() {
-	const menu = document.querySelector(".menu");
+	const menu = document.querySelector("#menu");
 	menu.classList.add("d-none");
 	if (!SoundHub.muted) {
 		activateSounds();
@@ -65,13 +64,13 @@ function gameFinished(playerHasWon) {
 }
 
 function loseMenu() {
-	const menu = document.querySelector(".menu");
+	const menu = document.querySelector("#menu");
 	menu.classList.remove("d-none");
 	menu.innerHTML = renderLoseMenu();
 }
 
 function winMenu() {
-	const menu = document.querySelector(".menu");
+	const menu = document.querySelector("#menu");
 	menu.classList.remove("d-none");
 	menu.innerHTML = renderWinMenu();
 }

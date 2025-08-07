@@ -3,9 +3,9 @@ canvas.width = BOARD_WIDTH;
 canvas.height = BOARD_HEIGHT;
 
 function init() {
+	initMenu();
 	loadLocalStorage();
 	SoundHub.setVolume();
-	initMenu();
 
 	const keyboard = new Keyboard();
 	window.world = new World(keyboard, canvas);
@@ -29,7 +29,7 @@ function loadLocalStorage() {
 }
 
 function initMenu() {
-	const menu = document.querySelector(".menu");
+	const menu = document.getElementById("menu");
 	menu.classList.remove("d-none");
 	menu.innerHTML = renderMenu();
 }

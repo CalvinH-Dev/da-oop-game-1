@@ -1,0 +1,12 @@
+html {
+	--color-blue-lighter: hsl(192, 23%, 85%);
+	--color-blue: hsl(192, 23%, 78%);
+	--color-blue-darker: hsl(192, 23%, 71%);
+
+	--purple-bg-lighter: hsl(220, 20%, 66%);
+	--purple-bg: hsl(220, 20%, 59%);
+	--purple-bg-darker: hsl(220, 20%, 50%);
+
+	--footer-height: 5svh;
+	--options-height: 10svh;
+}

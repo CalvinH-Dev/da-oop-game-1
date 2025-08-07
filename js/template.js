@@ -1,40 +1,33 @@
 function renderMenu() {
 	return /*html*/ `
-  <div class="menu-buttons">
-    <button onclick="startGame()">Start</button>
+    ${renderVolumeInMenu()}
+    <div class="instructions-container">
+      ${renderInstructions()}
     </div>
-    <div class="image-container">
-      <img src="assets/sharkie/6.Botones/Instructions 1.png" alt="">
-    </div>
-    ${renderFooter()}
-
-  `;
+`;
 }
 
 function renderLoseMenu() {
 	return /*html*/ `
-  <div class="menu-buttons">
-    <button onclick="initMenu()">Back To Menu</button>
-    <button class="img-btn" onclick="restartGame()">
-      <img src="assets/sharkie/6.Botones/Try again/Recurso 16.png" alt="">
-    </button>
+  ${renderVolumeInMenu()}
+    <div class="game-over-container">
+      <button class="back-to-menu-btn" onclick="openMenu()">Back To Menu</button>
+      <div class="img-container">
+        <img class="game-over" src="assets/used/ui/game-over.png" alt="">
+      </div>
     </div>
-    <div class="image-container">
-      <img src="assets/sharkie/6.Botones/Tittles/Game Over/Recurso 11.png" alt="">
-    </div>
-    ${renderFooter()}
   `;
 }
 
 function renderWinMenu() {
 	return /*html*/ `
-  <div class="menu-buttons">
-    <button onclick="initMenu()">Back To Menu</button>
+  ${renderVolumeInMenu()}
+    <div class="game-over-container">
+      <button class="back-to-menu-btn" onclick="openMenu()">Back To Menu</button>
+      <div class="img-container">
+        <img class="game-over" src="assets/used/ui/you-win.png" alt="">
+      </div>
     </div>
-    <div class="image-container">
-      <img src="assets/sharkie/6.Botones/Tittles/You win/Mesa de trabajo 1.png" alt="">
-    </div>
-    ${renderFooter()}
   `;
 }
 
@@ -44,15 +37,61 @@ function renderFooter() {
   `;
 }
 
-function renderMenuIngame() {
+function renderInstructions() {
 	return /*html*/ `
-  <div class="menu-buttons">
-    <button onclick="startGame()">Resume</button>
-    <button onclick="restartGame()">Restart</button>
+      ${renderInstructionsText()}   
+    <div class="instructions-left">
+      <div class="img-container">
+        <img src="assets/used/ui/instructions.png" alt="">
+      </div>
+      <div class="img-container">
+        <img src="assets/used/ui/start.png" alt="" onclick="startGame()">
+      </div>
     </div>
-    <div class="image-container">
-      <img src="assets/sharkie/6.Botones/Instructions 1.png" alt="">
-    </div>
-    ${renderFooter()}
+  `;
+}
+
+function renderInstructionsText() {
+	return /*html*/ `
+    <div class="instructions-text">
+      <h2>Game Instructions</h2>
+      <h4>You control a character with two main attacks:</h4>
+      <ul>
+        <li>Bubble Shot (Hotkey: D): A ranged attack that requires Poison Bottles to use. Collect these bottles to shoot bubbles at enemies from a distance.</li>
+        <li>Fin Slap (Hotkey: F): A close-range melee attack. Use it when enemies get too close.</li>
+      </ul>
+      <h4>Objective:</h4><span>Defeat the Final Boss – a giant Whale.</span>
+      <h4>Enemies:</h4>
+      <ul>
+        <li class="orange">Orange Puffer Fish (40 DMG on collision)</li>
+        <li class="green">Green Puffer Fish (20 DMG on collision & 20 DMG after a few seconds)</li>
+        <li class="yellow">Yellow Jelly Fish (20 DMG on collision & stuns for 1 second)</li>
+        <li class="purple">Purple Jelly Fish (20 DMG on collision)</li>
+      </ul>
+      <span>You start the game with 100 HP. Use your attacks wisely and avoid getting hit!</span>
+  </div>    
+  `;
+}
+
+function renderVolumeInMenu() {
+	return /*html*/ `   
+	  <div class="sound">
+			<button
+			  class="sound-button"
+		  	id="sound-button"
+				onclick="SoundHub.muted ? activateSounds() : muteSounds()"
+			>
+			<img src="assets/img/volume.svg" alt="" srcset="" />
+			</button>
+			<input
+				type="range"
+				oninput="SoundHub.setVolume()"
+				id="volume"
+				min="0"
+				max="1"
+				step="0.01"
+				value="0.5"
+			/>
+		</div>
   `;
 }
