@@ -19,11 +19,9 @@ function openMenu() {
 	world.pause();
 	muteSounds();
 	const menu = document.querySelector(".menu");
-	menu.classList.remove("ingame");
 
 	if (world.before !== 0) {
 		menu.innerHTML = renderMenuIngame();
-		menu.classList.add("ingame");
 	}
 	menu.classList.remove("d-none");
 }
@@ -54,3 +52,26 @@ function restartGame() {
 
 const isLandscape = () => window.screen.orientation.type.startsWith("landscape");
 const isPortrait = () => window.screen.orientation.type.startsWith("portrait");
+
+function gameFinished(playerHasWon) {
+	world.pause();
+	if (playerHasWon) {
+		setLevel(1);
+		winMenu();
+	} else {
+		setLevel(1);
+		loseMenu();
+	}
+}
+
+function loseMenu() {
+	const menu = document.querySelector(".menu");
+	menu.classList.remove("d-none");
+	menu.innerHTML = renderLoseMenu();
+}
+
+function winMenu() {
+	const menu = document.querySelector(".menu");
+	menu.classList.remove("d-none");
+	menu.innerHTML = renderWinMenu();
+}

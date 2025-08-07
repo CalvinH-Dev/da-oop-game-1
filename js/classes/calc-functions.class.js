@@ -44,60 +44,71 @@ class CalcFunctions {
 		return xValueRight <= BOARD_WIDTH + world.maxScrollRight;
 	}
 
-	static checkCollision(obj, x, y) {
-		const world = obj.world;
-		let isColliding = false;
+	static collideEffect(obj, objBox, otherObj, isFriendly) {
+		const bBox = otherObj.getHitbox();
+		const collided = CalcFunctions.hitboxesColliding(objBox, bBox);
+		if (collided && isFriendly) {
+			obj.effectOnCollision(otherObj);
+			otherObj.effectOnCollision(obj);
+		}
 
-		const aBox = CalcFunctions.calcCollisionBox(x, y, obj.hitbox);
+		return collided;
+	}
 
+	static checkCollisionMovableEntities(world, obj, objBox) {
 		for (const enemy of world.enemies) {
-			const bBox = enemy.getHitbox();
-			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
-			if (collided && obj.isFriendly) {
-				obj.effectOnCollision(enemy);
-				enemy.effectOnCollision(obj);
-			}
+			const collided = this.collideEffect(obj, objBox, enemy, obj.isFriendly);
 
 			if (!obj.collision || !enemy.collision || isColliding || obj === enemy) continue;
 			isColliding = collided;
 		}
 
-		for (const asset of world.assets) {
-			const bBox = asset.getHitbox();
-			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
-			if (collided && obj.isFriendly) {
-				obj.effectOnCollision(asset);
-				asset.effectOnCollision(obj);
-			}
-
-			if (!obj.collision || !asset.collision || isColliding || obj === asset) continue;
-			isColliding = collided;
-		}
-
 		if (obj != world.characterRef) {
-			const bBox = world.characterRef.getHitbox();
-			const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
-			if (collided && !obj.isFriendly) {
-				obj.effectOnCollision(world.characterRef);
-				world.characterRef.effectOnCollision(obj);
-			}
+			const collided = this.collideEffect(obj, objBox, world.characterRef, !obj.isFriendly);
 
 			if (obj.collision && world.characterRef.collision) {
 				isColliding = collided;
 			}
 		}
+	}
 
-		if (obj === world.characterRef) {
+	static collectableCollision(character, characterBox, collectable) {
+		const bBox = collectable.getHitbox();
+		const collided = CalcFunctions.hitboxesColliding(characterBox, bBox);
+		if (collided) {
+			collectable.onCollected(character);
+		}
+	}
+
+	static checkCollision(obj, x, y) {
+		const world = obj.world;
+		const character = world.characterRef;
+		let isColliding = false;
+
+		const aBox = CalcFunctions.calcCollisionBox(x, y, obj.hitbox);
+
+		this.checkCollisionMovableEntities(world, obj, aBox);
+
+		if (obj === character) {
 			for (const collectable of world.collectables) {
-				const bBox = collectable.getHitbox();
-				const collided = CalcFunctions.hitboxesColliding(aBox, bBox);
-				if (collided) {
-					collectable.onCollected(world.characterRef);
-				}
+				this.collectableCollision(character, aBox, collectable);
 			}
 		}
 
 		return isColliding;
+	}
+
+	static projectileHitEffect(world, projectile, projectileBox) {
+		for (const enemy of world.enemies) {
+			if (!enemy.hittable) continue;
+			const bBox = enemy.getHitbox();
+			if (CalcFunctions.hitboxesColliding(projectileBox, bBox)) {
+				projectile.effectOnHit(enemy);
+				if (projectile.collision) {
+					return projectile.despawn();
+				}
+			}
+		}
 	}
 
 	static checkHitByProjectile(projectile, isFriendly, x, y) {
@@ -105,18 +116,8 @@ class CalcFunctions {
 
 		const aBox = CalcFunctions.calcCollisionBox(x, y, projectile.hitbox);
 
-		if (isFriendly) {
-			for (const enemy of world.enemies) {
-				if (!enemy.hittable) return;
-				const bBox = enemy.getHitbox();
-				if (CalcFunctions.hitboxesColliding(aBox, bBox)) {
-					projectile.effectOnHit(enemy);
-					if (projectile.collision) {
-						return projectile.despawn();
-					}
-				}
-			}
-		}
+		if (!isFriendly) return;
+		return this.projectileHitEffect(world, projectile, aBox);
 	}
 
 	static getMiddleOfBoardX(world) {
@@ -125,5 +126,9 @@ class CalcFunctions {
 
 	static getMiddleOfBoardY(world) {
 		return BOARD_HEIGHT / 2;
+	}
+
+	static changeSizeEffect() {
+
 	}
 }

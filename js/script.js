@@ -11,12 +11,14 @@ function setLevel(levelId) {
 		new StatusBar(20, 0, "health"),
 		new StatusBar(20, 60, "coins"),
 		new StatusBar(20, 120, "poison"),
+		new StatusBar(1900, 0, "boss", false),
 	];
 
 	const translateX = -1 * world.scrollX;
 	world.setLevel(levelId, character, enemies, assets, collectables, translateX);
 	world.keyboard = new Keyboard();
 	world.statusBars = statusBars;
+	world.endbossSpawned = false;
 
 	for (const bar of statusBars) {
 		bar.world = world;

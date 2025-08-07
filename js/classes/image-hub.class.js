@@ -293,4 +293,15 @@ class ImageHub {
 			"/assets/used/statuses/coins/100.png",
 		];
 	}
+
+	static getStatusBarBossHealthImages() {
+		return [
+			"/assets/used/enemies/whale/statusbar/0.png",
+			"/assets/used/enemies/whale/statusbar/20.png",
+			"/assets/used/enemies/whale/statusbar/40.png",
+			"/assets/used/enemies/whale/statusbar/60.png",
+			"/assets/used/enemies/whale/statusbar/80.png",
+			"/assets/used/enemies/whale/statusbar/100.png",
+		];
+	}
 }

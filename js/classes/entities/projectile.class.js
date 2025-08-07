@@ -1,5 +1,5 @@
 class Projectile extends MovableEntity {
-	waterFriction = 10;
+	waterFriction = 15;
 	velocity = {};
 	gravity;
 	maxLifeTimeInSec = 10;
@@ -62,8 +62,6 @@ class Projectile extends MovableEntity {
 		if (this.velocity.x <= 5 || this.shouldDespawn() || this.livedInSec >= this.maxLifeTimeInSec)
 			this.despawn();
 	}
-
-	effectOnHit(obj) {}
 
 	calcMovement(ft) {
 		this.acceleration.x -= this.waterFriction * ft;

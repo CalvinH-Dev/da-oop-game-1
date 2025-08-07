@@ -37,12 +37,41 @@ class PufferFish extends MovableEntity {
 		this.originalSize.height = this.height;
 		this.direction = "L";
 		this.color = color;
-		// this.collision = true;
+
 		this.applyColor();
 		this.swim();
 	}
 
-	defaultAnimation() {}
+	changeSize(options = {}) {
+		const { minSize = 1, maxSize = 2.5, changeRatio = 0.1 } = options;
+		let multiplier = 1 + changeRatio;
+		let applied = 1;
+		this._resetSizes();
+		this.changeSizeInterval = setInterval(() => {
+			this._changeSizes(multiplier);
+			applied *= multiplier;
+			CalcFunctions.checkCollision(this, this.x, this.y);
+			if (applied <= minSize) {
+				multiplier += 2 * changeRatio;
+			}
+			if (applied >= maxSize) {
+				multiplier -= 2 * changeRatio;
+			}
+		}, ANIMATION_INTERVAL * 2 + Math.random() * 25 * 10);
+	}
+
+	_changeSizes(multiplier) {
+		this.hitbox.width *= multiplier;
+		this.hitbox.height *= multiplier;
+		this.height *= multiplier;
+		this.width *= multiplier;
+	}
+
+	_resetSizes() {
+		this.hitbox = { ...this.originalHitbox };
+		this.height = this.originalSize.height;
+		this.width = this.originalSize.width;
+	}
 
 	applyColor() {
 		this.getColorImages();
@@ -50,19 +79,6 @@ class PufferFish extends MovableEntity {
 
 	swim() {
 		this.animate("swim");
-	}
-
-	moveRandom(ft) {
-		const number = Math.floor(Math.random() * 7);
-		if (number === 0) {
-			this.moveRight(ft);
-		} else if (number >= 1 && number < 5) {
-			this.moveLeft(ft);
-		} else if (number === 5) {
-			this.moveUp(ft);
-		} else {
-			this.moveDown(ft);
-		}
 	}
 
 	animate(name) {
@@ -118,16 +134,22 @@ class PufferFish extends MovableEntity {
 
 	despawn() {
 		this.world.enemies = this.world.enemies.filter((fish) => fish !== this);
-		clearInterval(this.currentMovementInterval);
 		clearInterval(this.changeSizeInterval);
 	}
 
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
-		if (this.hp <= 0) this.onDead(ft);
+
+		if (this.hp <= 0) return this.onDead(ft);
+
 		if (!this.changeSizeInterval) {
 			this.changeSize();
 		}
+
+		this._moveUpdate(ft);
+	}
+
+	_moveUpdate(ft) {
 		if (!this.target) {
 			const maxX = BOARD_WIDTH * 3 - this.hitbox.width;
 			const maxY = BOARD_HEIGHT - this.hitbox.height;
@@ -140,28 +162,23 @@ class PufferFish extends MovableEntity {
 		}
 
 		this.moveToTarget(ft);
-
-		if (this.currentMovementInterval) return;
 	}
 
 	effectOnCollision(obj) {
-		if (this.dead) {
+		if (this.dead || obj.isFriendly == this.isFriendly || this.collisionDamageCooldownInSec !== 0) {
 			return;
 		}
-		if (obj.isFriendly == this.isFriendly) return;
 
-		if (this.collisionDamageCooldownInSec === 0) {
-			if (this.color === "orange") {
-				obj.onGettingHit(COLLISION_DAMAGE * 2);
-			} else {
-				if (!obj.statuses.includes("poisoned")) {
-					obj.statuses.push("poisoned");
-				}
-				obj.poisonDoT.applied = new Date().getTime() / 1000;
-				obj.onGettingHit(COLLISION_DAMAGE);
+		if (this.color === "orange") {
+			obj.onGettingHit(COLLISION_DAMAGE * 2);
+		} else {
+			if (!obj.statuses.includes("poisoned")) {
+				obj.statuses.push("poisoned");
 			}
-			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
+			obj.poisonDoT.applied = new Date().getTime() / 1000;
+			obj.onGettingHit(COLLISION_DAMAGE);
 		}
+		this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 	}
 
 	animationTick(ft) {

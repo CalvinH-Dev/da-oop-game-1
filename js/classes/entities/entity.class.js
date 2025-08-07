@@ -1,7 +1,9 @@
 class Entity {
+	world;
+
 	imgRef;
 	cachedImages = {};
-	animationState = 1;
+	animationState = 0;
 	currentAnimation;
 	lastAnimationInterval;
 	animationCount;
@@ -21,17 +23,16 @@ class Entity {
 	maxHP = 50;
 
 	collision = false;
+	hittable = false;
+
 	hitbox = {
 		offsetX: 0,
 		offsetY: 0,
 		width: 0,
 		height: 0,
 	};
-	hittable = false;
 
 	statuses = [];
-
-	world;
 
 	constructor(x, y, width, height, imgSrc) {
 		this.setImage(imgSrc);
@@ -133,45 +134,9 @@ class Entity {
 		this.animationState = 0;
 	}
 
-	changeSize(options = {}, callbacks = {}) {
-		const { callbackMin = () => {}, callbackMax = () => {} } = callbacks;
-		const { minSize = 1, maxSize = 2.5, changeRatio = 0.1, randomSign = 25 } = options;
-		let multiplier = 1 + changeRatio;
-		let applied = 1;
-		this.hitbox = { ...this.originalHitbox };
-		this.height = this.originalSize.height;
-		this.width = this.originalSize.width;
-
-		this.changeSizeInterval = setInterval(() => {
-			if (this.hitbox.offsetX !== undefined) {
-				this.hitbox.width *= multiplier;
-				this.hitbox.height *= multiplier;
-			}
-			applied *= multiplier;
-			this.height *= multiplier;
-			this.width *= multiplier;
-			CalcFunctions.checkCollision(this, this.x, this.y);
-			if (applied <= minSize) {
-				callbackMin();
-				multiplier += 2 * changeRatio;
-			}
-
-			if (applied >= maxSize) {
-				callbackMax();
-				multiplier -= 2 * changeRatio;
-			}
-		}, ANIMATION_INTERVAL * 2 + Math.random() * randomSign * 10);
-	}
-
 	update(ft) {}
 
 	animationTick(ft) {}
 
 	effectOnCollision() {}
-
-	heal(amount) {
-		if (Number(amount)) {
-			this.hp = Math.min(this.maxHP, this.hp + amount);
-		}
-	}
 }

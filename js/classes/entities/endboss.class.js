@@ -11,8 +11,8 @@ class Endboss extends MovableEntity {
 	maxCollisionDamageCooldownInSec = 3;
 
 	wasHit = false;
-	hp = 35;
-	maxHP = 35;
+	hp = 100;
+	maxHP = 100;
 	collision = false;
 
 	isFriendly = false;
@@ -146,6 +146,8 @@ class Endboss extends MovableEntity {
 				this.state = "idle";
 			} else if (this.currentAnimation === "idle" && this.state === "waiting") {
 				this.state = "idle";
+			} else if (this.currentAnimation === "dead") {
+				gameFinished(true);
 			}
 		}
 	}
@@ -206,4 +208,9 @@ class Endboss extends MovableEntity {
 	}
 
 	returnToOrigin() {}
+
+	onDead() {
+		this.animate("dead");
+		this.dead = true;
+	}
 }

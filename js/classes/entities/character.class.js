@@ -33,7 +33,6 @@ class Character extends MovableEntity {
 		super(position, size, speed, imgSrc);
 		this.direction = "R";
 		this.collision = true;
-		// this.applyGravity();
 	}
 
 	defaultAnimation() {
@@ -97,6 +96,15 @@ class Character extends MovableEntity {
 		const attackCoords = this.attackPosition(this.hitbox.height);
 
 		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 60, height: this.hitbox.height };
+		const collided = this.checkFinHitEnemy(aBox);
+
+		if (!collided) SoundHub.play(SoundHub.charFinSlapMiss);
+
+		this.world.keyboard.enabled = true;
+		this.idle();
+	}
+
+	checkFinHitEnemy(aBox) {
 		let collided = false;
 
 		for (const enemy of this.world.enemies) {
@@ -107,96 +115,103 @@ class Character extends MovableEntity {
 			if (colliding) {
 				collided = true;
 				SoundHub.play(SoundHub.charFinSlap);
-				enemy.onGettingHit(15);
+				enemy.onGettingHit(COLLISION_DAMAGE);
 			}
 		}
-
-		if (!collided) SoundHub.play(SoundHub.charFinSlapMiss);
-
-		this.world.keyboard.enabled = true;
-		this.idle();
+		return collided;
 	}
 
 	trackIdleTime() {}
 
 	moveRight(dt) {
 		super.moveRight(dt);
-		this.animate("swim");
+		this.swim();
 	}
 
 	moveLeft(dt) {
 		super.moveLeft(dt);
 
-		this.animate("swim");
+		this.swim();
 	}
 
 	moveDown(dt) {
 		super.moveDown(dt);
-		this.animate("swim");
+		this.swim();
 	}
 
 	moveUp(dt) {
 		super.moveUp(dt);
-		this.animate("swim");
+		this.swim();
 	}
 
-	animate(name) {
+	_animationsWhenLocked(name) {
+		if (name === "electrified") {
+			this.animationLocked = true;
+			this.world.keyboard.enabled = false;
+			super.animate("electrified", ImageHub.getCharacterElectrifiedImages());
+			return;
+		}
+
 		if (name === "bubble") {
 			this.world.keyboard.enabled = false;
 			super.animate("bubble", ImageHub.getCharacterBubbleImages());
 			return;
 		}
-		if (this.animationLocked) return;
-		if (this.snoreInterval) clearInterval(this.snoreInterval);
-		switch (name) {
-			case "idle":
-				super.animate("idle", ImageHub.getCharacterIdleImages());
+	}
 
-				break;
-			case "swim":
-				super.animate("swim", ImageHub.getCharacterSwimImages());
-
-				break;
-			case "longIdle":
-				this.snoreInterval = setInterval(() => {
-					SoundHub.play(SoundHub.charSnore);
-				}, 2000);
-
-				super.animate("longIdle", ImageHub.getCharacterLongIdleImages());
-
-				break;
-
-			case "bubble":
-				this.world.keyboard.enabled = false;
-				super.animate("bubble", ImageHub.getCharacterBubbleImages());
-				break;
-
-			case "fin":
-				this.world.keyboard.enabled = false;
-				this.willAttackWithFin = true;
-				super.animate("fin", ImageHub.getCharacterFinImages());
-				break;
-
-			case "poisoned":
-				this.animationLocked = true;
-				super.animate("poisoned", ImageHub.getCharacterPoisonedImages());
-				break;
-
-			case "electrified":
-				this.animationLocked = true;
-				this.world.keyboard.enabled = false;
-				super.animate("electrified", ImageHub.getCharacterElectrifiedImages());
-				break;
-
-			case "hurt":
-				this.animationLocked = true;
-				super.animate("hurt", ImageHub.getCharacterIsHurtImages());
-				break;
-
-			case "dead":
-				this.animationLocked = true;
-				super.animate("dead", ImageHub.getCharacterIsDeadImages());
+	_animateStatuses(name) {
+		if (name === "poisoned") {
+			this.animationLocked = true;
+			super.animate("poisoned", ImageHub.getCharacterPoisonedImages());
+		} else if (name === "electrified") {
+			this.animationLocked = true;
+			this.world.keyboard.enabled = false;
+			super.animate("electrified", ImageHub.getCharacterElectrifiedImages());
+		} else if (name === "hurt") {
+			this.animationLocked = true;
+			super.animate("hurt", ImageHub.getCharacterIsHurtImages());
+		} else if (name === "dead") {
+			this.animationLocked = true;
+			super.animate("dead", ImageHub.getCharacterIsDeadImages());
 		}
+	}
+
+	_animateAttacks(name) {
+		if (name === "bubble") {
+			this.world.keyboard.enabled = false;
+			super.animate("bubble", ImageHub.getCharacterBubbleImages());
+		} else if (name === "fin") {
+			this.world.keyboard.enabled = false;
+			this.willAttackWithFin = true;
+			super.animate("fin", ImageHub.getCharacterFinImages());
+		}
+	}
+
+	_animateMovements(name) {
+		if (name === "idle") {
+			super.animate("idle", ImageHub.getCharacterIdleImages());
+		} else if (name === "swim") {
+			super.animate("swim", ImageHub.getCharacterSwimImages());
+		} else if (name === "longIdle") {
+			this.snoreInterval = setInterval(() => {
+				SoundHub.play(SoundHub.charSnore);
+			}, 2000);
+			super.animate("longIdle", ImageHub.getCharacterLongIdleImages());
+		}
+	}
+
+	animate(name) {
+		if (this.animationLocked) {
+			return this._animationsWhenLocked(name);
+		}
+
+		if (this.snoreInterval) clearInterval(this.snoreInterval);
+
+		this._animateMovements(name);
+
+		this._animateAttacks(name);
+
+		this._animateStatuses(name);
 	}
 
 	render(ctx, showBox) {
@@ -212,27 +227,16 @@ class Character extends MovableEntity {
 	}
 
 	cacheAllImages() {
-		this.swimImages = ImageHub.getCharacterSwimImages();
-		this.idleImages = ImageHub.getCharacterIdleImages();
-		this.longIdleImages = ImageHub.getCharacterLongIdleImages();
-		this.longIdleRepeatImages = ImageHub.getCharacterLongIdleRepeatImages();
-		this.bubbleImages = ImageHub.getCharacterBubbleImages();
-		this.finImages = ImageHub.getCharacterFinImages();
-		this.poisonedImages = ImageHub.getCharacterPoisonedImages();
-		this.isHurtImages = ImageHub.getCharacterIsHurtImages();
-		this.deadImages = ImageHub.getCharacterIsDeadImages();
-		this.electrifiedImages = ImageHub.getCharacterElectrifiedImages();
-
-		super.cacheImages(this.swimImages);
-		super.cacheImages(this.idleImages);
-		super.cacheImages(this.longIdleImages);
-		super.cacheImages(this.longIdleRepeatImages);
-		super.cacheImages(this.bubbleImages);
-		super.cacheImages(this.finImages);
-		super.cacheImages(this.poisonedImages);
-		super.cacheImages(this.isHurtImages);
-		super.cacheImages(this.deadImages);
-		super.cacheImages(this.electrifiedImages);
+		super.cacheImages(ImageHub.getCharacterSwimImages());
+		super.cacheImages(ImageHub.getCharacterIdleImages());
+		super.cacheImages(ImageHub.getCharacterLongIdleImages());
+		super.cacheImages(ImageHub.getCharacterLongIdleRepeatImages());
+		super.cacheImages(ImageHub.getCharacterBubbleImages());
+		super.cacheImages(ImageHub.getCharacterFinImages());
+		super.cacheImages(ImageHub.getCharacterPoisonedImages());
+		super.cacheImages(ImageHub.getCharacterIsHurtImages());
+		super.cacheImages(ImageHub.getCharacterIsDeadImages());
+		super.cacheImages(ImageHub.getCharacterElectrifiedImages());
 	}
 
 	update(ft) {
@@ -260,41 +264,55 @@ class Character extends MovableEntity {
 		this.animationState = (this.animationState + 1) % this.frames.length;
 
 		if (this.animationState === 0) {
-			// End of Animation
-			if (this.currentAnimation === "bubble") {
-				this.shootBubble();
-			} else if (this.currentAnimation === "fin" || this.willAttackWithFin) {
-				this.attackWithFin();
-			} else if (this.currentAnimation === "hurt") {
-				this.idle();
-			} else if (this.currentAnimation === "swim") {
-				SoundHub.play(SoundHub.charSwim);
-			} else if (this.currentAnimation === "poisoned") {
-				this.idle();
-			} else if (this.currentAnimation === "electrified") {
-				this.statuses = this.statuses.filter((status) => status != "electrified");
-				this.idle();
-			} else if (this.currentAnimation === "idle" && this.animationCount > 1) {
-				this.longIdle();
-			} else if (this.currentAnimation === "longIdle") {
-				this.animationState = this.frames.length - 1;
-			} else {
-				this.animationCount++;
-			}
+			this._endOfCurrentAnimation();
 			this.animationLocked = false;
 			this.world.keyboard.enabled = true;
 			this.willAttackWithFin = false;
 		}
 	}
 
+	_endOfCurrentAnimation() {
+		if (this.currentAnimation === "bubble") {
+			this.shootBubble();
+		} else if (this.currentAnimation === "fin" || this.willAttackWithFin) {
+			this.attackWithFin();
+		} else if (this.currentAnimation === "hurt") {
+			this.idle();
+		} else if (this.currentAnimation === "swim") {
+			SoundHub.play(SoundHub.charSwim);
+		} else if (this.currentAnimation === "poisoned") {
+			this.idle();
+		} else if (this.currentAnimation === "electrified") {
+			this.statuses = this.statuses.filter((status) => status != "electrified");
+			this.idle();
+		} else if (this.currentAnimation === "idle" && this.animationCount > 1) {
+			this.longIdle();
+		} else if (this.currentAnimation === "longIdle") {
+			this.animationState = this.frames.length - 1;
+		} else {
+			this.animationCount++;
+		}
+	}
+
 	onDead() {
 		this.animationLocked = false;
 		this.animate("dead");
+		this._onDeadSound();
+
+		this._onDeadAnimation();
+		setTimeout(() => {
+			gameFinished(false);
+		}, 4000);
+	}
+
+	_onDeadSound() {
 		SoundHub.play(SoundHub.charDeath);
 		setTimeout(() => {
 			SoundHub.play(SoundHub.charDeathBell);
-		}, 2000);
+		}, 1500);
+	}
 
+	_onDeadAnimation() {
 		const deadInterval = setInterval(() => {
 			this.animationTick(ANIMATION_IN_SEC);
 			this.world.render();
@@ -302,16 +320,13 @@ class Character extends MovableEntity {
 				clearInterval(deadInterval);
 			}
 		}, ANIMATION_IN_SEC * 1000);
-		setTimeout(() => {
-			setLevel(1);
-			initMenu();
-		}, 5000);
 	}
 
 	onGettingHit(damage) {
 		if (Number(damage)) {
 			this.hp = Math.max(0, this.hp - damage);
 		}
+
 		SoundHub.play(SoundHub.charGettingHit);
 
 		if (this.statuses.includes("electrified")) {
@@ -322,5 +337,9 @@ class Character extends MovableEntity {
 		this.animationLocked = true;
 	}
 
-	heal(amount) {}
+	heal(amount) {
+		if (Number(amount)) {
+			this.hp = Math.min(this.maxHP, this.hp + amount);
+		}
+	}
 }

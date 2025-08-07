@@ -51,10 +51,10 @@ class World {
 	}
 
 	pause() {
+		if (this.playState === "paused") return;
 		this.playState = "paused";
 		cancelAnimationFrame(this.stop);
 		for (const enemy of this.enemies) {
-			enemy.currentMovementInterval = clearInterval(enemy.currentMovementInterval);
 			enemy.changeSizeInterval = clearInterval(enemy.changeSizeInterval);
 		}
 	}
@@ -64,10 +64,22 @@ class World {
 		this.stop = requestAnimationFrame(this.gameLoop.bind(this));
 	}
 
-	gameLoop(tFrame) {
+	gameLoop(time) {
 		this.stop = requestAnimationFrame(this.gameLoop.bind(this));
 
-		const now = tFrame;
+		const dtInSec = this._trackTimeOfGameLoop(time);
+
+		this.update(UPDATE_IN_SEC);
+		this.animationTick(ANIMATION_IN_SEC);
+		this.keyboard.action(this, dtInSec);
+
+		this.checkTerminationConditions();
+
+		this.render();
+	}
+
+	_trackTimeOfGameLoop(time) {
+		const now = time;
 		const dt = now - this.before;
 
 		this.before = now;
@@ -75,15 +87,7 @@ class World {
 		const dtInSec = dt / 1000;
 		this.accumulator += dtInSec;
 		this.animationAccumulator += dtInSec;
-
-		this.update(UPDATE_IN_SEC);
-		this.animationTick(ANIMATION_IN_SEC);
-
-		this.keyboard.action(this, dtInSec);
-
-		this.checkTerminationConditions();
-
-		this.render();
+		return dtInSec;
 	}
 
 	checkTerminationConditions() {
@@ -97,7 +101,12 @@ class World {
 		const x = 20 - this.scrollX;
 
 		for (const bar of this.statusBars) {
+			if (!bar.show) continue;
+
 			bar.x = x;
+			if (bar.type === "boss") {
+				bar.x = BOARD_WIDTH + x - bar.width - 20;
+			}
 			bar.render(this.canvasCtx, false);
 		}
 	}
@@ -126,6 +135,7 @@ class World {
 
 	updateStatusBars(ft) {
 		for (const bar of this.statusBars) {
+			if (!bar.show) continue;
 			bar.update(ft);
 		}
 	}
@@ -283,6 +293,7 @@ class World {
 			boss.world = this;
 			this.enemies.push(boss);
 			this.endbossSpawned = true;
+			this.statusBars.filter((bar) => bar.type === "boss")[0].show = true;
 		}
 	}
 }

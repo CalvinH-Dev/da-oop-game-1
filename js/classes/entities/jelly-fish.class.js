@@ -28,7 +28,6 @@ class JellyFish extends MovableEntity {
 		super(position, size, speed, imgSrc);
 		this.direction = "U";
 		this.color = color;
-		// this.collision = true;
 		this.applyColor();
 		this.swim();
 	}
@@ -93,24 +92,18 @@ class JellyFish extends MovableEntity {
 	cacheAllImages() {
 		const colors = ["yellow", "purple", "green", "pink"];
 		for (const color of colors) {
-			const images = ImageHub.getJellyFishSwimImages(color);
-			this.swimImages = images;
-			this.cacheImages(images);
-			const deadImages = ImageHub.getJellyFishDeadImages(color);
-			this.cacheImages(deadImages);
+			this.cacheImages(ImageHub.getJellyFishSwimImages(color));
+			this.cacheImages(ImageHub.getJellyFishDeadImages(color));
 		}
 	}
 
 	despawn() {
 		this.world.enemies = this.world.enemies.filter((fish) => fish !== this);
-		clearInterval(this.currentMovementInterval);
-		clearInterval(this.changeSizeInterval);
 	}
 
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
 		if (this.hp <= 0) this.onDead(ft);
-		if (this.currentMovementInterval) return;
 
 		this.move(ft);
 	}
@@ -147,20 +140,20 @@ class JellyFish extends MovableEntity {
 	}
 
 	effectOnCollision(obj) {
-		if (this.dead) return;
-		if (obj.isFriendly == this.isFriendly) return;
-
-		if (this.collisionDamageCooldownInSec === 0) {
-			if (this.color === "purple") {
-				obj.onGettingHit(COLLISION_DAMAGE);
-			} else {
-				if (!obj.statuses.includes("electrified")) {
-					SoundHub.play(SoundHub.jellyElectrified);
-					obj.statuses.push("electrified");
-				}
-				obj.onGettingHit(COLLISION_DAMAGE);
-			}
-			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
+		console.log(this.collisionDamageCooldownInSec);
+		if (this.dead || obj.isFriendly == this.isFriendly || this.collisionDamageCooldownInSec !== 0) {
+			return;
 		}
+
+		if (this.color === "purple") {
+			obj.onGettingHit(COLLISION_DAMAGE);
+		} else {
+			if (!obj.statuses.includes("electrified")) {
+				SoundHub.play(SoundHub.jellyElectrified);
+				obj.statuses.push("electrified");
+			}
+			obj.onGettingHit(COLLISION_DAMAGE);
+		}
+		this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 	}
 }

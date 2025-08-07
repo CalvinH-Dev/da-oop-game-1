@@ -1,7 +1,7 @@
 class Bubble extends Projectile {
 	maxLifeTimeInSec = 10;
 
-	constructor(castedBy, position, direction, damage = 15) {
+	constructor(castedBy, position, direction, damage = COLLISION_DAMAGE) {
 		const size = { width: 50, height: 50 };
 		const velocity = { y: 100, x: 100 };
 		const imgSrc = ImageHub.getBubbleImage();

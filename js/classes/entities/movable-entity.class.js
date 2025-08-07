@@ -3,7 +3,6 @@ class MovableEntity extends Entity {
 	speedY = 20;
 	speedX = 20;
 	acceleration = { x: 0, y: 0 };
-	currentMovementInterval;
 	dead = false;
 
 	target = null;
@@ -12,16 +11,6 @@ class MovableEntity extends Entity {
 		super(position.x, position.y, size.width, size.height, imgSrc);
 		this.speedX = speed.x;
 		this.speedY = speed.y;
-	}
-
-	applyGravity() {
-		this.speedY += 5;
-		setInterval(() => {
-			if (CalcFunctions.isWithinBoundaryBottom(this.y + this.acceleration.y + this.height)) {
-				this.acceleration.y += this.speedY;
-				this.y += this.acceleration.y;
-			}
-		}, ANIMATION_INTERVAL * 5);
 	}
 
 	moveRight(dt) {
@@ -101,6 +90,12 @@ class MovableEntity extends Entity {
 			return;
 		}
 
+		this._moveToPosition(dx, dy, distance, dt);
+
+		this._updateDirection(dx, dy);
+	}
+
+	_moveToPosition(dx, dy, distance, dt) {
 		const moveX = (dx / distance) * this.speedX * dt;
 		const moveY = (dy / distance) * this.speedY * dt;
 
@@ -112,8 +107,22 @@ class MovableEntity extends Entity {
 
 		if (canMoveX) this.x = nextX;
 		if (canMoveY) this.y = nextY;
+	}
 
-		this.direction = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? "R" : "L") : dy > 0 ? "D" : "U";
+	_updateDirection(dx, dy) {
+		if (Math.abs(dx) > Math.abs(dy)) {
+			if (dx > 0) {
+				this.direction = "R";
+			} else {
+				this.direction = "L";
+			}
+		} else {
+			if (dy > 0) {
+				this.direction = "D";
+			} else {
+				this.direction = "U";
+			}
+		}
 	}
 
 	setRandomTarget(minX, maxX, maxY) {
