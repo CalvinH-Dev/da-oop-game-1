@@ -9,8 +9,8 @@ function getLevel1(world) {
 	const enemiesLv1 = [...enemiesScreenOneAndTwo, ...enemiesScreenThree];
 
 	const assetsLv1 = [
-		new Entity(0, 0, 3840, 1080, "/assets/used/background/completo.png"),
-		new Entity(3840, 0, 3840, 1080, "/assets/used/background/completo.png"),
+		new Entity(0, 0, 3840, 1080, "assets/used/background/completo.png"),
+		new Entity(3840, 0, 3840, 1080, "assets/used/background/completo.png"),
 	];
 
 	const collectablesLv1 = createCollectables();

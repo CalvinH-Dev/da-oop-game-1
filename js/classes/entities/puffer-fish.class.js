@@ -24,7 +24,7 @@ class PufferFish extends MovableEntity {
 	isFriendly = false;
 
 	constructor(position, color = "green", size, speed) {
-		const imgSrc = `/assets/used/enemies/puffer-fish/${color}/swim/1.png`;
+		const imgSrc = `assets/used/enemies/puffer-fish/${color}/swim/1.png`;
 		if (!size) {
 			size = { width: 50, height: 50 };
 		}

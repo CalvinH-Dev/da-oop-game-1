@@ -22,7 +22,7 @@ class Character extends MovableEntity {
 
 	constructor(position, size, speed) {
 		const scale = 1;
-		const imgSrc = "/assets/used/character/idle/1.png";
+		const imgSrc = "assets/used/character/idle/1.png";
 		if (!size) {
 			size = { width: 163 * scale, height: 200 * scale };
 		}

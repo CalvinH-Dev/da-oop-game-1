@@ -9,7 +9,7 @@ class PoisonCollectable extends Collectable {
 	constructor(x, y) {
 		const width = 55;
 		const height = 75;
-		const imgSrc = "/assets/used/collectables/poison/1.png";
+		const imgSrc = "assets/used/collectables/poison/1.png";
 		super(x, y, width, height, imgSrc);
 	}
 

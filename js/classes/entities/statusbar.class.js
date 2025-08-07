@@ -5,13 +5,13 @@ class StatusBar extends Entity {
 	constructor(x, y, type, show = true) {
 		let imgSrc = "";
 		if (type === "health") {
-			imgSrc = "/assets/used/statuses/health/100.png";
+			imgSrc = "assets/used/statuses/health/100.png";
 		} else if (type === "coins") {
-			imgSrc = "/assets/used/statuses/coins/0.png";
+			imgSrc = "assets/used/statuses/coins/0.png";
 		} else if (type === "poison") {
-			imgSrc = "/assets/used/statuses/poison/0.png";
+			imgSrc = "assets/used/statuses/poison/0.png";
 		} else if (type === "boss") {
-			imgSrc = "/assets/used/statuses/health/100.png";
+			imgSrc = "assets/used/statuses/health/100.png";
 		}
 
 		const height = 158 / 2;

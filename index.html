@@ -34,9 +34,9 @@
 		<script src="js/listener.js" defer></script>
 	</head>
 	<body>
-		<audio class="loopSound" src="/assets/audio/bg_water_running.wav" loop autoplay></audio>
+		<audio class="loopSound" src="assets/audio/bg_water_running.wav" loop autoplay></audio>
 		<!-- https://opengameart.org/users/antumdeluge -->
-		<audio class="loopSound" src="/assets/audio/music.ogg" loop autoplay></audio>
+		<audio class="loopSound" src="assets/audio/music.ogg" loop autoplay></audio>
 		<div class="grid" id="mainGrid">
 			<div class="options">
 				<button onclick="world.playState ==='paused' ? closeMenu() : openMenu()">MENU</button>
@@ -45,7 +45,7 @@
 					id="sound-button"
 					onclick="SoundHub.muted ? activateSounds() : muteSounds()"
 				>
-					<img src="/assets/img/volume.svg" alt="" srcset="" />
+					<img src="assets/img/volume.svg" alt="" srcset="" />
 				</button>
 				<input
 					type="range"

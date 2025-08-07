@@ -9,7 +9,7 @@ class Coin extends Collectable {
 	constructor(x, y) {
 		const width = 50;
 		const height = 50;
-		const imgSrc = "/assets/used/collectables/coin/1.png";
+		const imgSrc = "assets/used/collectables/coin/1.png";
 		super(x, y, width, height, imgSrc);
 	}
 

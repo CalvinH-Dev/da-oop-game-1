@@ -1,7 +1,7 @@
 function muteSounds() {
 	const button = document.getElementById("sound-button");
 	const img = button.querySelector("img");
-	img.src = "/assets/img/volume-muted.svg";
+	img.src = "assets/img/volume-muted.svg";
 
 	SoundHub.muteSounds();
 	localStorage.setItem("sound-enabled", JSON.stringify(false));
@@ -10,7 +10,7 @@ function muteSounds() {
 function activateSounds() {
 	const button = document.getElementById("sound-button");
 	const img = button.querySelector("img");
-	img.src = "/assets/img/volume.svg";
+	img.src = "assets/img/volume.svg";
 	SoundHub.activateSounds();
 	localStorage.setItem("sound-enabled", JSON.stringify(true));
 }

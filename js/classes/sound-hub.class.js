@@ -1,21 +1,21 @@
 class SoundHub {
 	static muted = false;
 
-	static bgWater = new Audio("/assets/audio/bg_water_running.wav");
-	static charBubbleShoot = new Audio("/assets/audio/character/bubble-shoot.ogg"); // https://opengameart.org/users/pokmon63
-	static charBubbleHit = new Audio("/assets/audio/character/bubble-hit.ogg");
-	static charFinSlap = new Audio("/assets/audio/character/fin-slap.ogg"); // https://freesound.org/people/CGEffex/
-	static charFinSlapMiss = new Audio("/assets/audio/character/fin-slap-miss.mp3"); // https://freesound.org/people/CGEffex/
-	static charGettingHit = new Audio("/assets/audio/character/getting-hit.wav");
-	static charDeath = new Audio("/assets/audio/character/death.wav"); // https://opengameart.org/users/macro
-	static charDeathBell = new Audio("/assets/audio/character/death-bell.wav"); // https://opengameart.org/users/specter5053
-	static charSwim = new Audio("/assets/audio/character/swim.wav"); // https://opengameart.org/users/youre-perfect-studio
-	static charSnore = new Audio("/assets/audio/character/snore.ogg");
-	static coinCollect = new Audio("/assets/audio/pickup/coin.wav");
-	static poisonCollect = new Audio("/assets/audio/pickup/poison.mp3");
-	static jellyElectrified = new Audio("/assets/audio/jelly-fish/electrified.mp3"); // https://opengameart.org/users/macro
-	static fishLeaves = new Audio("/assets/audio/fish-leaves-canvas.ogg"); // https://opengameart.org/users/antumdeluge
-	static whaleAttack = new Audio("/assets/audio/whale-maul.ogg");
+	static bgWater = new Audio("assets/audio/bg_water_running.wav");
+	static charBubbleShoot = new Audio("assets/audio/character/bubble-shoot.ogg"); // https://opengameart.org/users/pokmon63
+	static charBubbleHit = new Audio("assets/audio/character/bubble-hit.ogg");
+	static charFinSlap = new Audio("assets/audio/character/fin-slap.ogg"); // https://freesound.org/people/CGEffex/
+	static charFinSlapMiss = new Audio("assets/audio/character/fin-slap-miss.mp3"); // https://freesound.org/people/CGEffex/
+	static charGettingHit = new Audio("assets/audio/character/getting-hit.wav");
+	static charDeath = new Audio("assets/audio/character/death.wav"); // https://opengameart.org/users/macro
+	static charDeathBell = new Audio("assets/audio/character/death-bell.wav"); // https://opengameart.org/users/specter5053
+	static charSwim = new Audio("assets/audio/character/swim.wav"); // https://opengameart.org/users/youre-perfect-studio
+	static charSnore = new Audio("assets/audio/character/snore.ogg");
+	static coinCollect = new Audio("assets/audio/pickup/coin.wav");
+	static poisonCollect = new Audio("assets/audio/pickup/poison.mp3");
+	static jellyElectrified = new Audio("assets/audio/jelly-fish/electrified.mp3"); // https://opengameart.org/users/macro
+	static fishLeaves = new Audio("assets/audio/fish-leaves-canvas.ogg"); // https://opengameart.org/users/antumdeluge
+	static whaleAttack = new Audio("assets/audio/whale-maul.ogg");
 
 	static allSounds = [
 		SoundHub.bgWater,

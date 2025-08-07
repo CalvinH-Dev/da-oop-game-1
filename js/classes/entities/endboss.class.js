@@ -18,7 +18,7 @@ class Endboss extends MovableEntity {
 	isFriendly = false;
 
 	constructor(position, size, speed) {
-		const imgSrc = `/assets/used/enemies/whale/spawn/1.png`;
+		const imgSrc = `assets/used/enemies/whale/spawn/1.png`;
 		if (!size) {
 			size = { width: 570, height: 608 };
 		}

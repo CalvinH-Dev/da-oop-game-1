@@ -17,7 +17,7 @@ class JellyFish extends MovableEntity {
 	isFriendly = false;
 
 	constructor(position, color = "yellow", size, speed) {
-		const imgSrc = `/assets/used/enemies/jelly-fish/${color}/swim/1.png`;
+		const imgSrc = `assets/used/enemies/jelly-fish/${color}/swim/1.png`;
 		if (!size) {
 			size = { width: 100, height: 100 };
 		}
