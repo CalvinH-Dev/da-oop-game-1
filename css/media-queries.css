@@ -22,3 +22,17 @@
 		display: none;
 	}
 }
+
+@media (orientation: portrait) {
+	.main-view {
+		display: none;
+	}
+
+	.options {
+		display: none;
+	}
+
+	.note {
+		display: flex;
+	}
+}

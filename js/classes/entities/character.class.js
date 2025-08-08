@@ -281,6 +281,7 @@ class Character extends MovableEntity {
 			this.animationLocked = false;
 			this.world.keyboard.enabled = true;
 			this.willAttackWithFin = false;
+			this.immune = false;
 		}
 	}
 

@@ -55,6 +55,7 @@ function restartGame() {
 
 const isLandscape = () => window.screen.orientation.type.startsWith("landscape");
 const isPortrait = () => window.screen.orientation.type.startsWith("portrait");
+const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 function gameFinished(playerHasWon) {
 	world.pause();

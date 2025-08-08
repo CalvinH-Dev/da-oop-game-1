@@ -50,6 +50,8 @@ window.addEventListener("keyup", (event) => {
 });
 
 window.addEventListener("blur", () => {
+	const keyboard = world.keyboard;
+
 	keyboard.LEFT = false;
 	keyboard.RIGHT = false;
 	keyboard.UP = false;
@@ -57,7 +59,12 @@ window.addEventListener("blur", () => {
 	keyboard.D = false;
 });
 
-window.addEventListener("contextmenu", () => {
+window.addEventListener("contextmenu", (event) => {
+	const keyboard = world.keyboard;
+
+	if (isMobile) {
+		event.preventDefault();
+	}
 	keyboard.LEFT = false;
 	keyboard.RIGHT = false;
 	keyboard.UP = false;
@@ -67,7 +74,6 @@ window.addEventListener("contextmenu", () => {
 
 function keydownMoveCharacter(event, key) {
 	event.preventDefault();
-	console.log("da");
 	const keyboard = world.keyboard;
 	if (!keyboard.enabled) return;
 	switch (key) {
@@ -94,7 +100,6 @@ function keydownMoveCharacter(event, key) {
 
 function keyupMoveCharacter(event, key) {
 	event.preventDefault();
-	console.log("hier");
 	const keyboard = world.keyboard;
 	switch (key) {
 		case "ArrowLeft":

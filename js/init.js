@@ -21,7 +21,6 @@ function resetLevel() {
 function loadLocalStorage() {
 	const volume = Number(JSON.parse(localStorage.getItem("sound-volume")));
 	const isSoundEnabled = JSON.parse(localStorage.getItem("sound-enabled"));
-	console.log(isSoundEnabled);
 	const volumeInputRef = document.getElementById("volume");
 
 	if (!isSoundEnabled) {

@@ -146,10 +146,18 @@ img.fullscreen-button {
 .note {
 	position: absolute;
 	inset: 0;
+	width: 50%;
 	margin: auto;
 	display: none;
-	align-content: center;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	text-align: center;
+	row-gap: 1rem;
+}
+
+.note button {
+	width: 200px;
 }
 
 .mobile-movement {

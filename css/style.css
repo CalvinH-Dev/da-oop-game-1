@@ -93,13 +93,3 @@ h4 {
 	background-color: yellow;
 	transition: box-shadow 225ms, translate 225ms;
 }
-
-@media (orientation: portrait) {
-	.options {
-		display: none;
-	}
-
-	.note {
-		display: initial;
-	}
-}
