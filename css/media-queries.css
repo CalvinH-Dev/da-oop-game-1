@@ -1,4 +1,4 @@
-@media (width >= 1000px) {
+@media (hover: hover) {
 	.mobile-movement {
 		display: none;
 	}
@@ -23,7 +23,7 @@
 	}
 }
 
-@media (orientation: portrait) {
+@media (hover: none) and (orientation: portrait) {
 	.main-view {
 		display: none;
 	}
