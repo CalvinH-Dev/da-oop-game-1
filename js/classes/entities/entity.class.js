@@ -36,38 +36,52 @@ class Entity {
 
 	constructor(x, y, width, height, imgSrc) {
 		this.setImage(imgSrc);
-
 		this.width = width;
 		this.height = height;
-
 		this.x = x;
 		this.y = y;
 		this.cacheAllImages();
 		this.defaultAnimation();
 	}
 
+	/** Caches all relevant images for this entity. Override in subclasses. */
 	cacheAllImages() {}
 
+	/** Checks or updates the entity state. Override in subclasses. */
 	checkState() {}
 
+	/** Starts the default animation. Override in subclasses. */
 	defaultAnimation() {}
 
+	/**
+	 * Sets the current image from a source path.
+	 * @param {string} src - Image source path.
+	 */
 	setImage(src) {
 		const image = new Image();
 		image.src = src;
 		this.imgRef = image;
 	}
 
+	/**
+	 * Caches multiple images for animations.
+	 * @param {string[]} images - Array of image source paths.
+	 * @returns {string[]} The array of images passed in.
+	 */
 	cacheImages(images) {
 		images.forEach((imagePath) => {
 			const img = new Image();
 			img.src = imagePath;
 			this.cachedImages[imagePath] = img;
 		});
-
 		return images;
 	}
 
+	/**
+	 * Renders the entity on the canvas.
+	 * @param {CanvasRenderingContext2D} ctx - The drawing context.
+	 * @param {boolean} [showBox=false] - Whether to render the hitbox.
+	 */
 	render(ctx, showBox = false) {
 		ctx.drawImage(this.imgRef, this.x, this.y, this.width, this.height);
 		if (showBox) {
@@ -75,6 +89,11 @@ class Entity {
 		}
 	}
 
+	/**
+	 * Renders the entity flipped horizontally.
+	 * @param {CanvasRenderingContext2D} ctx - The drawing context.
+	 * @param {boolean} [showBox=false] - Whether to render the hitbox.
+	 */
 	renderFlipped(ctx, showBox = false) {
 		ctx.save();
 		ctx.translate(this.x + this.width, this.y);
@@ -86,6 +105,12 @@ class Entity {
 		}
 	}
 
+	/**
+	 * Renders the entity rotated by degrees around its center.
+	 * @param {CanvasRenderingContext2D} ctx - The drawing context.
+	 * @param {number} degree - Rotation in degrees.
+	 * @param {boolean} [showBox=false] - Whether to render the hitbox.
+	 */
 	renderRotated(ctx, degree, showBox = false) {
 		ctx.save();
 		ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
@@ -97,6 +122,10 @@ class Entity {
 		}
 	}
 
+	/**
+	 * Returns the current hitbox for collision.
+	 * @returns {{x: number, y: number, width: number, height: number}} Hitbox rectangle.
+	 */
 	getHitbox() {
 		return {
 			x: this.x + this.hitbox.offsetX,
@@ -106,6 +135,10 @@ class Entity {
 		};
 	}
 
+	/**
+	 * Draws the hitbox on the canvas in red stroke.
+	 * @param {CanvasRenderingContext2D} ctx - The drawing context.
+	 */
 	showHitBox(ctx) {
 		ctx.strokeStyle = "red";
 		ctx.lineWidth = 2;
@@ -117,6 +150,11 @@ class Entity {
 		);
 	}
 
+	/**
+	 * Starts an animation by name and sets frames.
+	 * @param {string} name - Animation name.
+	 * @param {string[]} frames - Array of frame image paths.
+	 */
 	animate(name, frames) {
 		if (this.currentAnimation === name) return;
 		this.stopAnimation();
@@ -125,18 +163,29 @@ class Entity {
 		this.animationCount = 0;
 	}
 
+	/** Stops any current animation and resets state. */
 	stopAnimation() {
 		this.currentAnimation = undefined;
 		this.resetAnimationState();
 	}
 
+	/** Resets animation frame index to zero. */
 	resetAnimationState() {
 		this.animationState = 0;
 	}
 
+	/**
+	 * Updates the entity logic per frame. Override as needed.
+	 * @param {number} ft - Frame time or delta time.
+	 */
 	update(ft) {}
 
+	/**
+	 * Advances animation frame. Override for animation logic.
+	 * @param {number} ft - Frame time or delta time.
+	 */
 	animationTick(ft) {}
 
+	/** Effect triggered on collision. Override as needed. */
 	effectOnCollision() {}
 }

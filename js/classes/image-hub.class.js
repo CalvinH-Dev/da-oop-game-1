@@ -1,4 +1,8 @@
 class ImageHub {
+	/**
+	 * Returns an array of image paths for character swimming animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterSwimImages() {
 		return [
 			"assets/used/character/swim/1.png",
@@ -10,6 +14,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for character idle animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterIdleImages() {
 		return [
 			"assets/used/character/idle/1.png",
@@ -33,6 +41,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for character long idle animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterLongIdleImages() {
 		return [
 			"assets/used/character/long-idle/1.png",
@@ -52,6 +64,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for repeated character long idle animation (reverse).
+	 * @returns {string[]}
+	 */
 	static getCharacterLongIdleRepeatImages() {
 		return [
 			"assets/used/character/long-idle/14.png",
@@ -64,6 +80,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for character bubble animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterBubbleImages() {
 		return [
 			"assets/used/character/bubble/1.png",
@@ -77,6 +97,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for character fin animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterFinImages() {
 		return [
 			"assets/used/character/fin/1.png",
@@ -90,6 +114,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for character poisoned status animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterPoisonedImages() {
 		return [
 			"assets/used/character/statuses/poisoned/1.png",
@@ -99,6 +127,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for character hurt status animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterIsHurtImages() {
 		return [
 			"assets/used/character/statuses/hurt/1.png",
@@ -110,6 +142,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for character dead animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterIsDeadImages() {
 		return [
 			"assets/used/character/dead/normal/1.png",
@@ -126,6 +162,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for character electrified status animation.
+	 * @returns {string[]}
+	 */
 	static getCharacterElectrifiedImages() {
 		return [
 			"assets/used/character/statuses/electrified/1.png",
@@ -137,6 +177,11 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for puffer fish swimming animation based on color.
+	 * @param {string} color - Color variant of the puffer fish.
+	 * @returns {string[]}
+	 */
 	static getPufferFishSwimImages(color) {
 		return [
 			`assets/used/enemies/puffer-fish/${color}/swim/1.png`,
@@ -147,10 +192,20 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for puffer fish dead animation based on color.
+	 * @param {string} color - Color variant of the puffer fish.
+	 * @returns {string[]}
+	 */
 	static getPufferFishDeadImages(color) {
 		return [`assets/used/enemies/puffer-fish/${color}/dead/1.png`];
 	}
 
+	/**
+	 * Returns an array of image paths for jellyfish swimming animation based on color.
+	 * @param {string} color - Color variant of the jellyfish.
+	 * @returns {string[]}
+	 */
 	static getJellyFishSwimImages(color) {
 		return [
 			`assets/used/enemies/jelly-fish/${color}/swim/1.png`,
@@ -160,6 +215,11 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for jellyfish dead animation based on color.
+	 * @param {string} color - Color variant of the jellyfish.
+	 * @returns {string[]}
+	 */
 	static getJellyFishDeadImages(color) {
 		return [
 			`assets/used/enemies/jelly-fish/${color}/dead/1.png`,
@@ -169,8 +229,15 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Placeholder for puffer fish data retrieval.
+	 */
 	static getPufferFish() {}
 
+	/**
+	 * Returns an array of image paths for coin collectable animation.
+	 * @returns {string[]}
+	 */
 	static getCoinImages() {
 		return [
 			"assets/used/collectables/coin/1.png",
@@ -180,6 +247,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for poison collectable animation.
+	 * @returns {string[]}
+	 */
 	static getPoisonCollectableImages() {
 		return [
 			"assets/used/collectables/poison/1.png",
@@ -193,10 +264,18 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns the image path for the bubble attack.
+	 * @returns {string}
+	 */
 	static getBubbleImage() {
 		return "assets/used/character/attacks/Bubble.png";
 	}
 
+	/**
+	 * Returns an array of image paths for whale spawn animation.
+	 * @returns {string[]}
+	 */
 	static getWhaleSpawnImages() {
 		return [
 			"assets/used/enemies/whale/spawn/1.png",
@@ -212,6 +291,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for whale idle animation.
+	 * @returns {string[]}
+	 */
 	static getWhaleIdleImages() {
 		return [
 			"assets/used/enemies/whale/idle/1.png",
@@ -230,6 +313,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for whale attack animation.
+	 * @returns {string[]}
+	 */
 	static getWhaleAttackImages() {
 		return [
 			"assets/used/enemies/whale/attack/1.png",
@@ -241,6 +328,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for whale hurt animation.
+	 * @returns {string[]}
+	 */
 	static getWhaleHurtImages() {
 		return [
 			"assets/used/enemies/whale/hurt/1.png",
@@ -250,6 +341,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for whale dead animation.
+	 * @returns {string[]}
+	 */
 	static getWhaleDeadImages() {
 		return [
 			"assets/used/enemies/whale/dead/1.png",
@@ -261,6 +356,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for poison status bar levels.
+	 * @returns {string[]}
+	 */
 	static getStatusBarPoisonImages() {
 		return [
 			"assets/used/statuses/poison/0.png",
@@ -272,6 +371,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for health status bar levels.
+	 * @returns {string[]}
+	 */
 	static getStatusBarHealthImages() {
 		return [
 			"assets/used/statuses/health/0.png",
@@ -283,6 +386,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for coins status bar levels.
+	 * @returns {string[]}
+	 */
 	static getStatusBarCoinsImages() {
 		return [
 			"assets/used/statuses/coins/0.png",
@@ -294,6 +401,10 @@ class ImageHub {
 		];
 	}
 
+	/**
+	 * Returns an array of image paths for whale boss health status bar levels.
+	 * @returns {string[]}
+	 */
 	static getStatusBarBossHealthImages() {
 		return [
 			"assets/used/enemies/whale/statusbar/0.png",

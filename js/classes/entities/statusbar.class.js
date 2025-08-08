@@ -2,6 +2,7 @@ class StatusBar extends Entity {
 	type = "";
 	images = [];
 	show = true;
+
 	constructor(x, y, type, show = true) {
 		let imgSrc = "";
 		if (type === "health") {
@@ -23,6 +24,10 @@ class StatusBar extends Entity {
 		this.cacheAllImages();
 	}
 
+	/**
+	 * Updates the status bar image based on the current frame/time.
+	 * @param {number} ft - Frame time or delta time.
+	 */
 	update(ft) {
 		if (this.type === "health") {
 			this.imgRef = this.getHealthStatus();
@@ -35,24 +40,40 @@ class StatusBar extends Entity {
 		}
 	}
 
+	/**
+	 * Gets the current health status image.
+	 * @returns {Image} Current health image.
+	 */
 	getHealthStatus() {
 		return this.cachedImages[
 			this.images.filter((img) => img.endsWith(`${this.world.characterRef.hp}.png`))[0]
 		];
 	}
 
+	/**
+	 * Gets the current coin status image.
+	 * @returns {Image} Current coin image.
+	 */
 	getCoinStatus() {
 		return this.cachedImages[
 			this.images.filter((img) => img.endsWith(`${this.world.characterRef.coins}.png`))[0]
 		];
 	}
 
+	/**
+	 * Gets the current poison status image.
+	 * @returns {Image} Current poison image.
+	 */
 	getPoisonStatus() {
 		return this.cachedImages[
 			this.images.filter((img) => img.endsWith(`${this.world.characterRef.poison}.png`))[0]
 		];
 	}
 
+	/**
+	 * Gets the boss's current health status image.
+	 * @returns {Image} Boss health image or empty Image if boss not spawned.
+	 */
 	getBossHealthStatus() {
 		if (!this.world.endbossSpawned) return new Image();
 		return this.cachedImages[
@@ -62,6 +83,9 @@ class StatusBar extends Entity {
 		];
 	}
 
+	/**
+	 * Caches all relevant images for the status bar type.
+	 */
 	cacheAllImages() {
 		if (this.type === "health") {
 			this.images = super.cacheImages(ImageHub.getStatusBarHealthImages());
@@ -74,6 +98,11 @@ class StatusBar extends Entity {
 		}
 	}
 
+	/**
+	 * Renders the status bar.
+	 * @param {CanvasRenderingContext2D} ctx - Canvas context to draw on.
+	 * @param {boolean} showBoxes - Whether to show bounding boxes.
+	 */
 	render(ctx, showBoxes) {
 		if (this.type === "boss") {
 			this.renderFlipped(ctx, showBoxes);

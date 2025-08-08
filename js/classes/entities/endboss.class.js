@@ -83,6 +83,10 @@ class Endboss extends MovableEntity {
 		if (this.hp <= 0) this.onDead(ft);
 		if (this.state === "hurt" || this.currentAnimation === "spawn") return;
 
+		this._updateTargetAndPosition(ft);
+	}
+
+	_updateTargetAndPosition(ft) {
 		if (!this.target && this.state === "idle") {
 			this.rollAction();
 		}
@@ -134,21 +138,25 @@ class Endboss extends MovableEntity {
 		this.animationState = (this.animationState + 1) % this.frames.length;
 
 		if (this.animationState === 0) {
-			if (this.currentAnimation === "spawn") {
-				this.hittable = true;
-				this.idle();
-			} else if (this.currentAnimation === "hurt" && !this.wasHit) {
-				this.animate("idle");
-				this.state = "idle";
-			} else if (this.currentAnimation === "attack") {
-				this.maul();
-				this.animate("idle");
-				this.state = "idle";
-			} else if (this.currentAnimation === "idle" && this.state === "waiting") {
-				this.state = "idle";
-			} else if (this.currentAnimation === "dead") {
-				gameFinished(true);
-			}
+			this._endOfAnimation();
+		}
+	}
+
+	_endOfAnimation() {
+		if (this.currentAnimation === "spawn") {
+			this.hittable = true;
+			this.idle();
+		} else if (this.currentAnimation === "hurt" && !this.wasHit) {
+			this.animate("idle");
+			this.state = "idle";
+		} else if (this.currentAnimation === "attack") {
+			this.maul();
+			this.animate("idle");
+			this.state = "idle";
+		} else if (this.currentAnimation === "idle" && this.state === "waiting") {
+			this.state = "idle";
+		} else if (this.currentAnimation === "dead") {
+			gameFinished(true);
 		}
 	}
 

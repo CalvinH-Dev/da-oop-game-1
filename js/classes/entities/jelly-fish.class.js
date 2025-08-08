@@ -32,14 +32,20 @@ class JellyFish extends MovableEntity {
 		this.swim();
 	}
 
+	/** Applies the color by loading related images. */
 	applyColor() {
 		this.getColorImages();
 	}
 
+	/** Starts swimming animation. */
 	swim() {
 		this.animate("swim");
 	}
 
+	/**
+	 * Moves the jellyfish up or down depending on direction.
+	 * @param {number} dt - Delta time.
+	 */
 	move(dt) {
 		if (this.direction === "U") {
 			if (!this.moveUp(dt)) {
@@ -52,6 +58,10 @@ class JellyFish extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Animates jellyfish with given animation name.
+	 * @param {string} name - Animation name ("swim" or "dead").
+	 */
 	animate(name) {
 		switch (name) {
 			case "swim":
@@ -64,6 +74,7 @@ class JellyFish extends MovableEntity {
 		}
 	}
 
+	/** Gathers swim and dead images based on color. */
 	getColorImages() {
 		const keys = Object.keys(this.cachedImages);
 		let images = [];
@@ -81,6 +92,11 @@ class JellyFish extends MovableEntity {
 		this.deadImages = deadImages;
 	}
 
+	/**
+	 * Renders the jellyfish, flipped if direction differs from default.
+	 * @param {CanvasRenderingContext2D} ctx - Canvas context.
+	 * @param {boolean} showBox - Whether to show hitbox.
+	 */
 	render(ctx, showBox) {
 		if (this.direction === this.defaultDirection) {
 			super.render(ctx, showBox);
@@ -89,6 +105,7 @@ class JellyFish extends MovableEntity {
 		}
 	}
 
+	/** Caches all swim and dead images for all colors. */
 	cacheAllImages() {
 		const colors = ["yellow", "purple", "green", "pink"];
 		for (const color of colors) {
@@ -97,10 +114,15 @@ class JellyFish extends MovableEntity {
 		}
 	}
 
+	/** Removes this jellyfish from the world enemies. */
 	despawn() {
 		this.world.enemies = this.world.enemies.filter((fish) => fish !== this);
 	}
 
+	/**
+	 * Updates jellyfish status each frame.
+	 * @param {number} ft - Frame time or delta time.
+	 */
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
 		if (this.hp <= 0) this.onDead(ft);
@@ -108,6 +130,10 @@ class JellyFish extends MovableEntity {
 		this.move(ft);
 	}
 
+	/**
+	 * Updates animation frame.
+	 * @param {number} ft - Frame time.
+	 */
 	animationTick(ft) {
 		if (!this.wasHit || this.dead) {
 			this.imgRef = this.cachedImages[this.frames[this.animationState]];
@@ -121,6 +147,10 @@ class JellyFish extends MovableEntity {
 		this.animationState = (this.animationState + 1) % this.frames.length;
 	}
 
+	/**
+	 * Handles death logic and animation.
+	 * @param {number} ft - Frame time.
+	 */
 	onDead(ft) {
 		this.dead = true;
 		this.animate("dead");
@@ -131,6 +161,10 @@ class JellyFish extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Applies damage to jellyfish.
+	 * @param {number} damage - Damage amount.
+	 */
 	onGettingHit(damage) {
 		if (this.dead) return;
 		this.wasHit = true;
@@ -139,6 +173,10 @@ class JellyFish extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Effect when colliding with another object.
+	 * @param {object} obj - The other object collided with.
+	 */
 	effectOnCollision(obj) {
 		if (this.dead || obj.isFriendly == this.isFriendly || this.collisionDamageCooldownInSec !== 0) {
 			return;
@@ -148,7 +186,6 @@ class JellyFish extends MovableEntity {
 			obj.onGettingHit(COLLISION_DAMAGE);
 		} else {
 			if (!obj.statuses.includes("electrified")) {
-				SoundHub.play(SoundHub.jellyElectrified);
 				obj.statuses.push("electrified");
 			}
 			obj.onGettingHit(COLLISION_DAMAGE);

@@ -13,6 +13,10 @@ class PoisonCollectable extends Collectable {
 		super(x, y, width, height, imgSrc);
 	}
 
+	/**
+	 * Animates the collectable with a specified animation.
+	 * @param {string} name - The name of the animation to play.
+	 */
 	animate(name) {
 		switch (name) {
 			case "float":
@@ -21,10 +25,17 @@ class PoisonCollectable extends Collectable {
 		}
 	}
 
+	/**
+	 * Caches all relevant images for this collectable.
+	 */
 	cacheAllImages() {
 		this.cacheImages(ImageHub.getPoisonCollectableImages());
 	}
 
+	/**
+	 * Handles the logic when the collectable is collected by the character.
+	 * Increases the character's poison level and plays a sound.
+	 */
 	onCollected() {
 		const character = this.world.characterRef;
 		character.poison = Math.min(100, character.poison + 20);

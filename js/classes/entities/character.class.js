@@ -6,9 +6,9 @@ class Character extends MovableEntity {
 		width: 90,
 		height: 50,
 	};
+
 	willAttackWithFin = false;
 	immune = false;
-
 	isFriendly = true;
 	maxHP = 100;
 	hp = 100;
@@ -18,6 +18,7 @@ class Character extends MovableEntity {
 		lastTick: 0,
 		applied: 0,
 	};
+
 	poison = 20;
 	coins = 0;
 	snoreInterval;
@@ -37,22 +38,27 @@ class Character extends MovableEntity {
 		this.collision = true;
 	}
 
+	/** Plays the default idle animation. */
 	defaultAnimation() {
 		this.idle();
 	}
 
+	/** Plays the swim animation. */
 	swim() {
 		this.animate("swim");
 	}
 
+	/** Plays the idle animation. */
 	idle() {
 		this.animate("idle");
 	}
 
+	/** Plays the long idle animation. */
 	longIdle() {
 		this.animate("longIdle");
 	}
 
+	/** Plays the bubble animation, making the character immune while animation plays. */
 	bubble() {
 		this.immune = true;
 		if (this.poison >= 20) {
@@ -61,17 +67,25 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/** Plays the fin slap animation, making the character immune while animation plays. */
 	finAttack() {
+		this.finDirection = this.direction === "L" ? "L" : "R";
 		this.immune = true;
 		this.animate("fin");
 	}
 
+	/** Repeats the long idle animation if the count condition is met. */
 	repeatLongIdle() {
 		if (this.animationCount >= 1) {
 			this.animate("repeatLongIdle");
 		}
 	}
 
+	/**
+	 * Calculates the attack position based on height and direction.
+	 * @param {number} height - Height of the attack hitbox.
+	 * @returns {{x: number, y: number}} - Coordinates for the attack.
+	 */
 	attackPosition(height) {
 		const hitboxX = this.x + this.hitbox.offsetX;
 		const hitboxY = this.y + this.hitbox.offsetY;
@@ -88,6 +102,28 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Calculates the attack position based on height and direction.
+	 * @param {number} height - Height of the attack hitbox.
+	 * @returns {{x: number, y: number}} - Coordinates for the attack.
+	 */
+	attackPositionFin(height) {
+		const hitboxX = this.x + this.hitbox.offsetX;
+		const hitboxY = this.y + this.hitbox.offsetY;
+		if (this.finDirection === "L") {
+			return {
+				x: hitboxX - this.hitbox.width / 2,
+				y: hitboxY + this.hitbox.height / 2 + (-1 * height) / 2,
+			};
+		} else {
+			return {
+				x: hitboxX + this.hitbox.width,
+				y: hitboxY + this.hitbox.height / 2 + (-1 * height) / 2,
+			};
+		}
+	}
+
+	/** Shoots a bubble projectile and decreases poison level. */
 	shootBubble() {
 		const shootDirection = this.direction === "L" ? "L" : "R";
 		const bubbleProj = new Bubble(this, this.attackPosition(50), shootDirection);
@@ -98,59 +134,70 @@ class Character extends MovableEntity {
 		this.idle();
 	}
 
+	/** Performs a fin attack, checks for enemy collision and plays sounds accordingly. */
 	attackWithFin() {
-		this.finDirection = this.direction === "L" ? "L" : "R";
-		const attackCoords = this.attackPosition(this.hitbox.height);
-
-		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 60, height: this.hitbox.height };
+		const attackCoords = this.attackPositionFin(this.hitbox.height);
+		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 75, height: this.hitbox.height };
 		const collided = this.checkFinHitEnemy(aBox);
 
 		if (!collided) SoundHub.play(SoundHub.charFinSlapMiss);
+		else SoundHub.play(SoundHub.charFinSlap);
 
 		this.world.keyboard.enabled = true;
 		this.idle();
 	}
 
+	/**
+	 * Checks if fin attack hit any enemies.
+	 * @param {{x: number, y: number, width: number, height: number}} aBox - Attack hitbox.
+	 * @returns {boolean} - True if any enemy was hit.
+	 */
 	checkFinHitEnemy(aBox) {
 		let collided = false;
 
 		for (const enemy of this.world.enemies) {
 			const bBox = enemy.getHitbox();
-
 			const colliding = CalcFunctions.hitboxesColliding(aBox, bBox);
 
 			if (colliding) {
 				collided = true;
-				SoundHub.play(SoundHub.charFinSlap);
 				enemy.onGettingHit(COLLISION_DAMAGE);
 			}
 		}
 		return collided;
 	}
 
+	/** Placeholder for idle time tracking. */
 	trackIdleTime() {}
 
+	/** Moves character right and plays swim animation. */
 	moveRight(dt) {
 		super.moveRight(dt);
 		this.swim();
 	}
 
+	/** Moves character left and plays swim animation. */
 	moveLeft(dt) {
 		super.moveLeft(dt);
-
 		this.swim();
 	}
 
+	/** Moves character down and plays swim animation. */
 	moveDown(dt) {
 		super.moveDown(dt);
 		this.swim();
 	}
 
+	/** Moves character up and plays swim animation. */
 	moveUp(dt) {
 		super.moveUp(dt);
 		this.swim();
 	}
 
+	/**
+	 * Handles animations when the character is locked.
+	 * @param {string} name - Animation name.
+	 */
 	_animationsWhenLocked(name) {
 		if (name === "electrified") {
 			this.animationLocked = true;
@@ -160,6 +207,10 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Animates status effects.
+	 * @param {string} name - Status name.
+	 */
 	_animateStatuses(name) {
 		if (name === "poisoned") {
 			this.animationLocked = true;
@@ -177,21 +228,26 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Animates attack actions.
+	 * @param {string} name - Attack name.
+	 */
 	_animateAttacks(name) {
 		if (name === "bubble") {
 			this.animationLocked = true;
-
 			this.world.keyboard.enabled = false;
 			super.animate("bubble", ImageHub.getCharacterBubbleImages());
 		} else if (name === "fin") {
 			this.animationLocked = true;
-
-			// this.world.keyboard.enabled = false;
 			this.willAttackWithFin = true;
 			super.animate("fin", ImageHub.getCharacterFinImages());
 		}
 	}
 
+	/**
+	 * Animates movement actions.
+	 * @param {string} name - Movement name.
+	 */
 	_animateMovements(name) {
 		if (name === "idle") {
 			super.animate("idle", ImageHub.getCharacterIdleImages());
@@ -205,6 +261,10 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Controls animation flow based on lock state and animation name.
+	 * @param {string} name - Animation name.
+	 */
 	animate(name) {
 		if (this.animationLocked) {
 			return this._animationsWhenLocked(name);
@@ -213,12 +273,18 @@ class Character extends MovableEntity {
 		if (this.snoreInterval) clearInterval(this.snoreInterval);
 
 		this._animateMovements(name);
-
 		this._animateAttacks(name);
-
 		this._animateStatuses(name);
 	}
 
+	/**
+	 * Renders the character on the canvas context, optionally showing the hitbox.
+	 * Flips rendering based on direction and current animation.
+	 *
+	 * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+	 * @param {boolean} showBox - Whether to show the hitbox.
+	 * @returns {void}
+	 */
 	render(ctx, showBox) {
 		if (this.currentAnimation === "fin") {
 			if (this.finDirection === "R") {
@@ -239,6 +305,7 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/** Caches all character related images to improve performance. */
 	cacheAllImages() {
 		super.cacheImages(ImageHub.getCharacterSwimImages());
 		super.cacheImages(ImageHub.getCharacterIdleImages());
@@ -252,6 +319,12 @@ class Character extends MovableEntity {
 		super.cacheImages(ImageHub.getCharacterElectrifiedImages());
 	}
 
+	/**
+	 * Updates character state every frame.
+	 * Handles death and poison status effects.
+	 *
+	 * @param {number} ft - Frame time or delta time.
+	 */
 	update(ft) {
 		if (this.hp <= 0) this.dead = true;
 		if (this.statuses.includes("poisoned")) {
@@ -259,6 +332,7 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/** Handles poison damage over time and status removal. */
 	onPoisoned() {
 		const now = new Date().getTime() / 1000;
 		if (now - this.poisonDoT.lastTick >= POISON_TICK_TIME_IN_SEC) {
@@ -272,6 +346,7 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/** Advances the animation by one frame and handles animation end events. */
 	animationTick(ft) {
 		this.imgRef = this.cachedImages[this.frames[this.animationState]];
 		this.animationState = (this.animationState + 1) % this.frames.length;
@@ -285,6 +360,7 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/** Logic executed when the current animation finishes. */
 	_endOfCurrentAnimation() {
 		if (this.currentAnimation === "bubble") {
 			this.shootBubble();
@@ -308,17 +384,19 @@ class Character extends MovableEntity {
 		}
 	}
 
+	/** Handles the character death sequence including animation and sounds. */
 	onDead() {
 		this.animationLocked = false;
 		this.animate("dead");
 		this._onDeadSound();
-
 		this._onDeadAnimation();
+
 		setTimeout(() => {
 			gameFinished(false);
 		}, 4000);
 	}
 
+	/** Plays death-related sounds with a delay between them. */
 	_onDeadSound() {
 		SoundHub.play(SoundHub.charDeath);
 		setTimeout(() => {
@@ -326,6 +404,7 @@ class Character extends MovableEntity {
 		}, 1500);
 	}
 
+	/** Runs the death animation with timed intervals until it finishes. */
 	_onDeadAnimation() {
 		const deadInterval = setInterval(() => {
 			this.animationTick(ANIMATION_IN_SEC);
@@ -336,22 +415,32 @@ class Character extends MovableEntity {
 		}, ANIMATION_IN_SEC * 1000);
 	}
 
+	/**
+	 * Called when the character gets hit by damage.
+	 * Applies damage, checks immunity and plays hit animations and sounds.
+	 *
+	 * @param {number} damage - Amount of damage received.
+	 */
 	onGettingHit(damage) {
 		if (this.immune) return;
 		if (Number(damage)) {
 			this.hp = Math.max(0, this.hp - damage);
 		}
 
-		SoundHub.play(SoundHub.charGettingHit);
-
 		if (this.statuses.includes("electrified")) {
+			SoundHub.play(SoundHub.jellyElectrified);
 			return this.animate("electrified");
 		}
 
+		SoundHub.play(SoundHub.charGettingHit);
 		this.animate("hurt");
-		this.animationLocked = true;
 	}
 
+	/**
+	 * Heals the character by a given amount up to maxHP.
+	 *
+	 * @param {number} amount - The amount to heal.
+	 */
 	heal(amount) {
 		if (Number(amount)) {
 			this.hp = Math.min(this.maxHP, this.hp + amount);

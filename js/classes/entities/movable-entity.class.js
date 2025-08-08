@@ -13,6 +13,11 @@ class MovableEntity extends Entity {
 		this.speedY = speed.y;
 	}
 
+	/**
+	 * Moves the entity to the right based on speed and delta time.
+	 * @param {number} dt - Delta time.
+	 * @returns {boolean} Whether the entity can move right within boundaries and without collision.
+	 */
 	moveRight(dt) {
 		this.direction = "R";
 		const newX = this.x + this.speedX * dt;
@@ -26,6 +31,11 @@ class MovableEntity extends Entity {
 		return canMoveRight;
 	}
 
+	/**
+	 * Moves the entity to the left based on speed and delta time.
+	 * @param {number} dt - Delta time.
+	 * @returns {boolean} Whether the entity can move left within boundaries and without collision.
+	 */
 	moveLeft(dt) {
 		this.direction = "L";
 		const newX = this.x - this.speedX * dt;
@@ -39,6 +49,11 @@ class MovableEntity extends Entity {
 		return canMoveLeft;
 	}
 
+	/**
+	 * Moves the entity down based on speed and delta time.
+	 * @param {number} dt - Delta time.
+	 * @returns {boolean} Whether the entity can move down within boundaries and without collision.
+	 */
 	moveDown(dt) {
 		this.direction = "D";
 		const newY = this.y + this.speedY * dt;
@@ -52,6 +67,11 @@ class MovableEntity extends Entity {
 		return canMoveBottom;
 	}
 
+	/**
+	 * Moves the entity up based on speed and delta time.
+	 * @param {number} dt - Delta time.
+	 * @returns {boolean} Whether the entity can move up within boundaries and without collision.
+	 */
 	moveUp(dt) {
 		this.direction = "U";
 		const newY = this.y - this.speedY * dt;
@@ -65,18 +85,35 @@ class MovableEntity extends Entity {
 		return canMoveTop;
 	}
 
+	/**
+	 * Placeholder method called when entity dies.
+	 */
 	onDead() {}
 
+	/**
+	 * Placeholder method called when entity gets hit.
+	 */
 	onGettingHit() {}
 
+	/**
+	 * Sets the movement target position.
+	 * @param {{x: number, y: number}} position - Target position.
+	 */
 	setTarget(position) {
 		this.target = position;
 	}
 
+	/**
+	 * Clears the current movement target.
+	 */
 	clearTarget() {
 		this.target = null;
 	}
 
+	/**
+	 * Moves the entity towards the target position, if any.
+	 * @param {number} dt - Delta time.
+	 */
 	moveToTarget(dt) {
 		if (!this.target) return;
 
@@ -95,6 +132,14 @@ class MovableEntity extends Entity {
 		this._updateDirection(dx, dy);
 	}
 
+	/**
+	 * Moves the entity towards a specific position by calculated deltas.
+	 * @param {number} dx - Difference in x.
+	 * @param {number} dy - Difference in y.
+	 * @param {number} distance - Distance to the target.
+	 * @param {number} dt - Delta time.
+	 * @private
+	 */
 	_moveToPosition(dx, dy, distance, dt) {
 		const moveX = (dx / distance) * this.speedX * dt;
 		const moveY = (dy / distance) * this.speedY * dt;
@@ -109,22 +154,26 @@ class MovableEntity extends Entity {
 		if (canMoveY) this.y = nextY;
 	}
 
+	/**
+	 * Updates the entity's direction based on movement deltas.
+	 * @param {number} dx - Difference in x.
+	 * @param {number} dy - Difference in y.
+	 * @private
+	 */
 	_updateDirection(dx, dy) {
 		if (Math.abs(dx) > Math.abs(dy)) {
-			if (dx > 0) {
-				this.direction = "R";
-			} else {
-				this.direction = "L";
-			}
+			this.direction = dx > 0 ? "R" : "L";
 		} else {
-			if (dy > 0) {
-				this.direction = "D";
-			} else {
-				this.direction = "U";
-			}
+			this.direction = dy > 0 ? "D" : "U";
 		}
 	}
 
+	/**
+	 * Sets a random target position within given bounds.
+	 * @param {number} minX - Minimum x coordinate.
+	 * @param {number} maxX - Maximum x coordinate.
+	 * @param {number} maxY - Maximum y coordinate.
+	 */
 	setRandomTarget(minX, maxX, maxY) {
 		const targetX = Math.floor(minX + Math.random() * (maxX - minX));
 		const targetY = Math.floor(Math.random() * maxY);

@@ -7,9 +7,15 @@ class Keyboard {
 	F = false;
 	enabled = true;
 
+	/**
+	 * Executes actions based on current key states.
+	 * @param {Object} world - The game world object containing character and scroll logic.
+	 * @param {number} dt - Delta time for smooth movement.
+	 */
 	action(world, dt) {
 		const character = world.characterRef;
 		if (!this.enabled) return;
+
 		if (this.F) {
 			character.finAttack();
 		} else if (this.D) {
@@ -33,12 +39,16 @@ class Keyboard {
 		}
 	}
 
+	/**
+	 * Resets all directional and action keys, and enables input.
+	 */
 	reset() {
 		this.LEFT = false;
 		this.RIGHT = false;
 		this.UP = false;
 		this.DOWN = false;
 		this.D = false;
+		this.F = false;
 		this.enabled = true;
 	}
 }

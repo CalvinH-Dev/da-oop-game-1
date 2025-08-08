@@ -1,3 +1,7 @@
+/**
+ * Renders the main game menu, including volume controls and game instructions.
+ * @returns {string} HTML string representing the main menu layout.
+ */
 function renderMenu() {
 	return /*html*/ `
     ${renderVolumeInMenu()}
@@ -7,6 +11,10 @@ function renderMenu() {
 `;
 }
 
+/**
+ * Renders the "Lose" menu, shown when the player loses the game.
+ * @returns {string} HTML string for the lose menu.
+ */
 function renderLoseMenu() {
 	return /*html*/ `
   ${renderVolumeInMenu()}
@@ -21,6 +29,10 @@ function renderLoseMenu() {
   `;
 }
 
+/**
+ * Renders the "Win" menu, shown when the player wins the game.
+ * @returns {string} HTML string for the win menu.
+ */
 function renderWinMenu() {
 	return /*html*/ `
   ${renderVolumeInMenu()}
@@ -35,12 +47,20 @@ function renderWinMenu() {
   `;
 }
 
+/**
+ * Renders the footer with links to Impressum, Credits, and the GitHub project.
+ * @returns {string} HTML string for the footer.
+ */
 function renderFooter() {
 	return /*html*/ `
     <footer><a href="/impressum">Impressum</a><a href="/credits">Credits</a><a href="/">Zum Projekt (GitHub)</a></footer>
   `;
 }
 
+/**
+ * Renders the main game instructions layout, including text and start button.
+ * @returns {string} HTML string for the instructions section.
+ */
 function renderInstructions() {
 	return /*html*/ `
       ${renderInstructionsText()}   
@@ -48,7 +68,7 @@ function renderInstructions() {
       <div class="img-container">
         <img src="assets/used/ui/instructions.png" alt="Instructions">
       </div>
-      <button class="start-btn" onclick="startGame()">
+      <button class="start-btn" onclick="resumeGame()">
         <div class="img-container">
           <img src="assets/used/ui/start.png" alt="Start" >
         </div>
@@ -57,6 +77,10 @@ function renderInstructions() {
   `;
 }
 
+/**
+ * Renders the text content for the game instructions.
+ * @returns {string} HTML string for the instructions text.
+ */
 function renderInstructionsText() {
 	return /*html*/ `
     <div class="instructions-text">
@@ -68,17 +92,16 @@ function renderInstructionsText() {
       </ul>
       <h4>Objective:</h4><span>Defeat the Final Boss – a giant Whale.</span>
       <h4>Enemies:</h4>
-      <ul>
-        <li class="orange">Orange Puffer Fish (40 DMG on collision)</li>
-        <li class="green">Green Puffer Fish (20 DMG on collision & 20 DMG after a few seconds)</li>
-        <li class="yellow">Yellow Jelly Fish (20 DMG on collision & stuns for 1 second)</li>
-        <li class="purple">Purple Jelly Fish (20 DMG on collision)</li>
-      </ul>
+      ${renderEnemyList()}
       <span>You start the game with 100 HP. Use your attacks wisely and avoid getting hit!</span>
   </div>    
   `;
 }
 
+/**
+ * Renders the volume control section inside the menu, including mute/unmute button and volume slider.
+ * @returns {string} HTML string for the volume control UI.
+ */
 function renderVolumeInMenu() {
 	return /*html*/ `   
 	  <div class="sound">
@@ -100,5 +123,16 @@ function renderVolumeInMenu() {
 				value="0.5"
 			/>
 		</div>
+  `;
+}
+
+function renderEnemyList() {
+	return /*html*/ `
+    <ul>
+      <li class="orange">Orange Puffer Fish (40 DMG on collision)</li>
+      <li class="green">Green Puffer Fish (20 DMG on collision & 20 DMG after a few seconds)</li>
+      <li class="yellow">Yellow Jelly Fish (20 DMG on collision & stuns for 1 second)</li>
+      <li class="purple">Purple Jelly Fish (20 DMG on collision)</li>
+    </ul>
   `;
 }

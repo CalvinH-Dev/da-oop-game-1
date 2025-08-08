@@ -10,6 +10,12 @@ class Bubble extends Projectile {
 		SoundHub.play(SoundHub.charBubbleShoot);
 	}
 
+	/**
+	 * Calculates the movement of the bubble based on the elapsed time.
+	 * Adjusts acceleration and velocity, and moves the bubble left or right.
+	 *
+	 * @param {number} ft - The elapsed frame time in seconds.
+	 */
 	calcMovement(ft) {
 		this.acceleration.x -= this.waterFriction * ft;
 		this.velocity.x += this.acceleration.x;
@@ -20,6 +26,12 @@ class Bubble extends Projectile {
 		}
 	}
 
+	/**
+	 * Applies effects when the bubble hits an object.
+	 * Plays a sound and triggers the hit effect on the target object.
+	 *
+	 * @param {Object} obj - The object that was hit. Must have an onGettingHit method.
+	 */
 	effectOnHit(obj) {
 		SoundHub.play(SoundHub.charBubbleHit);
 		obj.onGettingHit(this.damage);

@@ -42,6 +42,13 @@ class PufferFish extends MovableEntity {
 		this.swim();
 	}
 
+	/**
+	 * Starts size change animation with options.
+	 * @param {object} options - Options for size change.
+	 * @param {number} [options.minSize=1] - Minimum scale multiplier.
+	 * @param {number} [options.maxSize=2.5] - Maximum scale multiplier.
+	 * @param {number} [options.changeRatio=0.1] - Ratio of size change per interval.
+	 */
 	changeSize(options = {}) {
 		const { minSize = 1, maxSize = 2.5, changeRatio = 0.1 } = options;
 		let multiplier = 1 + changeRatio;
@@ -60,6 +67,10 @@ class PufferFish extends MovableEntity {
 		}, ANIMATION_INTERVAL * 2 + Math.random() * 25 * 10);
 	}
 
+	/**
+	 * Multiplies current sizes by given multiplier.
+	 * @param {number} multiplier - Scale multiplier.
+	 */
 	_changeSizes(multiplier) {
 		this.hitbox.width *= multiplier;
 		this.hitbox.height *= multiplier;
@@ -67,20 +78,27 @@ class PufferFish extends MovableEntity {
 		this.width *= multiplier;
 	}
 
+	/** Resets sizes and hitbox to original values. */
 	_resetSizes() {
 		this.hitbox = { ...this.originalHitbox };
 		this.height = this.originalSize.height;
 		this.width = this.originalSize.width;
 	}
 
+	/** Applies color by loading color-specific images. */
 	applyColor() {
 		this.getColorImages();
 	}
 
+	/** Starts swimming animation. */
 	swim() {
 		this.animate("swim");
 	}
 
+	/**
+	 * Animates with given animation name.
+	 * @param {string} name - Animation name ("swim" or "dead").
+	 */
 	animate(name) {
 		switch (name) {
 			case "swim":
@@ -92,6 +110,11 @@ class PufferFish extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Renders the pufferfish, flipped if direction is not left/up/down.
+	 * @param {CanvasRenderingContext2D} ctx - Canvas context.
+	 * @param {boolean} showBox - Whether to show hitbox.
+	 */
 	render(ctx, showBox) {
 		if (
 			this.direction === this.defaultDirection ||
@@ -104,6 +127,7 @@ class PufferFish extends MovableEntity {
 		}
 	}
 
+	/** Loads swim and dead images based on color. */
 	getColorImages() {
 		const keys = Object.keys(this.cachedImages);
 		let images = [];
@@ -121,6 +145,7 @@ class PufferFish extends MovableEntity {
 		this.deadImages = deadImages;
 	}
 
+	/** Caches all swim and dead images for colors. */
 	cacheAllImages() {
 		const colors = ["red", "orange", "green"];
 		for (const color of colors) {
@@ -132,11 +157,16 @@ class PufferFish extends MovableEntity {
 		}
 	}
 
+	/** Removes this pufferfish from the world and clears size change interval. */
 	despawn() {
 		this.world.enemies = this.world.enemies.filter((fish) => fish !== this);
 		clearInterval(this.changeSizeInterval);
 	}
 
+	/**
+	 * Updates pufferfish state each frame.
+	 * @param {number} ft - Frame time or delta time.
+	 */
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
 
@@ -149,6 +179,10 @@ class PufferFish extends MovableEntity {
 		this._moveUpdate(ft);
 	}
 
+	/**
+	 * Handles movement update and target setting.
+	 * @param {number} ft - Frame time.
+	 */
 	_moveUpdate(ft) {
 		if (!this.target) {
 			const maxX = BOARD_WIDTH * 3 - this.hitbox.width;
@@ -164,6 +198,10 @@ class PufferFish extends MovableEntity {
 		this.moveToTarget(ft);
 	}
 
+	/**
+	 * Effect on collision with another object.
+	 * @param {object} obj - The other object collided with.
+	 */
 	effectOnCollision(obj) {
 		if (this.dead || obj.isFriendly == this.isFriendly || this.collisionDamageCooldownInSec !== 0) {
 			return;
@@ -181,6 +219,10 @@ class PufferFish extends MovableEntity {
 		this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
 	}
 
+	/**
+	 * Updates animation frame.
+	 * @param {number} ft - Frame time.
+	 */
 	animationTick(ft) {
 		if (!this.wasHit) {
 			this.imgRef = this.cachedImages[this.frames[this.animationState]];
@@ -193,6 +235,10 @@ class PufferFish extends MovableEntity {
 		this.animationState = (this.animationState + 1) % this.frames.length;
 	}
 
+	/**
+	 * Handles death animation and cleanup.
+	 * @param {number} ft - Frame time.
+	 */
 	onDead(ft) {
 		this.dead = true;
 		clearInterval(this.changeSizeInterval);
@@ -206,6 +252,10 @@ class PufferFish extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Applies damage to the pufferfish.
+	 * @param {number} damage - Damage amount.
+	 */
 	onGettingHit(damage) {
 		if (this.dead) return;
 		this.wasHit = true;

@@ -1,33 +1,19 @@
+/**
+ * Creates and initializes Level 1 of the game, including the player character, enemies, assets, and collectables.
+ * @param {World} world - The world object to assign to all entities in this level.
+ * @returns {Level} The initialized Level 1 object.
+ */
 function getLevel1(world) {
 	const characterLv1 = new Character({ x: 300, y: 200 });
 	characterLv1.world = world;
 
 	const enemiesScreenOneAndTwo = createEnemiesFirstAndSecondScreen();
-
 	const enemiesScreenThree = createEnemiesThirdScreen();
-
 	const enemiesLv1 = [...enemiesScreenOneAndTwo, ...enemiesScreenThree];
-
-	const assetsLv1 = [
-		new Entity(0, 0, 3840, 1080, "assets/used/background/completo.png"),
-		new Entity(3840, 0, 3840, 1080, "assets/used/background/completo.png"),
-	];
-
+	const assetsLv1 = createAssets();
 	const collectablesLv1 = createCollectables();
 
-	for (const enemy of enemiesLv1) {
-		enemy.world = world;
-	}
-
-	for (const asset of assetsLv1) {
-		asset.world = world;
-	}
-
-	for (const collectable of collectablesLv1) {
-		collectable.world = world;
-	}
-
-	world.projectiles = [];
+	setWorldOnEntities([...enemiesLv1, ...assetsLv1, ...collectablesLv1], world);
 
 	const level = new Level(1, characterLv1, enemiesLv1, assetsLv1, collectablesLv1);
 	levels[1] = level;
@@ -35,12 +21,42 @@ function getLevel1(world) {
 	return level;
 }
 
+/**
+ * Assigns the given world to all entities in the provided array.
+ * @param {Object[]} entities - The list of entities to update.
+ * @param {World} world - The world to assign to each entity.
+ */
+function setWorldOnEntities(entities, world) {
+	for (const entity of entities) {
+		entity.world = world;
+	}
+}
+
+/**
+ * Creates background asset entities for the level.
+ * @returns {Entity[]} An array of background asset entities.
+ */
+function createAssets() {
+	return [
+		new Entity(0, 0, 3840, 1080, "assets/used/background/completo.png"),
+		new Entity(3840, 0, 3840, 1080, "assets/used/background/completo.png"),
+	];
+}
+
+/**
+ * Creates all collectable items for the level, including coins and poison items.
+ * @returns {Object[]} An array containing all collectable entities.
+ */
 function createCollectables() {
 	const coins = createCoins();
 	const poison = createPoisonCollectables();
 	return [...coins, ...poison];
 }
 
+/**
+ * Creates coin collectables for the level.
+ * @returns {Coin[]} An array of Coin objects placed at predefined coordinates.
+ */
 function createCoins() {
 	return [
 		new Coin(1000, 100),
@@ -54,6 +70,10 @@ function createCoins() {
 	];
 }
 
+/**
+ * Creates poison collectables for the level.
+ * @returns {PoisonCollectable[]} An array of PoisonCollectable objects placed at predefined coordinates.
+ */
 function createPoisonCollectables() {
 	return [
 		new PoisonCollectable(500, 800),
@@ -67,6 +87,10 @@ function createPoisonCollectables() {
 	];
 }
 
+/**
+ * Creates enemy entities for the first and second screens.
+ * @returns {Object[]} An array containing puffer fishes and jelly fishes for the first two screens.
+ */
 function createEnemiesFirstAndSecondScreen() {
 	const pufferFishesFirstAndSecond = createPufferFishesFirstAndSecondScreen();
 	const jellyFishes = createJellyFishesFirstAndSecondScreen();
@@ -74,6 +98,10 @@ function createEnemiesFirstAndSecondScreen() {
 	return [...pufferFishesFirstAndSecond, ...jellyFishes];
 }
 
+/**
+ * Creates enemy entities for the third screen.
+ * @returns {Object[]} An array containing puffer fishes and jelly fishes for the third screen.
+ */
 function createEnemiesThirdScreen() {
 	const pufferFishesThird = createPufferFishesThirdScreen();
 	const jellyFishes = createJellyFishesThirdScreen();
@@ -81,11 +109,13 @@ function createEnemiesThirdScreen() {
 	return [...pufferFishesThird, ...jellyFishes];
 }
 
+/**
+ * Creates puffer fish enemies for the first and second screens with random positions and colors.
+ * @returns {PufferFish[]} An array of PufferFish objects.
+ */
 function createPufferFishesFirstAndSecondScreen() {
 	const pfColorsLv1 = ["green", "orange"];
-
 	const pufferFishes = [];
-
 	const count = Math.floor(Math.random() * (16 - 12 + 1)) + 12;
 
 	for (let i = 0; i < count; i++) {
@@ -100,11 +130,13 @@ function createPufferFishesFirstAndSecondScreen() {
 	return pufferFishes;
 }
 
+/**
+ * Creates puffer fish enemies for the third screen with random positions and colors.
+ * @returns {PufferFish[]} An array of PufferFish objects.
+ */
 function createPufferFishesThirdScreen() {
 	const pfColorsLv1 = ["green", "orange"];
-
 	const pufferFishes = [];
-
 	const count = Math.floor(Math.random() * (16 - 12 + 1)) + 12;
 
 	for (let i = 0; i < count; i++) {
@@ -119,6 +151,10 @@ function createPufferFishesThirdScreen() {
 	return pufferFishes;
 }
 
+/**
+ * Creates jelly fish enemies for the first and second screens with random positions and colors.
+ * @returns {JellyFish[]} An array of JellyFish objects.
+ */
 function createJellyFishesFirstAndSecondScreen() {
 	return [
 		new JellyFish({ x: randomizeFirstAndSecondScreen(50), y: Math.random() * (1080 - 50) }),
@@ -134,6 +170,10 @@ function createJellyFishesFirstAndSecondScreen() {
 	];
 }
 
+/**
+ * Creates jelly fish enemies for the third screen with random positions and colors.
+ * @returns {JellyFish[]} An array of JellyFish objects.
+ */
 function createJellyFishesThirdScreen() {
 	return [
 		new JellyFish({ x: randomizeThirdScreen(), y: Math.random() * (1080 - 50) }, "purple"),

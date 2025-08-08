@@ -13,6 +13,12 @@ class Coin extends Collectable {
 		super(x, y, width, height, imgSrc);
 	}
 
+	/**
+	 * Animates the coin based on the given animation name.
+	 * Currently supports "float" animation.
+	 *
+	 * @param {string} name - The name of the animation to play.
+	 */
 	animate(name) {
 		switch (name) {
 			case "float":
@@ -21,10 +27,17 @@ class Coin extends Collectable {
 		}
 	}
 
+	/**
+	 * Caches all coin images for smooth animation.
+	 */
 	cacheAllImages() {
 		this.cacheImages(ImageHub.getCoinImages());
 	}
 
+	/**
+	 * Handles logic when the coin is collected.
+	 * Increases the character's coin count (max 100) and plays a collection sound.
+	 */
 	onCollected() {
 		const character = this.world.characterRef;
 		character.coins = Math.min(100, character.coins + 20);

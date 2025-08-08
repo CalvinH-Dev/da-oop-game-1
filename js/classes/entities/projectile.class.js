@@ -33,10 +33,17 @@ class Projectile extends MovableEntity {
 		this.damage = damage;
 	}
 
+	/**
+	 * Removes this projectile from the world's projectile list.
+	 */
 	despawn() {
 		this.world.projectiles = this.world.projectiles.filter((projectile) => projectile !== this);
 	}
 
+	/**
+	 * Checks whether the projectile is out of the world boundaries and should despawn.
+	 * @returns {boolean} True if the projectile is outside the boundaries, false otherwise.
+	 */
 	shouldDespawn() {
 		const xValueLeft = this.x;
 		const xValueRight = this.x + this.hitbox.width;
@@ -52,6 +59,10 @@ class Projectile extends MovableEntity {
 		);
 	}
 
+	/**
+	 * Updates the projectile state, including its lifetime, movement, collision checks, and despawning.
+	 * @param {number} ft - Frame time delta in seconds.
+	 */
 	update(ft) {
 		this.livedInSec += ft;
 
@@ -63,6 +74,10 @@ class Projectile extends MovableEntity {
 			this.despawn();
 	}
 
+	/**
+	 * Calculates the projectile's movement considering acceleration and water friction.
+	 * @param {number} ft - Frame time delta in seconds.
+	 */
 	calcMovement(ft) {
 		this.acceleration.x -= this.waterFriction * ft;
 		this.velocity.x += this.acceleration.x;
