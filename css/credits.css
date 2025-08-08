@@ -27,6 +27,13 @@ section {
 	row-gap: 1rem;
 }
 
+footer {
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.5rem;
+	padding-inline: max(24px, calc(50% - 1600px / 2));
+}
+
 h1 {
 	font-size: 2.5rem;
 	text-align: center;
@@ -87,4 +94,9 @@ a:hover {
 	display: flex;
 	flex-direction: column;
 	row-gap: 1rem;
+}
+
+.hint {
+	color: yellow;
+	text-shadow: 1px 1px 2px black;
 }
