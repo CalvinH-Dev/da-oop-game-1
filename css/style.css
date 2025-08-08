@@ -36,6 +36,14 @@ body {
 	transition: translate 225ms;
 }
 
+.back-to-menu-btn {
+	padding: 0.5rem;
+	border-radius: 10px;
+	background-color: yellow;
+	box-shadow: 1px 1px 5px black;
+	transition: translate 225ms;
+}
+.back-to-menu-btn:hover,
 .menu-button:hover,
 .sound-button:hover,
 .back-to-homepage:hover {
@@ -92,4 +100,12 @@ h4 {
 	border-radius: 10px;
 	background-color: yellow;
 	transition: box-shadow 225ms, translate 225ms;
+}
+
+.try-again-btn {
+	transition: scale 225ms, box-shadow 225ms;
+}
+
+.try-again-btn:hover {
+	scale: 1.1;
 }

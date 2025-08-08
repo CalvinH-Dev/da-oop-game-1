@@ -46,7 +46,7 @@ h1 {
 }
 
 h2 {
-	font-family: initial;
+	font-family: system-ui;
 }
 
 h1,
@@ -61,12 +61,19 @@ h6 {
 }
 
 .legal {
+	padding: 1rem;
 	word-break: break-word;
-	font-family: initial;
+	font-family: system-ui;
 	height: 40vh;
 	width: 100%;
 	border: 1px solid black;
 	overflow-y: auto;
+	text-align: center;
+}
+
+.legal h2,
+.legal h3 {
+	padding-block: 0.25rem;
 }
 
 .data-protection {

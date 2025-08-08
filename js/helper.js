@@ -13,6 +13,16 @@ function backToMenu() {
 	openMenu();
 }
 
+function toggleMenu() {
+	const menu = document.querySelector("#menu");
+	if (!menu.classList.contains("d-none")) {
+		menu.classList.add("d-none");
+		startGame();
+	} else {
+		openMenu();
+	}
+}
+
 function openMenu() {
 	world.pause();
 	const menu = document.querySelector("#menu");
@@ -48,8 +58,7 @@ function startGame() {
 }
 
 function restartGame() {
-	const levelId = world.levelId;
-	setLevel(levelId);
+	resetLevel();
 	startGame();
 }
 
@@ -60,6 +69,7 @@ const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 function gameFinished(playerHasWon) {
 	world.pause();
 	if (playerHasWon) {
+		SoundHub.play(SoundHub.won);
 		setLevel(1);
 		winMenu();
 	} else {

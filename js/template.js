@@ -10,11 +10,13 @@ function renderMenu() {
 function renderLoseMenu() {
 	return /*html*/ `
   ${renderVolumeInMenu()}
-    <div class="game-over-container">
+    <div class="game-over-container lose">
       <button class="back-to-menu-btn" onclick="openMenu()">Back To Menu</button>
-      <div class="img-container">
-        <img class="game-over" src="assets/used/ui/game-over.png" alt="Game Over">
-      </div>
+      <button class="try-again-btn" onclick="restartGame()">
+        <div class="img-container">
+          <img class="game-over" src="assets/used/ui/try-again.png" alt="Try Again">
+        </div>
+      </button>
     </div>
   `;
 }
@@ -22,11 +24,13 @@ function renderLoseMenu() {
 function renderWinMenu() {
 	return /*html*/ `
   ${renderVolumeInMenu()}
-    <div class="game-over-container">
+    <div class="game-over-container win">
       <button class="back-to-menu-btn" onclick="backToMenu()">Back To Menu</button>
-      <div class="img-container">
-        <img class="game-over" src="assets/used/ui/you-win.png" alt="You Win">
-      </div>
+      <button class="try-again-btn" onclick="restartGame()">
+        <div class="img-container">
+          <img class="game-over" src="assets/used/ui/try-again.png" alt="Try Again">
+        </div>
+      </button>
     </div>
   `;
 }

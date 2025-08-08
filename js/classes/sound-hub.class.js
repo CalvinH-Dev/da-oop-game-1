@@ -17,6 +17,8 @@ class SoundHub {
 	static jellyElectrified = new Audio("assets/audio/jelly-fish/electrified.mp3");
 	static fishLeaves = new Audio("assets/audio/fish-leaves-canvas.ogg");
 	static whaleAttack = new Audio("assets/audio/whale-maul.ogg");
+	static whaleHit = new Audio("assets/audio/whale-hit.ogg");
+	static won = new Audio("assets/audio/won.wav"); //https://opengameart.org/content/won-orchestral-winning-jingle
 
 	static allSounds = [
 		SoundHub.bgWater,
@@ -35,6 +37,8 @@ class SoundHub {
 		SoundHub.jellyElectrified,
 		SoundHub.fishLeaves,
 		SoundHub.whaleAttack,
+		SoundHub.whaleHit,
+		SoundHub.won,
 	];
 
 	static play(sound) {

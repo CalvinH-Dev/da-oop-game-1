@@ -158,9 +158,10 @@ class Endboss extends MovableEntity {
 		if (obj.isFriendly == this.isFriendly) return;
 
 		if (this.collisionDamageCooldownInSec === 0) {
-			obj.onGettingHit(COLLISION_DAMAGE * 2);
-
-			this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
+			if (!obj.immune) {
+				obj.onGettingHit(COLLISION_DAMAGE * 2);
+				this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
+			}
 		}
 	}
 
@@ -168,6 +169,7 @@ class Endboss extends MovableEntity {
 		if (this.dead) return;
 		this.wasHit = true;
 		this.state = "hurt";
+		SoundHub.play(SoundHub.whaleHit);
 		if (Number(damage)) {
 			this.hp -= damage;
 		}
