@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Sharkie Game</title>
+
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="shortcut icon" href="assets/favicon.svg" type="image/x-icon" />
+		<link rel="stylesheet" href="css/variables.css" />
+		<link rel="stylesheet" href="css/fonts.css" />
+		<link rel="stylesheet" href="css/reset.css" />
+		<link rel="stylesheet" href="css/layout.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/media-queries.css" />
+
+		<script src="js/globals.js"></script>
+		<script src="js/classes/calc-functions.class.js"></script>
+		<script src="js/classes/image-hub.class.js"></script>
+		<script src="js/classes/sound-hub.class.js"></script>
+		<script src="js/classes/keyboard.class.js"></script>
+		<script src="js/classes/entities/entity.class.js"></script>
+		<script src="js/classes/entities/statusbar.class.js"></script>
+		<script src="js/classes/entities/collectable.class.js"></script>
+		<script src="js/classes/entities/coin.class.js"></script>
+		<script src="js/classes/entities/poison-collectable.class.js"></script>
+		<script src="js/classes/entities/movable-entity.class.js"></script>
+		<script src="js/classes/entities/projectile.class.js"></script>
+		<script src="js/classes/entities/bubble.class.js"></script>
+		<script src="js/classes/entities/puffer-fish.class.js"></script>
+		<script src="js/classes/entities/jelly-fish.class.js"></script>
+		<script src="js/classes/entities/endboss.class.js"></script>
+		<script src="js/classes/entities/character.class.js"></script>
+		<script src="js/classes/level.class.js"></script>
+		<script src="js/classes/world.class.js"></script>
+		<script src="js/template.js" defer></script>
+		<script src="js/helper.js" defer></script>
+		<script src="js/levels/level1.js" defer></script>
+		<script src="js/init.js" defer></script>
+		<script src="js/keybinds.js" defer></script>
+		<script src="js/listener.js" defer></script>
+	</head>
+	<body>
+		<audio class="loopSound" src="assets/audio/bg_water_running.wav" loop autoplay></audio>
+		<!-- https://opengameart.org/users/antumdeluge -->
+		<audio class="loopSound" src="assets/audio/music.ogg" loop autoplay></audio>
+		<section class="main-view">
+			<div class="img-container fullscreen-container">
+				<img
+					class="fullscreen-button"
+					src="assets/used/ui/full-screen.png"
+					alt=""
+					onclick="toggleFullscreen()"
+				/>
+			</div>
+			<div class="mobile-movement">
+				<div class="img-container up control">
+					<img
+						src="assets/used/ui/controls/up.svg"
+						alt=""
+						ontouchstart="keydownMoveCharacter(event, 'ArrowUp')"
+						ontouchend="keyupMoveCharacter(event, 'ArrowUp')"
+					/>
+				</div>
+				<div class="sides">
+					<div class="img-container left control">
+						<img
+							src="assets/used/ui/controls/left.svg"
+							alt=""
+							ontouchstart="keydownMoveCharacter(event,'ArrowLeft')"
+							ontouchend="keyupMoveCharacter(event,'ArrowLeft')"
+						/>
+					</div>
+					<div class="img-container right control">
+						<img
+							src="assets/used/ui/controls/right.svg"
+							alt=""
+							ontouchstart="keydownMoveCharacter(event,'ArrowRight')"
+							ontouchend="keyupMoveCharacter(event,'ArrowRight')"
+						/>
+					</div>
+				</div>
+				<div class="img-container down control">
+					<img
+						src="assets/used/ui/controls/down.svg"
+						alt=""
+						ontouchstart="keydownMoveCharacter(event,'ArrowDown')"
+						ontouchend="keyupMoveCharacter(event,'ArrowDown')"
+					/>
+				</div>
+			</div>
+
+			<div class="mobile-attacks">
+				<div class="img-container fin control">
+					<img
+						src="assets/used/ui/controls/fin.svg"
+						alt=""
+						ontouchstart="keydownMoveCharacter(event, 'f')"
+						ontouchend="keyupMoveCharacter(event, 'f')"
+					/>
+				</div>
+				<div class="img-container bubble control">
+					<img
+						src="assets/used/ui/controls/bubble.svg"
+						alt=""
+						ontouchstart="keydownMoveCharacter(event, 'd')"
+						ontouchend="keyupMoveCharacter(event, 'd')"
+					/>
+				</div>
+			</div>
+
+			<button class="menu-button" onclick="openMenu()"><span>MENU</span></button>
+
+			<canvas id="mainCanvas"></canvas>
+			<div id="menu" class="with-bg"></div>
+			<!-- </div> -->
+			<p class="note">Bitte das Handy drehen!</p>
+		</section>
+	</body>
+</html>

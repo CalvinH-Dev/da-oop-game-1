@@ -7,6 +7,10 @@ function init() {
 	loadLocalStorage();
 	SoundHub.setVolume();
 
+	resetLevel();
+}
+
+function resetLevel() {
 	const keyboard = new Keyboard();
 	window.world = new World(keyboard, canvas);
 	let levelId = 1;
@@ -17,6 +21,7 @@ function init() {
 function loadLocalStorage() {
 	const volume = Number(JSON.parse(localStorage.getItem("sound-volume")));
 	const isSoundEnabled = JSON.parse(localStorage.getItem("sound-enabled"));
+	console.log(isSoundEnabled);
 	const volumeInputRef = document.getElementById("volume");
 
 	if (!isSoundEnabled) {

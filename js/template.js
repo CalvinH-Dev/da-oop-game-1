@@ -23,7 +23,7 @@ function renderWinMenu() {
 	return /*html*/ `
   ${renderVolumeInMenu()}
     <div class="game-over-container">
-      <button class="back-to-menu-btn" onclick="openMenu()">Back To Menu</button>
+      <button class="back-to-menu-btn" onclick="backToMenu()">Back To Menu</button>
       <div class="img-container">
         <img class="game-over" src="assets/used/ui/you-win.png" alt="">
       </div>
@@ -44,9 +44,11 @@ function renderInstructions() {
       <div class="img-container">
         <img src="assets/used/ui/instructions.png" alt="">
       </div>
-      <div class="img-container">
-        <img src="assets/used/ui/start.png" alt="" onclick="startGame()">
-      </div>
+      <button class="start-btn" onclick="startGame()">
+        <div class="img-container">
+          <img src="assets/used/ui/start.png" alt="" >
+        </div>
+      </button>
     </div>
   `;
 }
@@ -55,7 +57,7 @@ function renderInstructionsText() {
 	return /*html*/ `
     <div class="instructions-text">
       <h2>Game Instructions</h2>
-      <h4>You control a character with two main attacks:</h4>
+      <h4>You control a shark with two main attacks:</h4>
       <ul>
         <li>Bubble Shot (Hotkey: D): A ranged attack that requires Poison Bottles to use. Collect these bottles to shoot bubbles at enemies from a distance.</li>
         <li>Fin Slap (Hotkey: F): A close-range melee attack. Use it when enemies get too close.</li>
@@ -76,6 +78,7 @@ function renderInstructionsText() {
 function renderVolumeInMenu() {
 	return /*html*/ `   
 	  <div class="sound">
+      <button class="back-to-homepage"><a href="index.html">Back To Homepage</a></button>
 			<button
 			  class="sound-button"
 		  	id="sound-button"

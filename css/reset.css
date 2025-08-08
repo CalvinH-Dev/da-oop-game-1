@@ -9,6 +9,7 @@ button {
 	cursor: pointer;
 	background-color: initial;
 	font-size: 1.25em;
+	border: initial;
 }
 
 input {
@@ -23,4 +24,9 @@ img {
 
 li {
 	list-style: none;
+}
+
+a {
+	text-decoration: initial;
+	color: inherit;
 }

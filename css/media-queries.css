@@ -10,4 +10,15 @@
 	#menu {
 		grid-template-rows: auto 1fr;
 	}
+
+	.menu-button {
+		width: 20ch;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+
+	.fullscreen-container {
+		display: none;
+	}
 }

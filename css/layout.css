@@ -1,8 +1,8 @@
 body {
 	font-family: Luckiest Guy;
 	font-weight: 400;
-	background-color: var(--color-blue);
 	height: 100svh;
+	overflow-y: clip;
 }
 
 .img-container {
@@ -84,6 +84,7 @@ body {
 .instructions-left {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 }
 
 .instructions-container .img-container {
@@ -103,6 +104,15 @@ body {
 .instructions-text * {
 	width: 100%;
 	text-align: center;
+}
+
+.start-btn {
+	width: 75%;
+	transition: scale 225ms;
+}
+
+.start-btn:hover {
+	scale: 1.05;
 }
 
 .menu-button {
@@ -184,7 +194,6 @@ img.fullscreen-button {
 }
 
 .game-over-container {
-	/* height: 100%; */
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -200,4 +209,8 @@ img.fullscreen-button {
 
 img.game-over {
 	height: 50%;
+}
+
+.back-to-homepage {
+	text-align: center;
 }

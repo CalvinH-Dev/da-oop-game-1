@@ -1,26 +1,29 @@
 function muteSounds() {
-	const button = document.getElementById("sound-button");
-	const img = button.querySelector("img");
-	img.src = "assets/img/volume-muted.svg";
-
 	SoundHub.muteSounds();
-	localStorage.setItem("sound-enabled", JSON.stringify(false));
+	setSoundButtons();
 }
 
 function activateSounds() {
-	const button = document.getElementById("sound-button");
-	const img = button.querySelector("img");
-	img.src = "assets/img/volume.svg";
 	SoundHub.activateSounds();
-	localStorage.setItem("sound-enabled", JSON.stringify(true));
+	setSoundButtons();
+}
+
+function backToMenu() {
+	resetLevel();
+	openMenu();
 }
 
 function openMenu() {
 	world.pause();
-	muteSounds();
 	const menu = document.querySelector("#menu");
-
 	menu.innerHTML = renderMenu();
+
+	const isSoundMuted = SoundHub.muted;
+	if (isSoundMuted) {
+		muteSounds();
+	} else {
+		activateSounds();
+	}
 
 	menu.classList.remove("d-none");
 }
@@ -37,6 +40,7 @@ function closeMenu() {
 function startGame() {
 	const menu = document.querySelector("#menu");
 	menu.classList.add("d-none");
+	menu.classList.remove("with-bg");
 	if (!SoundHub.muted) {
 		activateSounds();
 	}
@@ -81,4 +85,21 @@ function randomizeFirstAndSecondScreen(width) {
 
 function randomizeThirdScreen(width) {
 	return Math.floor(Math.random() * (5760 - 3840 + 1)) + 3840;
+}
+
+function setSoundButtons() {
+	const soundButtonRef = document.getElementById("sound-button");
+
+	if (SoundHub.muted) {
+		const img = soundButtonRef.querySelector("img");
+		img.src = "assets/img/volume-muted.svg";
+	} else {
+		const img = soundButtonRef.querySelector("img");
+		img.src = "assets/img/volume.svg";
+	}
+
+	const volume = SoundHub.volume;
+
+	const volumeInputRef = document.getElementById("volume");
+	volumeInputRef.value = volume;
 }

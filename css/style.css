@@ -1,5 +1,20 @@
+body {
+	background-color: hsl(200, 50%, 50%);
+}
+
 #menu {
 	background-color: color-mix(in hsl, var(--color-blue), transparent);
+}
+
+#menu.with-bg::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: url("../assets/used/background/completo.png");
+	background-size: cover;
+	background-position: center;
+	opacity: 0.5; /* 50% */
+	z-index: -1;
 }
 
 .sound-button {
@@ -22,7 +37,8 @@
 }
 
 .menu-button:hover,
-.sound-button:hover {
+.sound-button:hover,
+.back-to-homepage:hover {
 	translate: 0 -2px;
 	box-shadow: 1px 1px 5px white;
 }
@@ -69,6 +85,13 @@ h4 {
 
 #menu.d-none {
 	display: none;
+}
+
+.back-to-homepage {
+	padding: 0.25rem;
+	border-radius: 10px;
+	background-color: yellow;
+	transition: box-shadow 225ms, translate 225ms;
 }
 
 @media (orientation: portrait) {
