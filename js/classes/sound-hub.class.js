@@ -5,7 +5,6 @@ class SoundHub {
 	/** Whether all sounds are muted. */
 	static muted = false;
 
-	// Audio objects for all sound effects and background sounds
 	static bgWater = new Audio("assets/audio/bg_water_running.wav");
 	static charBubbleShoot = new Audio("assets/audio/character/bubble-shoot.ogg");
 	static charBubbleHit = new Audio("assets/audio/character/bubble-hit.ogg");
@@ -39,7 +38,6 @@ class SoundHub {
 		SoundHub.coinCollect,
 		SoundHub.poisonCollect,
 		SoundHub.jellyElectrified,
-		SoundHub.jellyElectrified, // repeated intentionally or mistake?
 		SoundHub.fishLeaves,
 		SoundHub.whaleAttack,
 		SoundHub.whaleHit,
