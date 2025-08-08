@@ -123,8 +123,11 @@ class Endboss extends MovableEntity {
 		const colliding = CalcFunctions.hitboxesColliding(aBox, bBox);
 
 		if (colliding) {
-			collided = true;
-			character.onGettingHit(COLLISION_DAMAGE);
+			if (this.collisionDamageCooldownInSec === 0) {
+				collided = true;
+				character.onGettingHit(COLLISION_DAMAGE);
+				this.collisionDamageCooldownInSec = this.maxCollisionDamageCooldownInSec;
+			}
 		}
 	}
 
