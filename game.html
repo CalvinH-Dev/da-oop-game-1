@@ -44,68 +44,65 @@
 		<!-- https://opengameart.org/users/antumdeluge -->
 		<audio class="loopSound" src="assets/audio/music.ogg" loop autoplay></audio>
 		<section class="main-view">
-			<div class="img-container fullscreen-container">
-				<img
-					class="fullscreen-button"
-					src="assets/used/ui/full-screen.png"
-					alt=""
-					onclick="toggleFullscreen()"
-				/>
-			</div>
+			<button onclick="toggleFullscreen()">
+				<div class="img-container fullscreen-container">
+					<img class="fullscreen-button" src="assets/used/ui/full-screen.png" alt="Full Screen" />
+				</div>
+			</button>
 			<div class="mobile-movement">
-				<div class="img-container up control">
-					<img
-						src="assets/used/ui/controls/up.svg"
-						alt=""
-						ontouchstart="keydownMoveCharacter(event, 'ArrowUp')"
-						ontouchend="keyupMoveCharacter(event, 'ArrowUp')"
-					/>
-				</div>
+				<button
+					ontouchstart="keydownMoveCharacter(event, 'ArrowUp')"
+					ontouchend="keyupMoveCharacter(event, 'ArrowUp')"
+				>
+					<div class="img-container up control">
+						<img src="assets/used/ui/controls/up.svg" alt="Up Arrow" />
+					</div>
+				</button>
 				<div class="sides">
-					<div class="img-container left control">
-						<img
-							src="assets/used/ui/controls/left.svg"
-							alt=""
-							ontouchstart="keydownMoveCharacter(event,'ArrowLeft')"
-							ontouchend="keyupMoveCharacter(event,'ArrowLeft')"
-						/>
-					</div>
-					<div class="img-container right control">
-						<img
-							src="assets/used/ui/controls/right.svg"
-							alt=""
-							ontouchstart="keydownMoveCharacter(event,'ArrowRight')"
-							ontouchend="keyupMoveCharacter(event,'ArrowRight')"
-						/>
-					</div>
+					<button
+						ontouchstart="keydownMoveCharacter(event,'ArrowLeft')"
+						ontouchend="keyupMoveCharacter(event,'ArrowLeft')"
+					>
+						<div class="img-container left control">
+							<img src="assets/used/ui/controls/left.svg" alt="Left Arrow" />
+						</div>
+					</button>
+					<button
+						ontouchstart="keydownMoveCharacter(event,'ArrowRight')"
+						ontouchend="keyupMoveCharacter(event,'ArrowRight')"
+					>
+						<div class="img-container right control">
+							<img src="assets/used/ui/controls/right.svg" alt="Right Arrow" />
+						</div>
+					</button>
 				</div>
-				<div class="img-container down control">
-					<img
-						src="assets/used/ui/controls/down.svg"
-						alt=""
-						ontouchstart="keydownMoveCharacter(event,'ArrowDown')"
-						ontouchend="keyupMoveCharacter(event,'ArrowDown')"
-					/>
-				</div>
+				<button
+					ontouchstart="keydownMoveCharacter(event,'ArrowDown')"
+					ontouchend="keyupMoveCharacter(event,'ArrowDown')"
+				>
+					<div class="img-container down control">
+						<img src="assets/used/ui/controls/down.svg" alt="Down Arrow" />
+					</div>
+				</button>
 			</div>
 
 			<div class="mobile-attacks">
-				<div class="img-container fin control">
-					<img
-						src="assets/used/ui/controls/fin.svg"
-						alt=""
-						ontouchstart="keydownMoveCharacter(event, 'f')"
-						ontouchend="keyupMoveCharacter(event, 'f')"
-					/>
-				</div>
-				<div class="img-container bubble control">
-					<img
-						src="assets/used/ui/controls/bubble.svg"
-						alt=""
-						ontouchstart="keydownMoveCharacter(event, 'd')"
-						ontouchend="keyupMoveCharacter(event, 'd')"
-					/>
-				</div>
+				<button
+					ontouchstart="keydownMoveCharacter(event, 'f')"
+					ontouchend="keyupMoveCharacter(event, 'f')"
+				>
+					<div class="img-container fin control">
+						<img src="assets/used/ui/controls/fin.svg" alt="Image of a fin" />
+					</div>
+				</button>
+				<button
+					ontouchstart="keydownMoveCharacter(event, 'd')"
+					ontouchend="keyupMoveCharacter(event, 'd')"
+				>
+					<div class="img-container bubble control">
+						<img src="assets/used/ui/controls/bubble.svg" alt="Image of a Water Bubble" />
+					</div>
+				</button>
 			</div>
 
 			<button class="menu-button" onclick="openMenu()"><span>MENU</span></button>

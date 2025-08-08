@@ -13,7 +13,7 @@ function renderLoseMenu() {
     <div class="game-over-container">
       <button class="back-to-menu-btn" onclick="openMenu()">Back To Menu</button>
       <div class="img-container">
-        <img class="game-over" src="assets/used/ui/game-over.png" alt="">
+        <img class="game-over" src="assets/used/ui/game-over.png" alt="Game Over">
       </div>
     </div>
   `;
@@ -25,7 +25,7 @@ function renderWinMenu() {
     <div class="game-over-container">
       <button class="back-to-menu-btn" onclick="backToMenu()">Back To Menu</button>
       <div class="img-container">
-        <img class="game-over" src="assets/used/ui/you-win.png" alt="">
+        <img class="game-over" src="assets/used/ui/you-win.png" alt="You Win">
       </div>
     </div>
   `;
@@ -42,11 +42,11 @@ function renderInstructions() {
       ${renderInstructionsText()}   
     <div class="instructions-left">
       <div class="img-container">
-        <img src="assets/used/ui/instructions.png" alt="">
+        <img src="assets/used/ui/instructions.png" alt="Instructions">
       </div>
       <button class="start-btn" onclick="startGame()">
         <div class="img-container">
-          <img src="assets/used/ui/start.png" alt="" >
+          <img src="assets/used/ui/start.png" alt="Start" >
         </div>
       </button>
     </div>
@@ -84,7 +84,7 @@ function renderVolumeInMenu() {
 		  	id="sound-button"
 				onclick="SoundHub.muted ? activateSounds() : muteSounds()"
 			>
-			<img src="assets/img/volume.svg" alt="" srcset="" />
+			<img src="assets/img/volume.svg" alt="Volume Image" />
 			</button>
 			<input
 				type="range"
