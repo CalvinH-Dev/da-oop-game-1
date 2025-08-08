@@ -31,7 +31,6 @@ window.addEventListener("keyup", (event) => {
  * @param {string} key - The key identifier (e.g., "ArrowUp", "d").
  */
 function keydownMoveCharacter(event, key) {
-	event.preventDefault();
 	const keyboard = world.keyboard;
 	if (!keyboard.enabled) return;
 	if (key === "ArrowUp") keyboard.UP = true;
@@ -48,7 +47,6 @@ function keydownMoveCharacter(event, key) {
  * @param {string} key - The key identifier (e.g., "ArrowUp", "d").
  */
 function keyupMoveCharacter(event, key) {
-	event.preventDefault();
 	const keyboard = world.keyboard;
 	if (key === "ArrowLeft") keyboard.LEFT = false;
 	else if (key === "ArrowUp") keyboard.UP = false;
