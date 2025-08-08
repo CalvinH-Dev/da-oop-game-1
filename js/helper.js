@@ -158,7 +158,9 @@ function setSoundButtons() {
 	document.getElementById("volume").value = SoundHub.volume;
 }
 
-// Handle screen orientation changes on mobile
+/**
+ * Handle screen orientation changes on mobile.
+ */
 window.screen.orientation.addEventListener("change", () => {
 	if (window.screen.orientation.type.startsWith("portrait")) {
 		if (world.playState !== "paused") {

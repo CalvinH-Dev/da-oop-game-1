@@ -32,18 +32,32 @@ class Endboss extends MovableEntity {
 		this.animateSpawn();
 	}
 
+	/**
+	 * Plays the spawn animation for the Endboss.
+	 * Sets up initial state and visuals.
+	 */
 	animateSpawn() {
 		this.animate("spawn");
 	}
 
+	/**
+	 * Plays the idle animation.
+	 */
 	idle() {
 		this.animate("idle");
 	}
 
+	/**
+	 * Plays the attack animation.
+	 */
 	attack() {
 		this.animate("attack");
 	}
 
+	/**
+	 * Animates the Endboss using the given animation name.
+	 * @param {string} name - The animation name (spawn, idle, attack, hurt, dead).
+	 */
 	animate(name) {
 		switch (name) {
 			case "spawn":
@@ -64,6 +78,9 @@ class Endboss extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Preloads all images used by the Endboss for faster animation.
+	 */
 	cacheAllImages() {
 		this.spawnImages = ImageHub.getWhaleSpawnImages();
 		this.idleImages = ImageHub.getWhaleIdleImages();
@@ -78,6 +95,10 @@ class Endboss extends MovableEntity {
 		super.cacheImages(this.deadImages);
 	}
 
+	/**
+	 * Updates the Endboss each frame.
+	 * @param {number} ft - Frame time delta in seconds.
+	 */
 	update(ft) {
 		this.collisionDamageCooldownInSec = Math.max(0, this.collisionDamageCooldownInSec - ft);
 		if (this.hp <= 0) this.onDead(ft);
@@ -86,6 +107,11 @@ class Endboss extends MovableEntity {
 		this._updateTargetAndPosition(ft);
 	}
 
+	/**
+	 * Internal: Updates target selection and movement.
+	 * @param {number} ft - Frame time delta in seconds.
+	 * @private
+	 */
 	_updateTargetAndPosition(ft) {
 		if (!this.target && this.state === "idle") {
 			this.rollAction();
@@ -101,6 +127,11 @@ class Endboss extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Calculates the attack position based on the hitbox height.
+	 * @param {number} height - The attack height.
+	 * @returns {{x: number, y: number}} The calculated attack position.
+	 */
 	attackPosition(height) {
 		const hitboxX = this.x + this.hitbox.offsetX;
 		const hitboxY = this.y + this.hitbox.offsetY;
@@ -111,15 +142,15 @@ class Endboss extends MovableEntity {
 		};
 	}
 
+	/**
+	 * Performs a melee attack (maul) against the player if in range.
+	 */
 	maul() {
 		const attackCoords = this.attackPosition(this.hitbox.height);
-
 		const aBox = { x: attackCoords.x, y: attackCoords.y, width: 60, height: this.hitbox.height };
 		let collided = false;
 		const character = this.world.characterRef;
-
 		const bBox = character.getHitbox();
-
 		const colliding = CalcFunctions.hitboxesColliding(aBox, bBox);
 
 		if (colliding) {
@@ -131,6 +162,9 @@ class Endboss extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Handles animation frame updates for the Endboss.
+	 */
 	animationTick() {
 		if (this.wasHit) {
 			this.animate("hurt");
@@ -145,6 +179,10 @@ class Endboss extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Internal: Executes logic at the end of an animation cycle.
+	 * @private
+	 */
 	_endOfAnimation() {
 		if (this.currentAnimation === "spawn") {
 			this.hittable = true;
@@ -163,9 +201,12 @@ class Endboss extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Defines the effect when colliding with another object.
+	 * @param {object} obj - The object collided with.
+	 */
 	effectOnCollision(obj) {
 		if (!this.hittable || this.dead) return;
-
 		if (obj.isFriendly == this.isFriendly) return;
 
 		if (this.collisionDamageCooldownInSec === 0) {
@@ -176,6 +217,10 @@ class Endboss extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Applies damage to the Endboss.
+	 * @param {number} damage - The amount of damage to apply.
+	 */
 	onGettingHit(damage) {
 		if (this.dead) return;
 		this.wasHit = true;
@@ -186,6 +231,10 @@ class Endboss extends MovableEntity {
 		}
 	}
 
+	/**
+	 * Chooses the next action randomly.
+	 * @returns {number} The random roll result.
+	 */
 	rollAction() {
 		const roll = Math.floor(Math.random() * 24);
 
@@ -199,29 +248,43 @@ class Endboss extends MovableEntity {
 		return roll;
 	}
 
+	/**
+	 * Performs a forward attack animation and sound.
+	 */
 	attackForward() {
 		this.state = "attacking";
 		SoundHub.play(SoundHub.whaleAttack);
 		this.animate("attack");
 	}
 
+	/**
+	 * Sets the Endboss to idle without moving.
+	 */
 	doNothing() {
 		this.state = "waiting";
 		this.animate("idle");
 	}
 
+	/**
+	 * Chooses a random point within bounds and moves towards it.
+	 */
 	goToRandomTarget() {
 		const minX = BOARD_WIDTH * 3;
 		const maxX = BOARD_WIDTH * 4 - this.hitbox.offsetX - this.hitbox.width;
 		const maxY = BOARD_HEIGHT - this.hitbox.offsetY - this.hitbox.height;
 
 		this.setRandomTarget(minX, maxX, maxY);
-
 		this.state = "movingToTarget";
 	}
 
+	/**
+	 * Placeholder for returning to the origin position.
+	 */
 	returnToOrigin() {}
 
+	/**
+	 * Handles the Endboss death sequence.
+	 */
 	onDead() {
 		this.animate("dead");
 		this.dead = true;

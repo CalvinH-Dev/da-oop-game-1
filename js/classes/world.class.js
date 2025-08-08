@@ -389,7 +389,8 @@ class World {
 			const amountScroll = this.characterRef.speedX * dt;
 			this.canvasCtx.translate(-amountScroll, 0);
 			this.scrollX -= amountScroll;
-		} else {
+		}
+		if (this.characterRef.x > BOARD_WIDTH * 3) {
 			this.spawnEndboss();
 		}
 	}

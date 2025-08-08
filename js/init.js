@@ -119,5 +119,7 @@ function getLevel(levelId, world) {
 	}
 }
 
-// Initialize the game
+/**
+ * Initialize the Game.
+ */
 init();

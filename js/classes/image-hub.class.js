@@ -104,8 +104,6 @@ class ImageHub {
 	static getCharacterFinImages() {
 		return [
 			"assets/used/character/fin/1.png",
-			// "assets/used/character/fin/2.png",
-			// "assets/used/character/fin/3.png",
 			"assets/used/character/fin/4.png",
 			"assets/used/character/fin/5.png",
 			"assets/used/character/fin/6.png",
