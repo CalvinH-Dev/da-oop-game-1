@@ -59,7 +59,7 @@ a:hover {
 }
 
 .back-to-homepage {
-	padding: 0.25rem;
+	padding: 0.25rem 0.5rem;
 	border-radius: 10px;
 	background-color: yellow;
 	transition: box-shadow 225ms, translate 225ms;

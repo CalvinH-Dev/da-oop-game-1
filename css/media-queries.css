@@ -1,4 +1,4 @@
-@media (hover: hover) {
+@media (pointer: fine) and (min-width: 1025px) {
 	.mobile-movement {
 		display: none;
 	}
@@ -23,7 +23,7 @@
 	}
 }
 
-@media (hover: none) and (orientation: portrait) {
+@media (pointer: coarse) and (orientation: portrait) {
 	.main-view {
 		display: none;
 	}
