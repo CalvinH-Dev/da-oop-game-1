@@ -53,6 +53,7 @@ body {
 	width: 100%;
 	display: flex;
 	justify-content: end;
+	align-items: center;
 	column-gap: 2rem;
 
 	padding-block: 0.5rem;
@@ -92,6 +93,7 @@ body {
 }
 
 .instructions-text {
+	align-self: start;
 	display: flex;
 	flex-direction: column;
 	padding: 1rem;
